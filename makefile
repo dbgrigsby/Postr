@@ -1,21 +1,8 @@
-.PHONY: help prepare-dev test lint run doc
+.PHONY: prepare-dev test lint run doc
 
 VENV_NAME?=venv
 VENV_ACTIVATE=. $(VENV_NAME)/bin/activate
 PYTHON=${VENV_NAME}/bin/python2
-
-.DEFAULT: help
-help:
-    @echo "make prepare-dev"
-    @echo "       prepare development environment, use only once"
-    @echo "make test"
-    @echo "       run tests"
-    @echo "make lint"
-    @echo "       run pylint and mypy"
-    @echo "make run"
-    @echo "       run project"
-    @echo "make doc"
-    @echo "       build sphinx documentation"
 	
 # will proboably need to add more installations later 
 prepare-dev:
