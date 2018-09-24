@@ -5,12 +5,10 @@ VENV_ACTIVATE=. $(VENV_NAME)/bin/activate
 PYTHON=${VENV_NAME}/bin/python2
 	
 # will proboably need to add more installations later 
+# might just be 
 prepare-dev:
     sudo apt-get -y install python3.5 python3-pip
-    python3 -m pip install virtualenv
-	pip install PyTumblr
-	pip install pinterest
-	pip install fbchat 
+    python3 -m pip install virtualenv 
     make venv
 
 # Requirements are in setup.py, so whenever setup.py is changed, re-run installation of dependencies.
