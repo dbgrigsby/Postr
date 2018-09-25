@@ -1,0 +1,5 @@
+.git/
+.pytest_cache/
+.mypy_cache/
+
+.idea

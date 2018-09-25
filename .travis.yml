@@ -1,0 +1,11 @@
+language: python
+cache:
+  pip: true
+services:
+    - docker
+python:
+    - "3.7"
+env:
+    - TOXENV=lint,py3,coverage,mypy,docs,doctest
+script:
+- tox
