@@ -1,5 +1,11 @@
 .git/
+
 .pytest_cache/
 .mypy_cache/
+*/.cache
+
+build/
+dist/
+venv
 
 .idea
