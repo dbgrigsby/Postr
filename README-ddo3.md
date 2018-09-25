@@ -1,3 +1,4 @@
 9/23/2018
-Setup precommit for project (untested)
+Researched precommit
+Setup precommit for project
 Added sample makefile
