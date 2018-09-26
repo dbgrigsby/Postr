@@ -6,6 +6,6 @@ services:
 python:
     - "3.6"
 env:
-    - TOXENV=lint,py3,coverage,mypy,docs,doctest
+    - TOXENV=pytest
 script:
 - tox
