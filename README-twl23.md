@@ -5,4 +5,11 @@
         - coverage (checks code covered)
         - praw (reddit api)
         
-    
+    Guide on venv activation
+        - auto activation for mac/linux
+        - step by step guide for mac/linux/windows
+        
+    Set up tox
+        - placeholder tests and command
+        - install all dependencies from requirements.txt
+        - uses py37
