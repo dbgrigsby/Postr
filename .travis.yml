@@ -4,8 +4,8 @@ cache:
 services:
     - docker
 python:
-    - "3.7"
+    - "3.6"
 env:
-    - TOXENV=lint,py3,coverage,mypy,docs,doctest
+    - TOXENV=py36
 script:
 - tox
