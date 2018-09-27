@@ -2,10 +2,11 @@ pylint==2.1.0
 flake8==3.5.0
 mypy==0.630
 coverage==4.5.1
-pytest==3.8.1
-tox==3.4.0
+fbchat
+pinterest-client
 praw==3.6.0
 pre-commit
+pytest==3.8.1
 PyTumblr
-pinterest
+tox==3.4.0
 fbchat
