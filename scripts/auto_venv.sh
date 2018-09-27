@@ -2,7 +2,7 @@
 has_virtualenv() {
     if [ -e venv ]; then
         deactivate >/dev/null 2>&1
-        source bin/activate
+        source venv/bin/activate
     fi
 }
 
