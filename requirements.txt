@@ -7,7 +7,6 @@ tox==3.4.0
 praw==3.6.0
 pre-commit
 PyTumblr
-<<<<<<< HEAD
 fbchat
 git+https://github.com/kivy/kivy.git@master
 
