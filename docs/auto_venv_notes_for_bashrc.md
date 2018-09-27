@@ -2,7 +2,7 @@
 -  https://docs.python.org/3/library/venv.html
 
 # To set up virtual environment (Mac/Linux):
-1. `python3.7 -m venv venv`
+1. `python3.6 -m venv venv`
 2.  `source venv/bin/activate`
 3.  `pip install -r requirements.txt`
 4. start developing
@@ -24,6 +24,5 @@
 3.  everyone else rerun `pip install -r requirements.txt`
 
 # To setup automatic cd into activation
-1. `copy script bashrc.md`
-2. Paste it into your .bashrc file
-3. Ensure that it uses the same folder name `venv` as your virtual environment
+1. (linux) : `cat scripts/auto_venv.sh >> ~/.bashrc && source ~/.bashrc`
+2. (mac): `cat scripts/auto_venv.sh >> ~/.bash_profile && source ~/.bash_profile`
