@@ -9,7 +9,7 @@ setup(
     author="Adam Beck, Daniel Grigsby, Dominique Owens, "
            "Rachel Pavlokovick, Tommy Lu",
     author_email="dbg28@case.edu",
-    description="Postr is a Social Media Managemtn Tool",
+    description="Postr is a Social Media Management Tool",
     url="https://github.com/dbgrigsby/Postr/",
     project_urls={
         "Bug Tracker": "https://github.com/dbgrigsby/Postr/issues",
