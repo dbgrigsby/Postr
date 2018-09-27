@@ -1,8 +1,0 @@
-README.md
-setup.py
-Postr.egg-info/PKG-INFO
-Postr.egg-info/SOURCES.txt
-Postr.egg-info/dependency_links.txt
-Postr.egg-info/top_level.txt
-postr/__init__.py
-postr/app.py
