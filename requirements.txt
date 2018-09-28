@@ -1,11 +1,11 @@
-pylint==2.1.0
+coverage==4.5.1
+fbchat
+fbchat
 flake8==3.5.0
 mypy==0.630
-coverage==4.5.1
-pytest==3.8.1
-tox==3.4.0
 praw==3.6.0
 pre-commit
+pylint==2.1.0
+pytest==3.8.1
 PyTumblr
-pinterest
-fbchat
+tox==3.4.0
