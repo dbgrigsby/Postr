@@ -1,10 +1,9 @@
-# 2018-09-28 
+# 2018-09-28
     Set up Docker configuration
     Created setup.py for repository info
-    Added travis config for automatic builds (untested) 
+    Added travis config for automatic builds (untested)
     Wrote developer documentation for Docker
     Write weekly update script for CSEVCS pushes
     Note:
         The Gantt chart lists briefly 'tox' under my responsibilities.
         This was moved to Tommy Lu's responsibilities prior to week 1
-    

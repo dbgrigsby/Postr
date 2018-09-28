@@ -17,7 +17,6 @@
   - Running the image
     - `docker run postr`
   - Entering the virtualized environment (mini linux shell)
-    - `docker run -it --entrypoint bash postr` 
+    - `docker run -it --entrypoint bash postr`
   - Listing all images
-    - `docker images` 
-
+    - `docker images`
