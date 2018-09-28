@@ -1,4 +1,11 @@
-pre-commit
-PyTumblr
-pinterest
+coverage==4.5.1
 fbchat
+fbchat
+flake8==3.5.0
+mypy==0.630
+praw==3.6.0
+pre-commit
+pylint==2.1.0
+pytest==3.8.1
+PyTumblr
+tox==3.4.0

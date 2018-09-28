@@ -7,7 +7,7 @@ setup(
     packages=find_packages(),
     license='MIT',
     author="Adam Beck, Daniel Grigsby, Dominique Owens, "
-        "Rachel Pavlokovick, Tommy Lu",
+    "Rachel Pavlokovick, Tommy Lu",
     author_email="dbg28@case.edu",
     description="Postr is a Social Media Management Tool",
     url="https://github.com/dbgrigsby/Postr/",
