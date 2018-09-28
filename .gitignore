@@ -90,6 +90,7 @@ venv.bak/
 # Annoying workspace stuff
 .idea/
 .idea/workspace.xml
+.idea/vcs.xml
 
 # Mac store
 .DS_Store
