@@ -5,4 +5,3 @@ Must have Cython installed before installing Kivy
 
 To run the application using python3:
 ` kivy3 main.py` from inside the directory that contains the file
-

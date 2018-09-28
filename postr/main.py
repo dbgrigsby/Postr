@@ -1,7 +1,7 @@
 from kivy.app import App
+from kivy.uix.label import Label
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.tabbedpanel import TabbedPanelHeader
-from kivy.uix.label import Label
 
 
 class TabbedPanelApp(App):
@@ -31,7 +31,9 @@ class TabbedPanelApp(App):
 
         # Create Profile tab
         profile_tab = TabbedPanelHeader(text='Profile')
-        profile_tab.content = Label(text='The user can update their profile here!')
+        profile_tab.content = Label(
+            text='The user can update their profile here!',
+        )
         tb_panel.add_widget(profile_tab)
 
         return tb_panel
