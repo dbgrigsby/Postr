@@ -17,3 +17,5 @@
   - Added layouts to each feature tab of the application
   - Added spinner menus to each layout 
   - Began text and set up for the layout of the Profile page
+  - Updated requirements.txt
+    - added kivy 1.10.1
