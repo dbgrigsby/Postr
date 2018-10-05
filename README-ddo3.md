@@ -1,7 +1,9 @@
 #### 10/2/2018
 Added more info for pre-commit hooks  
 Researched class structure for python  
-Added interfaces, base classes, and enums to project
+Implemented base classes, interfaces, and enums for the project  
+Debugged the make file  
+Researched how to detect the operating system in the makefile, so that the correct file paths were referenced  
 
 #### 9/23/2018
 Researched pre-commit  
