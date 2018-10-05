@@ -13,3 +13,14 @@
         - placeholder tests and command
         - install all dependencies from requirements.txt
         - uses py37
+
+# 2018-10-4
+    Updated requirements.txt
+        - added kivy 1.10.1
+
+    Set up simple Reddit functionality
+        - Created simple way to create OAuth link
+        - Utilized refresh token from OAuth link
+        - Submitted a post on the private subreddit Postr
+        - Currently have all permissions set, may need to consider lowering amount.
+        - Need to separate into modules as to OAuth use (one time set up) and refresh token use (always use)
