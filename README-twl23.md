@@ -13,3 +13,7 @@
         - placeholder tests and command
         - install all dependencies from requirements.txt
         - uses py37
+
+# 2018-10-4
+    Updated requirements.txt
+        - added kivy 1.10.1
