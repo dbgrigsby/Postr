@@ -94,3 +94,6 @@ venv.bak/
 
 # Mac store
 .DS_Store
+
+# Config for passwords
+config.py
