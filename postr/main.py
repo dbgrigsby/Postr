@@ -1,23 +1,18 @@
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.label import Label
 from kivy.uix.spinner import Spinner
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.tabbedpanel import TabbedPanelHeader
-from kivy.uix.textinput import TextInput
 
 
 class TabbedPanelApp(App):
     def build(self):
-        performance_layout = FloatLayout(size=(300, 300))
+        performance_layout = FloatLayout()
         posts_layout = FloatLayout()
         events_layout = FloatLayout()
         update_layout = FloatLayout()
         profile_layout = FloatLayout()
-
-        update_password = TextInput(text='Update Password')
-        update_password.multiline = False
-        update_password.width = 100
-        update_password.height = 44
 
         def spinner():
             spinner = Spinner(
@@ -30,10 +25,8 @@ class TabbedPanelApp(App):
                     "Slack", "Tumblr", "Twitter", "YouTube",
                 ),
 
-                size_hint=(.5, .25),
-                size=(200, 44),
-                pos_hint={'center_x': -10, 'center_y': -10},
-                pos=(100, 100),
+                size_hint=(.15, .1),
+                pos=(15, 985),
             )
 
             def show_selected_value(spinner, text):
@@ -46,7 +39,12 @@ class TabbedPanelApp(App):
         posts_layout.add_widget(spinner())
         events_layout.add_widget(spinner())
         update_layout.add_widget(spinner())
-        profile_layout.add_widget(update_password)
+        profile_layout.add_widget(
+            Label(
+                text="Username: ", font_size='20sp',
+                pos=(50, 970), size_hint=(.15, .2),
+            ),
+        )
 
         tb_panel = TabbedPanel()
         tb_panel.do_default_tab = False
