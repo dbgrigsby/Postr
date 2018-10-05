@@ -1,5 +1,6 @@
 import sqlite3
-file_path = '../postr/master_schedule.sqlite'
+
+file_path = '../Postr/postr/master_schedule.sqlite'
 
 conn = sqlite3.connect(file_path)
 c = conn.cursor()
@@ -19,7 +20,7 @@ c.execute("""CREATE TABLE DailyJob (
         StartTime TEXT NOT NULL,
         EndTime TEXT,
         ID INTEGER NOT NULL,
-        FOREIGN KEY (ID) REFERENCES Job(JobID)
+        FOREIGN KEY (ID) REFERENCES Job(JobID) ON DELETE CASCADE
         )""")
 
 conn.commit()
