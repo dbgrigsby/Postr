@@ -42,7 +42,31 @@ class TabbedPanelApp(App):
         profile_layout.add_widget(
             Label(
                 text="Username: ", font_size='20sp',
-                pos=(50, 970), size_hint=(.15, .2),
+                pos=(45, 970), size_hint=(.15, .2),
+            ),
+        )
+        profile_layout.add_widget(
+            Label(
+                text="Change Password: ", font_size='20sp',
+                pos=(55, 900), size_hint=(.15, .2),
+            ),
+        )
+        profile_layout.add_widget(
+            Label(
+                text="Old Password: ", font_size='12sp',
+                pos=(50, 850), size_hint=(.15, .2),
+            ),
+        )
+        profile_layout.add_widget(
+            Label(
+                text="New Password: ", font_size='12sp',
+                pos=(50, 800), size_hint=(.15, .2),
+            ),
+        )
+        profile_layout.add_widget(
+            Label(
+                text="Confirm New Password: ", font_size='12sp',
+                pos=(50, 750), size_hint=(.15, .2),
             ),
         )
 
