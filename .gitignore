@@ -95,5 +95,9 @@ venv.bak/
 # Mac store
 .DS_Store
 
+
+# Config file
+postr_config.ini
+
 # Config for passwords
 config.py
