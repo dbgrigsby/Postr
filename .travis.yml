@@ -9,3 +9,6 @@ env:
     - TOXENV=py36
 script:
 - tox
+cache:
+    directories:
+        - $HOME/.cache/pre-commit
