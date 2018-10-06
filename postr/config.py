@@ -44,8 +44,8 @@ def _current_config() -> ConfigParser:
     Intended to be used internally only
     """
     config = ConfigParser()
-    if os.path.isfile(_git_root_dir() + CONFIG_FILE):
-        config.read(_git_root_dir() + CONFIG_FILE)
+    if os.path.isfile(os.path.join(_git_root_dir(), CONFIG_FILE)):
+        config.read(os.path.join(_git_root_dir(), CONFIG_FILE))
     else:
         config.read_dict(DEFAULT_CONFIG)
         _save_config(config)
@@ -55,7 +55,7 @@ def _current_config() -> ConfigParser:
 
 def _save_config(config: ConfigParser) -> None:
     """Saves the configuration to a file"""
-    with open(_git_root_dir() + CONFIG_FILE, 'w') as config_file:
+    with open(os.path.join(_git_root_dir(), CONFIG_FILE), 'w') as config_file:
         config.write(config_file)
 
 # Exposes functions to config users
