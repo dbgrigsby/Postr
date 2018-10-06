@@ -1,7 +1,6 @@
 coverage==4.5.1
 fbchat
 flake8==3.5.0
-kivy==1.10.0
 mypy==0.630
 praw==6.0.0
 pre-commit
