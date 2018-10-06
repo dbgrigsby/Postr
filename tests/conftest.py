@@ -4,6 +4,6 @@
 import pytest
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope='module')
 def add():
     return 2 + 3

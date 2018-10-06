@@ -1,5 +1,5 @@
 # scheduler class basics
-import datetime
+from datetime import datetime
 
 from media_object import MediaObject
 from platform_enum import Platform
@@ -7,11 +7,13 @@ from platform_enum import Platform
 
 class Scheduler():
 
-    def schedulePost(mediaObject: MediaObject, time: datetime):
+    @staticmethod
+    def schedulePost(mediaObject: MediaObject, time: datetime) -> None:
         ''' This method take an enum for the type of post to be created,
         a mediaObject that contains the information to be posted, and
         the time at which to post the data '''
-        print("schedule complete")
+        print('schedule complete')
 
-    def scheduleDelete(postId: str, platform: Platform, time: datetime):
+    @staticmethod
+    def scheduleDelete(postId: str, platform: Platform, time: datetime) -> None:
         ''' This method take the id of the post to be deleted'''
