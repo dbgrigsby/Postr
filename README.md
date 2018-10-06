@@ -1,5 +1,5 @@
 10/12/2018:
-- Each team member will take hold of one Social Media platform, listed in their individual Gantt chart, and set up authentication + one other featur. Users should be able to authenticate and perform one media action after this is complete. Tests will be created for work done in this stage. 
+- Each team member will take hold of one Social Media platform, listed in their individual Gantt chart, and set up authentication + one other featur. Users should be able to authenticate and perform one media action after this is complete. Tests will be created for work done in this stage.
 
 10/5/2018:
 - Create, setup and provide interfaces for the database (to be used with scheduler or stat tracking), the json config where auth keys are stored, and project settings. Create class layout for the project, including all relevant interfaces. Kivy should be runnable, although the GUI does not need to show anything useful. This is just for being able to call any backend function from Kivy
