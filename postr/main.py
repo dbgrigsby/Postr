@@ -7,29 +7,29 @@ from kivy.uix.tabbedpanel import TabbedPanelHeader
 
 
 class TabbedPanelApp(App):
-    def build(self):
+    def build(self) -> TabbedPanel:
         performance_layout = FloatLayout()
         posts_layout = FloatLayout()
         events_layout = FloatLayout()
         update_layout = FloatLayout()
         profile_layout = FloatLayout()
 
-        def spinner():
+        def spinner() -> Spinner:
             spinner = Spinner(
                 # default value
                 text='Choose a site:',
 
                 # available values
                 values=(
-                    "Discord", "Facebook", "Instagram", "Reddit",
-                    "Slack", "Tumblr", "Twitter", "YouTube",
+                    'Discord', 'Facebook', 'Instagram', 'Reddit',
+                    'Slack', 'Tumblr', 'Twitter', 'YouTube',
                 ),
 
                 size_hint=(.15, .1),
                 pos=(15, 985),
             )
 
-            def show_selected_value(spinner, text):
+            def show_selected_value(spinner: Spinner, text: str) -> None:
                 print('The spinner', spinner, 'have text', text)
 
             spinner.bind(text=show_selected_value)
@@ -41,31 +41,31 @@ class TabbedPanelApp(App):
         update_layout.add_widget(spinner())
         profile_layout.add_widget(
             Label(
-                text="Username: ", font_size='20sp',
+                text='Username: ', font_size='20sp',
                 pos=(45, 970), size_hint=(.15, .2),
             ),
         )
         profile_layout.add_widget(
             Label(
-                text="Change Password: ", font_size='20sp',
+                text='Change Password: ', font_size='20sp',
                 pos=(55, 900), size_hint=(.15, .2),
             ),
         )
         profile_layout.add_widget(
             Label(
-                text="Old Password: ", font_size='12sp',
+                text='Old Password: ', font_size='12sp',
                 pos=(50, 850), size_hint=(.15, .2),
             ),
         )
         profile_layout.add_widget(
             Label(
-                text="New Password: ", font_size='12sp',
+                text='New Password: ', font_size='12sp',
                 pos=(50, 800), size_hint=(.15, .2),
             ),
         )
         profile_layout.add_widget(
             Label(
-                text="Confirm New Password: ", font_size='12sp',
+                text='Confirm New Password: ', font_size='12sp',
                 pos=(50, 750), size_hint=(.15, .2),
             ),
         )
