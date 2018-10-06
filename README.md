@@ -1,4 +1,4 @@
-9/5/2018:
+10/5/2018:
 - Create, setup and provide interfaces for the database (to be used with scheduler or stat tracking), the json config where auth keys are stored, and project settings. Create class layout for the project, including all relevant interfaces. Kivy should be runnable, although the GUI does not need to show anything useful. This is just for being able to call any backend function from Kivy
 
 
