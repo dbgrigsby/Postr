@@ -1,6 +1,7 @@
 coverage==4.5.1
 fbchat
 flake8==3.5.0
+GitPython==2.1.11
 mypy==0.630
 praw==6.0.0
 pre-commit

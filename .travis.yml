@@ -9,3 +9,7 @@ env:
     - TOXENV=py36
 script:
 - tox
+cache:
+    directories:
+        - $HOME/.cache/pre-commit
+        - $HOME/.cache/pip
