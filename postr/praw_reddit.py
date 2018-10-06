@@ -1,3 +1,5 @@
+from typing import Any
+
 import config
 import praw
 
@@ -33,7 +35,7 @@ reddit = praw.Reddit(
 )
 
 
-def get_reddit_oauth():
+def get_reddit_oauth() -> Any:
     # Note that once a user requests this,
     # the user will be redirected and in the url the code for authorize
     # is in the code = of the url.
@@ -45,12 +47,12 @@ def get_reddit_oauth():
     )
 
 
-def submit_subreddit_post():
+def submit_subreddit_post() -> None:
     subreddit = reddit_refresh.subreddit('Postr')
     subreddit.submit('Postr_Test', url='https://github.com/dbgrigsby/Postr/')
 
 
-def get_reddit_refresh_token(authorized_code):
+def get_reddit_refresh_token(authorized_code: str) -> Any:
     """
     Utilizes the code gained from a user approving
     the application through the link found from get_reddit_oauth.

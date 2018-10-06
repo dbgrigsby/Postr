@@ -10,9 +10,9 @@ import git
 
 # Creates or reads the authentication config file
 CONFIG_FILE = 'postr_config.ini'
-DEFAULT_CONFIG = {
+DEFAULT_CONFIG: Mapping[str, Mapping[str, Any]] = {
     'Discord': {
-        'client_secret': "",
+        'client_secret': '',
     },
     'Facebook': {},
     'Twitter': {},
@@ -22,9 +22,9 @@ DEFAULT_CONFIG = {
     'Tumblr': {},
     'YouTube': {},
     'database': {
-        'filepath': "",
-        'username': "",
-        'password': "",
+        'filepath': '',
+        'username': '',
+        'password': '',
     },
     'miscellaneous': {},
 }
@@ -35,7 +35,7 @@ printer = pprint.PrettyPrinter(indent=4)
 
 def _git_root_dir() -> str:
     git_repo = git.Repo('.', search_parent_directories=True)
-    git_root = git_repo.git.rev_parse("--show-toplevel")
+    git_root = git_repo.git.rev_parse('--show-toplevel')
     return str(git_root)
 
 
@@ -75,7 +75,7 @@ def _config_to_dict(config: ConfigParser) -> Mapping[str, Any]:
     """
     dictionary: Mapping[str, Any] = {}
     for section in config.sections():
-        dictionary[section] = {}
+        dictionary[section] = {}  # type: ignore
         for key, value in config.items(section):
             dictionary[section][key] = value
 
