@@ -21,3 +21,5 @@
     - Change password
   - Updated requirements.txt
     - added kivy 1.10.1
+  - Updated tox.ini
+  - Added prerequirements.txt
