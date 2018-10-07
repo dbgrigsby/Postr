@@ -48,3 +48,12 @@ class Writer(StreamListener):
 
     def on_error(self, status):
         print(status)
+
+
+if __name__ == '__main__':
+        # Authenticate using config.py and connect to Twitter Streaming API.
+    hash_tag_list = ['yeet']
+    fetched_tweets_filename = 'tweets.txt'
+
+    twitter_streamer = TwitterStreamer()
+    twitter_streamer.stream_tweets(fetched_tweets_filename, hash_tag_list)
