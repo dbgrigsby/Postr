@@ -25,4 +25,7 @@ test: venv
 run: venv
 	${PYTHON} postr/app.py
 
+clean:
+	rm -rf venv
+
 # link : https://blog.horejsek.com/makefile-with-python/
