@@ -34,14 +34,15 @@ class StdOutListener(StreamListener):
     A basic listener for real time hashtags
     """
 
-    def __init__(self, fetched_tweets_filename) -> None:
-        self.fetched_tweets_filename = fetched_tweets_filename
+    def __init__(self, filename: str) -> None:
+        self.fetched_tweets_filename = filename
+        super().__init__()
 
-    def on_dat(self, data):
+    def on_data(self, raw_data):
         try:
-            print(data)
+            print(raw_data)
             with open(self.fetched_tweets_filename, 'a') as tf:
-                tf.write(data)
+                tf.write(raw_data)
             return True
         except BaseException as e:
             print('Error on data %s' % str(e))
