@@ -15,17 +15,18 @@ class TwitterStreamer():
     Class for streaming and processing live tweets
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def stream_tweets(self, fetched_tweets_filename, hash_tag_list):
-        listener = StdOutListener(fetched_tweets_filename)
+    @classmethod
+    def stream_tweets(cls, output_filename: str, hashtags: list):
+        listener = StdOutListener(output_filename)
         auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
         auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
         stream = Stream(auth, listener)
 
         # This line filter Twitter Streams to capture data by the keywords:
-        stream.filter(track=hash_tag_list)
+        stream.filter(track=hashtags)
 
 
 class StdOutListener(StreamListener):
@@ -33,7 +34,7 @@ class StdOutListener(StreamListener):
     A basic listener for real time hashtags
     """
 
-    def __init__(self, fetched_tweets_filename):
+    def __init__(self, fetched_tweets_filename) -> None:
         self.fetched_tweets_filename = fetched_tweets_filename
 
     def on_dat(self, data):
@@ -46,8 +47,8 @@ class StdOutListener(StreamListener):
             print('Error on data %s' % str(e))
         return True
 
-    def on_error(self, status):
-        print(status)
+    def on_error(self, status_code) -> None:
+        print(status_code)
 
 
 if __name__ == '__main__':
