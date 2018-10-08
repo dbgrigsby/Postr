@@ -19,7 +19,7 @@ class TwitterStreamer():
         pass
 
     def stream_tweets(self, fetched_tweets_filename, hash_tag_list):
-        listener = Writer(fetched_tweets_filename)
+        listener = StdOutListener(fetched_tweets_filename)
         auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
         auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
         stream = Stream(auth, listener)
@@ -28,7 +28,7 @@ class TwitterStreamer():
         stream.filter(track=hash_tag_list)
 
 
-class Writer(StreamListener):
+class StdOutListener(StreamListener):
     """
     A basic listener for real time hashtags
     """
@@ -51,8 +51,8 @@ class Writer(StreamListener):
 
 
 if __name__ == '__main__':
-        # Authenticate using config.py and connect to Twitter Streaming API.
-    hash_tag_list = ['yeet']
+    # Authenticate using config.py and connect to Twitter Streaming API.
+    hash_tag_list = ['politics']
     fetched_tweets_filename = 'tweets.txt'
 
     twitter_streamer = TwitterStreamer()
