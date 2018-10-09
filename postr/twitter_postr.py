@@ -19,7 +19,7 @@ class TwitterStreamer():
         pass
 
     @classmethod
-    def stream_tweets(cls, output_filename: str, hashtags: list):
+    def stream_tweets(cls, output_filename: str, hashtags: list) -> None:
         listener = StdOutListener(output_filename)
         auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
         auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
@@ -38,9 +38,8 @@ class StdOutListener(StreamListener):
         self.fetched_tweets_filename = filename
         super().__init__()
 
-    def on_data(self, raw_data):
+    def on_data(self, raw_data: str) -> bool:
         try:
-            print(raw_data)
             with open(self.fetched_tweets_filename, 'a') as tf:
                 tf.write(raw_data)
             return True
@@ -48,7 +47,8 @@ class StdOutListener(StreamListener):
             print('Error on data %s' % str(e))
         return True
 
-    def on_error(self, status_code) -> None:
+    @classmethod
+    def on_error(cls, status_code: int) -> None:
         print(status_code)
 
 
