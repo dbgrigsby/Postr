@@ -8,5 +8,7 @@ praw==6.0.0
 pre-commit
 pylint==2.1.0
 pytest==3.8.1
+pythonnet
 PyTumblr
+pywebview==2.1
 tox==3.4.0
