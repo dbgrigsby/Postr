@@ -1,3 +1,8 @@
+#10/12/2018
+## Create twitter streamer file
+    Filters realtime tweets based on a hashtag
+    Writes results to an output file called tweets.txt
+
 # 10/5/2018
 ## Create dbsetup.py
     Created a setup file for first-time users who download/clone the postr project
