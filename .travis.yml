@@ -13,3 +13,4 @@ cache:
     directories:
         - $HOME/.cache/pre-commit
         - $HOME/.cache/pip
+        - $HOME/.git/hooks/pre-commit
