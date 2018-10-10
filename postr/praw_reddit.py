@@ -1,7 +1,7 @@
 from typing import Any
 
 import config
-import praw
+import praw   # pylint: disable=wrong-import-order
 
 # Scopes for user authentication
 # See get_reddit_oauth
