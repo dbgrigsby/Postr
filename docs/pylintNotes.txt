@@ -1,0 +1,5 @@
+To run pylint inside the main /Postr/ directory, run:
+
+pylint --rcfile=pylintrc filepath/filename
+
+for a specific file.

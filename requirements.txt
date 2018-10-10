@@ -12,3 +12,5 @@ pythonnet
 PyTumblr
 pywebview==2.1
 tox==3.4.0
+tweepy==3.6.0
+virtualenv
