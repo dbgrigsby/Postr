@@ -28,11 +28,6 @@ repos:
         exclude: ^docs/source/conf.py$
     -   id: fix-encoding-pragma
         args: [--remove]
--   repo: https://github.com/asottile/reorder_python_imports.git
-    rev: v1.2.0
-    hooks:
-    -   id: reorder-python-imports
-        language_version: python3.6
 -   repo: https://github.com/asottile/pyupgrade
     sha: v1.2.0
     hooks:
