@@ -5,15 +5,37 @@ from typing import List
 import discord
 
 from ..api_interface import ApiInterface
+client = discord.Client()
+
+
+@client.event
+async def on_ready() -> None:
+    print('Logged in as')
+    print(f'{client.user.name}#{client.user.discriminator}')
+    print(f'ID: {client.user.id}')
+    print('------')
+
+
+@client.event
+async def on_message(message: discord.message) -> None:
+    print(f'New message received from {message.author}: {message.content}')
+    if message.content.startswith('!test'):
+        counter = 0
+        tmp = await client.send_message(message.channel, 'Calculating messages...')
+        async for log in client.logs_from(message.channel, limit=100):
+            if log.author == message.author:
+                counter += 1
+
+        await client.edit_message(tmp, 'You have {} messages.'.format(counter))
+    elif message.content.startswith('!sleep'):
+        await asyncio.sleep(5)
+        await client.send_message(message.channel, 'Done sleeping')
 
 
 class Discord(ApiInterface):
 
-    client = discord.Client()
-
     def __init__(self) -> None:
-        self.client = discord.Client()
-        self.client.run('NDIyODIyMDQ5ODI5MDkzMzc3.DYhXng.oBevkHcyRVcVa87upnxdKO7nMfg')
+        client.run('NDk5MzkxMzMzMDQ0MDYwMTYw.Dp7mkg.K5vws8m2Pq7jU2701SrE0aPb55U')
 
     def post_text(self, text: str) -> bool:
         ''' This method takes in the text the user want to post
@@ -44,23 +66,6 @@ class Discord(ApiInterface):
         and returns the successs of this action'''
         return False
 
-    @client.event
-    async def on_ready(self) -> None:
-        print('Logged in as')
-        print(self.client.user.name)
-        print(self.client.user.id)
-        print('------')
 
-    @client.event
-    async def on_message(self, message: discord.message) -> None:
-        if message.content.startswith('!test'):
-            counter = 0
-            tmp = await self.client.send_message(message.channel, 'Calculating messages...')
-            async for log in self.client.logs_from(message.channel, limit=100):
-                if log.author == message.author:
-                    counter += 1
-
-            await self.client.edit_message(tmp, 'You have {} messages.'.format(counter))
-        elif message.content.startswith('!sleep'):
-            await asyncio.sleep(5)
-            await self.client.send_message(message.channel, 'Done sleeping')
+if __name__ == '__main__':
+    discord = Discord()
