@@ -5,5 +5,5 @@ import pytest
 
 
 @pytest.fixture(scope='module')
-def add():
+def add() -> int:
     return 2 + 3

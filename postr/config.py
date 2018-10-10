@@ -95,8 +95,10 @@ def update_api_key(api: str, key: str, value: str) -> ConfigParser:
     try:
         config[api][key] = value
         _save_config(config)
+        # pylint: disable=logging-fstring-interpolation
         logging.info(f'Mapping {key} -> {value} added to config for {api}')
     except Exception as exp:
+        # pylint: disable=logging-fstring-interpolation
         logging.error(f'Failed to add mapping {key} -> {value} to {api}')
         logging.error(str(exp))
 
@@ -108,6 +110,7 @@ def get_api_key(api: str, key: str) -> Optional[str]:
     try:
         return config[api][key]
     except Exception as exp:
+        # pylint: disable=logging-fstring-interpolation
         logging.error(f'Failed to retrieve {key} from {api}')
         logging.error(str(exp))
         return None

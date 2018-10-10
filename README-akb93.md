@@ -1,3 +1,18 @@
+
+#10/12/2018
+## Create twitter streamer file
+    Filters realtime tweets based on a hashtag:
+        Continuously streams tweets in real time, no delay is detected
+        Writes results to an output file called tweets.txt
+    Since I gave myself next week to implement Pagination and Posting operations, I will
+    delay these until next week.
+    Also, I worked on integrating pylint and mypy into precommit:
+        Our team cannot "git commit" anything until the pylint and mypy
+        syntax and style checkers detect zero erros across every file.
+        This ensures that our files are consistent and maintainable.
+    I fixed all week1-3 code that was prior to my code, to conform with the pylint and
+    mypy precommit checks. Now, our team is up-to-date regarding this.
+
 # 10/5/2018
 ## Create dbsetup.py
     Created a setup file for first-time users who download/clone the postr project
