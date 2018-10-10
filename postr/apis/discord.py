@@ -1,7 +1,7 @@
 # api interface that all api classes must extend
 import asyncio
 from typing import List
-
+# from discord.ext import commands
 import discord
 
 from ..api_interface import ApiInterface
@@ -15,11 +15,15 @@ class Discord(ApiInterface):
         self.default_channel = get_api_key('Discord', 'default_channel')
 
     def post_text(self, text: str) -> bool:
+        '''This method cannot be used as discord actions are asynchronous'''
+        return False
+
+    async def post_text_async(self, text: str) -> bool:
         ''' This method takes in the text the user want to post
         and returns the success of this action'''
         channel_id = self.default_channel
         try:
-            self.client.send_message(channel_id, text)
+            await self.client.send_message(self.client.get_channel(channel_id), text)
             return True
         except Exception as exp:
             print(f'Failed to send message: {exp}')
@@ -67,33 +71,37 @@ class Discord(ApiInterface):
 
 discord_api = Discord()
 client = discord_api.client
+# bot = commands.Bot(command_prefix='!', description="Command Parser")
 
 
 @client.event
 async def on_ready() -> None:
     print(f'Logged in as{client.user.name}#{client.user.discriminator}')
     print(f'ID: {client.user.id}')
-    await discord_api.set_default_channel('499395129992413196')
+    # await discord_api.set_default_channel('499395129992413196')
+    await discord_api.post_text_async('Wow a test post!')
 
 
 @client.event
 async def on_message(message: discord.message) -> None:
     print(f'New message received in {message.channel.name} from {message.author}: {message.content}')
-    print(f'Message Channel: {message.channel}')
-    if message.content.startswith('!test'):
-        counter = 0
-        tmp = await client.send_message(message.channel, 'Calculating messages...')
-        async for log in client.logs_from(message.channel, limit=100):
-            if log.author == message.author:
-                counter += 1
-
-        await client.edit_message(tmp, 'You have {} messages.'.format(counter))
-    elif message.content.startswith('!sleep'):
+    if message.content.startswith('!channel'):
+        messages_in_channel = 0
+        tmp = await client.send_message(message.channel, 'Counting messages in channel...')
+        async for msg in client.logs_from(message.channel, limit=1000):
+            if msg:
+                messages_in_channel += 1
+        await client.edit_message(tmp, f'In total, {messages_in_channel} messages in this channel')
+    elif message.content.startswith('!rest'):
+        await client.send_message(message.channel, 'Resting for 5 seconds')
         await asyncio.sleep(5)
-        await client.send_message(message.channel, 'Done sleeping')
-        print(message.channel)
+        await client.send_message(message.channel, 'Done resting')
+    else:
+        await client.add_reaction(message, '👍')
+    # else:
+    #     await bot.process_commands(message)
 
 if __name__ == '__main__':
     bot_token = get_api_key('Discord', 'bot_token')
     client.run(bot_token)
-    discord_api.post_text('Wow a test post!')
+    # bot.run(bot_token)
