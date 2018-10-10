@@ -47,11 +47,12 @@ def create_bio(
         display_last: str,
         age: int,
         comment: str,
+        person_id: int,
 ) -> None:
     cur = conn.cursor()
     cur.execute(
         """INSERT INTO Bio (UseDisplayNameInfo, DisplayFirstName,
-                Age, Comment, Person_ID) VALUES(?, ?, ?, ?, ?)""",
-        (use_display, display_first, display_first, age, comment),
+                DisplayLastName, Age, Comment, Person_ID) VALUES(?, ?, ?, ?, ?)""",
+        (use_display, display_first, display_last, age, comment, person_id),
     )
     conn.commit()

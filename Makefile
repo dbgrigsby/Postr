@@ -25,4 +25,10 @@ test: venv
 run: venv
 	${PYTHON} postr/app.py
 
+precommit: venv
+	pre-commit run --all-files
+
+clean:
+	rm -rf venv
+
 # link : https://blog.horejsek.com/makefile-with-python/

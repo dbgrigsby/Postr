@@ -7,7 +7,8 @@ from kivy.uix.tabbedpanel import TabbedPanelHeader
 
 
 class TabbedPanelApp(App):
-    def build(self) -> TabbedPanel:
+    @classmethod
+    def build(cls) -> TabbedPanel:
         performance_layout = FloatLayout()
         posts_layout = FloatLayout()
         events_layout = FloatLayout()
