@@ -1,0 +1,1 @@
+Run python -m mypy "filepath/name" to use the /venv/ mypy

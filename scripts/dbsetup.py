@@ -21,6 +21,7 @@ c.execute("""CREATE TABLE Bio (
         DisplayLastName TEXT,
         Age INTEGER NOT NULL,
         Comment TEXT,
+        Website TEXT,
         Person_ID INTEGER NOT NULL,
         FOREIGN KEY (Person_ID) REFERENCES Person(PersonID) ON DELETE CASCADE
         )""")
