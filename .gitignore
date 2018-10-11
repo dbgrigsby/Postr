@@ -101,3 +101,8 @@ postr_config.ini
 
 # Config for passwords
 config.py
+
+# Vim swapfiles
+*~
+*.swp
+*.swo
