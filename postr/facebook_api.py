@@ -138,18 +138,18 @@ class FacebookApi(ApiInterface):
         actual = json.dumps(auth)
         print('token = ' + actual)
 
-    # def post_text(self, s: str) -> bool:
-        # self.graph.put_object(parent_object='me', connection_name='feed',
-        # message=s)
-        # return True
+    def post_text(self, s: str) -> bool:
+        self.graph.put_object(parent_object='me', connection_name='feed', message=s)
+        return True
 
-    # def post_video(self, url: str, text: str) -> bool:
-        # self.graph.put_object(
-        # parent_object="me",
-        # connection_name="feed",
-        # message=text,
-        # link=url)
-        # return True
+    def post_video(self, url: str, text: str) -> bool:
+        self.graph.put_object(
+            parent_object='me',
+            connection_name='feed',
+            message=text,
+            link=url,
+        )
+        return True
 
     # def post_photo(self, url: str, text: str) -> bool:
         # self.graph.put_photo(image=open(url, 'rb'), message=text)
