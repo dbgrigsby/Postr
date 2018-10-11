@@ -1,3 +1,8 @@
+#### 10/9/2018
+Started implementing Facebook api  
+Research OAuth authentication for Facebook  
+Research sever interactions to collect data from url redirects  
+
 #### 10/2/2018
 Added more info for pre-commit hooks  
 Researched class structure for python  
