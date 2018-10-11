@@ -1,9 +1,9 @@
 # Facebook API
-# from typing import List
+
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import webbrowser
 import json
-from typing import Type
+from typing import Type, List
 import config
 import facebook
 from api_interface import ApiInterface
@@ -21,7 +21,7 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         code = request_path
         output = '<html><head><title>Postr Facebook Auth</title></head>'
-        output += '<body><h1>Thanks For Authenticationg with Postr!</h1>'
+        output += '<body><h1>Thanks For Authenticating with Postr!</h1>'
         output += '<p>You can close this tab.</p>'
         output += '</body></html>'
         self.wfile.write(output.encode())
@@ -54,9 +54,9 @@ class FacebookApi(ApiInterface):
 
     @staticmethod
     def wait_for_request(
-        server_class: Type[HTTPServer],  # pylint: disable=bad-continuation
-        handler_class: Type[BaseHTTPRequestHandler],  # pylint: disable=bad-continuation
-    ) -> None:  # pylint: disable=bad-continuation
+        server_class: Type[HTTPServer],
+        handler_class: Type[BaseHTTPRequestHandler],
+    ) -> None:
         server_address = ('', 8000)
         httpd = server_class(server_address, handler_class)
         httpd.timeout = 10
@@ -67,7 +67,7 @@ class FacebookApi(ApiInterface):
         httpd.server_close()
 
     @staticmethod
-    def parseCode(code_str: str) -> str:
+    def parse_code(code_str: str) -> str:
         end = len(code_str)
         # get index of =
         equals_index = code_str.find('=')
@@ -100,7 +100,7 @@ class FacebookApi(ApiInterface):
         global code  # pylint: disable=global-statement
 
         # get the code returned from authenticating user
-        real_code = FacebookApi.parseCode(code)
+        real_code = FacebookApi.parse_code(code)
 
         # print('Code = ' + real_code)
 
@@ -118,8 +118,8 @@ class FacebookApi(ApiInterface):
         config.update_api_key('FACEBOOK', 'auth_token', actual_token)
         config.update_api_key('FACEBOOK', 'has_token', 'true')
 
-    def post_text(self, s: str) -> bool:
-        self.graph.put_object(parent_object='me', connection_name='feed', message=s)
+    def post_text(self, text: str) -> bool:
+        self.graph.put_object(parent_object='me', connection_name='feed', message=text)
         return True
 
     def post_video(self, url: str, text: str) -> bool:
@@ -131,21 +131,21 @@ class FacebookApi(ApiInterface):
         )
         return True
 
-    # def post_photo(self, url: str, text: str) -> bool:
-        # self.graph.put_photo(image=open(url, 'rb'), message=text)
-        # return True
+    def post_photo(self, url: str, text: str) -> bool:
+        self.graph.put_photo(image=open(url, 'rb'), message=text)
+        return True
 
-    # def get_user_likes(self) -> int:
-        # self.graph.get_connections(id='me', connection_name='friends')
-        # return 0
+    def get_user_likes(self) -> int:
+        self.graph.get_connections(id='me', connection_name='friends')
+        return 0
 
-    # def get_user_followers(self, stringTxt: str) -> List[str]:
-        # self.graph.get_connections(id='me', connection_name='friends')
-        # return ['nope']
+    def get_user_followers(self) -> List[str]:
+        self.graph.get_connections(id='me', connection_name='friends')
+        return ['nope']
 
-    # def remov_post(self, postId: str) -> bool:
-        # self.graph.delete_object(id=postId)
-        # return True
+    def remove_post(self, post_id: str) -> bool:
+        self.graph.delete_object(id=post_id)
+        return True
 
 
 # test = FacebookApi()
