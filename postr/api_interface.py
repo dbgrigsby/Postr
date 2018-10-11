@@ -35,7 +35,7 @@ class ApiInterface(abc.ABC):
         return None  # type: ignore
 
     @abc.abstractmethod
-    def remov_post(self, post_id: str) -> bool:
+    def remove_post(self, post_id: str) -> bool:
         ''' This method removes the post with the specified id
         and returns the successs of this action'''
         return False
