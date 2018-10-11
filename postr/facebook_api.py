@@ -79,7 +79,7 @@ class FacebookApi(ApiInterface):
         return str(dic['access_token'])
 
     @staticmethod
-    def authenticate() -> None:
+    def authenticate() -> None:  # in future, add check for if the login auth fails
         # get all values needed for auth
         app_id = config.get_api_key('FACEBOOK', 'app_id')
         token = config.get_api_key('FACEBOOK', 'access_token')
@@ -110,7 +110,7 @@ class FacebookApi(ApiInterface):
             redirect_uri=canvas_url, app_id=app_id, app_secret=appsecret,
         )
 
-        # geet the actual token
+        # get the actual token
         actual_token = json.dumps(auth)
         print('token = ' + actual_token)
 
