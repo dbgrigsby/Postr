@@ -34,49 +34,19 @@ class Server(HTTPServer):
 class FacebookApi(ApiInterface):
 
     def __init__(self) -> None:
-        # fbInfo = config._current_config()['FACEBOOK']
-        if config.get_api_key('FACEBOOK', 'isLoggedIn') == 'true':
-            print('true')
-            authToken = config.get_api_key('FACEBOOK', 'authToken')
+
+        if config.get_api_key('FACEBOOK', 'has_token') == 'true':
+
+            authToken = config.get_api_key('FACEBOOK', 'auth_token')
             self.graph = facebook.GraphAPI(
                 access_token=authToken,
                 version='2.12',
             )
-        else:
-            # need to find way to get facebook auth token val
+        else:  # may need to just auth user with no has_token check
+            # need to auth  user
+            FacebookApi.authenticate()
 
-            # start a socket
-            # do a while loop
-            # if we get something back, print it
-            # if it contains the auth key, store it
-
-            app_id = config.get_api_key('FACEBOOK', 'app_id')
-            canvas_url = 'https://www.facebook.com/connect/login_success.html'
-            # 'https://127.0.0.1:8888'
-            # "https://domain.com/that-handles-auth-response/"
-            perms = ['manage_pages', 'publish_pages']
-            # perms = []
-            token = config.get_api_key('FACEBOOK', 'app_token')
-            graphOne = facebook.GraphAPI(access_token=token, version='2.12')
-            url = graphOne.get_auth_url(app_id, canvas_url, perms)
-            print(url)
-            # https://www.facebook.com/login
-            webbrowser.open(url)
-            # r = requests.get(url)
-            # to set auth token, we need to ask user for permission
-            # url = http://127.0.0.1:8888do i need port?
-            # print('about to print the damn thing')
-
-            # print(r.url)
-            # print(r.history[0].url)
-            # print(r.history[1].content)
-
-            val = 'testing'
-            # config.update_api_key('FACEBOOK', 'isLoggedIn', 'true')
-            config.update_api_key('FACEBOOK', 'auth_token', val)
-
-            # create graph for user
-            authToken = config.get_api_key('FACEBOOK', 'auth_token')
+            authToken = config.get_api_key('FACEBOOK', 'authToken')
             self.graph = facebook.GraphAPI(
                 access_token=authToken,
                 version='2.12',
@@ -108,35 +78,45 @@ class FacebookApi(ApiInterface):
     def extract_access_token(dic: dict) -> str:
         return str(dic['access_token'])
 
-    def authenticate(self) -> None:
-
+    @staticmethod
+    def authenticate() -> None:
+        # get all values needed for auth
         app_id = config.get_api_key('FACEBOOK', 'app_id')
+        token = config.get_api_key('FACEBOOK', 'access_token')
+        appsecret = config.get_api_key('FACEBOOK', 'app_secret')
+
         canvas_url = 'http://localhost:8000/login_success'
         # 'https://www.facebook.com/connect/login_success.html'
         perms = ['manage_pages', 'publish_pages']
 
-        token = config.get_api_key('FACEBOOK', 'access_token')
-        appsecret = config.get_api_key('FACEBOOK', 'app_secret')
         test = facebook.GraphAPI(access_token=token, version='2.12')
+
+        # get url for authenticating user
         url = test.get_auth_url(app_id, canvas_url, perms)
 
-        # print(url)
         webbrowser.open(url)
-        self.wait_for_request(server_class=Server, handler_class=Handler)
+        FacebookApi.wait_for_request(server_class=Server, handler_class=Handler)
 
         global code  # pylint: disable=global-statement
 
-        real_code = self.parseCode(code)
+        # get the code returned from authenticating user
+        real_code = FacebookApi.parseCode(code)
 
-        print('Code = ' + real_code)
+        # print('Code = ' + real_code)
 
+        # send request for auth token with the code
         auth = test.get_access_token_from_code(
             code=real_code,
             redirect_uri=canvas_url, app_id=app_id, app_secret=appsecret,
         )
 
-        actual = json.dumps(auth)
-        print('token = ' + actual)
+        # geet the actual token
+        actual_token = json.dumps(auth)
+        print('token = ' + actual_token)
+
+        # update the config file
+        config.update_api_key('FACEBOOK', 'auth_token', actual_token)
+        config.update_api_key('FACEBOOK', 'has_token', 'true')
 
     def post_text(self, s: str) -> bool:
         self.graph.put_object(parent_object='me', connection_name='feed', message=s)
