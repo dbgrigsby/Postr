@@ -97,7 +97,7 @@ async def on_message(message: discord.message) -> None:
         await asyncio.sleep(5)
         await client.send_message(message.channel, 'Done resting')
     else:
-        await client.add_reaction(message, '👍')
+        await client.add_reaction(message, 'thumbs-up')
     # else:
     #     await bot.process_commands(message)
 
