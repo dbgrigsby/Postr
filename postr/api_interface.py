@@ -29,10 +29,10 @@ class ApiInterface(abc.ABC):
         return -1
 
     @abc.abstractmethod
-    def get_user_followers(self) -> List[str]:
+    def get_user_followers(self, text: str) -> List[str]:
         ''' This method returns a list of all the people that
         follow the user'''
-        return None  # type: ignore
+        return [text]
 
     @abc.abstractmethod
     def remove_post(self, post_id: str) -> bool:
