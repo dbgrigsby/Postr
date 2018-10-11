@@ -139,9 +139,13 @@ class FacebookApi(ApiInterface):
         self.graph.get_connections(id='me', connection_name='friends')
         return 0
 
-    def get_user_followers(self) -> List[str]:
+    # def get_user_followers(self) -> List[str]:
+        # self.graph.get_connections(id='me', connection_name='friends')
+        # return ['nope']
+
+    def get_user_followers(self, text: str) -> List[str]:
         self.graph.get_connections(id='me', connection_name='friends')
-        return ['nope']
+        return [text]
 
     def remove_post(self, post_id: str) -> bool:
         self.graph.delete_object(id=post_id)
