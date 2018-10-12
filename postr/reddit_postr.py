@@ -1,7 +1,7 @@
 from typing import Any
 
 import config
-import praw   # pylint: disable=wrong-import-order
+import praw
 
 # Scopes for user authentication
 # See get_reddit_oauth
@@ -29,8 +29,8 @@ scopes = {
 }
 
 reddit = praw.Reddit(
-    user_agent='Postr (by )' + config.test_user['reddit_test_user'],
-    client_id='AZQxN0WW9txW3g', client_secret=None,
+    user_agent='Postr (by Adam Beck, Dan Grisby, Tommy Lu, Dominique Owens, Rachel Pavlakovic)',
+    client_id=config.DEFAULT_CONFIG, client_secret=None,
     redirect_uri='https://github.com/dbgrigsby/Postr/',
 )
 
@@ -63,7 +63,7 @@ def get_reddit_refresh_token(authorized_code: str) -> Any:
 
 
 reddit_refresh = praw.Reddit(
-    user_agent='Postr (by )' + config.test_user['reddit_test_user'],
+    user_agent='Postr (by Adam Beck, Dan Grisby, Tommy Lu, Dominique Owens, Rachel Pavlakovic)',
     client_id='AZQxN0WW9txW3g', client_secret=None,
     refresh_token='175172957565-NI61KRGDJaLIaez4MGv4mY9SIPo',
 )

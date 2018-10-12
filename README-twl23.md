@@ -24,3 +24,8 @@
         - Submitted a post on the private subreddit Postr
         - Currently have all permissions set, may need to consider lowering amount.
         - Need to separate into modules as to OAuth use (one time set up) and refresh token use (always use)
+
+# 2018 10-12
+    Reddit functionality
+        - Fixed Module use to conform with api
+        - Started implementing methods
