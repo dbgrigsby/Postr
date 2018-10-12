@@ -16,7 +16,9 @@ DEFAULT_CONFIG: Mapping[str, Mapping[str, Any]] = {
     },
     'Facebook': {},
     'Twitter': {},
-    'Reddit': {},
+    'Reddit': {
+        'subreddit': '',
+    },
     'Slack': {},
     'Instagram': {},
     'Tumblr': {},
