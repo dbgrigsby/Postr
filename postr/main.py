@@ -40,6 +40,13 @@ class TabbedPanelApp(App):
         performance_layout.add_widget(spinner())
 
         posts_layout.add_widget(spinner())
+        posts_layout.add_widget(
+            Label(
+                text="Scheduled Posts: ", font_size='20sp',
+                pos=(315, 900), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
+            ),
+        )
 
         events_layout.add_widget(spinner())
         events_layout.add_widget(

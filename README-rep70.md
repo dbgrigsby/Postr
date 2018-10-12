@@ -23,3 +23,11 @@
     - added kivy 1.10.1
   - Updated tox.ini
   - Added prerequirements.txt
+
+# October 12, 2018
+  - Changed background color to white for tab content
+  - Changed text color from white to black for greater visibility
+  - Added text input boxes for profile updates
+  - Added search and replace option to update tab
+  - Added event options and checkboxes to events tab
+  - Added heading to post tab
