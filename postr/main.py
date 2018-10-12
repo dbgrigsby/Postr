@@ -46,12 +46,14 @@ class TabbedPanelApp(App):
             Label(
                 text="React to: ", font_size='20sp',
                 pos=(275, 900), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         events_layout.add_widget(
             Label(
                 text="Hastag(s)", font_size='12sp',
                 pos=(275, 850), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         events_layout.add_widget(
@@ -63,6 +65,7 @@ class TabbedPanelApp(App):
             Label(
                 text="Key word", font_size='12sp',
                 pos=(275, 800), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         events_layout.add_widget(
@@ -74,6 +77,7 @@ class TabbedPanelApp(App):
             Label(
                 text="Mention/Tag", font_size='12sp',
                 pos=(275, 750), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         events_layout.add_widget(
@@ -85,6 +89,7 @@ class TabbedPanelApp(App):
             Label(
                 text="Like", font_size='12sp',
                 pos=(275, 700), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         events_layout.add_widget(
@@ -96,6 +101,7 @@ class TabbedPanelApp(App):
             Label(
                 text="Comment", font_size='12sp',
                 pos=(275, 650), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         events_layout.add_widget(
@@ -107,6 +113,7 @@ class TabbedPanelApp(App):
             Label(
                 text="Retweet/Repost/Share", font_size='12sp',
                 pos=(275, 600), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         events_layout.add_widget(
@@ -120,6 +127,7 @@ class TabbedPanelApp(App):
             Label(
                 text="Search for: ", font_size='20sp',
                 pos=(275, 950), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         update_layout.add_widget(
@@ -132,6 +140,7 @@ class TabbedPanelApp(App):
             Label(
                 text="Replace with: ", font_size='20sp',
                 pos=(575, 950), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         update_layout.add_widget(
@@ -145,24 +154,28 @@ class TabbedPanelApp(App):
             Label(
                 text="Username: ", font_size='20sp',
                 pos=(45, 970), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         profile_layout.add_widget(
             Label(
                 text='TEMP USERNAME', font_size='15sp',
                 pos=(275, 967), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         profile_layout.add_widget(
             Label(
                 text="Change Password: ", font_size='20sp',
                 pos=(55, 900), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         profile_layout.add_widget(
             Label(
                 text="Old Password: ", font_size='12sp',
                 pos=(50, 850), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         profile_layout.add_widget(
@@ -175,6 +188,7 @@ class TabbedPanelApp(App):
             Label(
                 text="New Password: ", font_size='12sp',
                 pos=(50, 795), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         profile_layout.add_widget(
@@ -187,6 +201,7 @@ class TabbedPanelApp(App):
             Label(
                 text="Confirm New Password: ", font_size='12sp',
                 pos=(50, 745), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
             ),
         )
         profile_layout.add_widget(
@@ -198,7 +213,9 @@ class TabbedPanelApp(App):
 
         tb_panel = TabbedPanel()
         tb_panel.do_default_tab = False
-        tb_panel.background_color: (72, 177, 175, 1)
+        tb_panel.background_color: (1, 1, 1, 1)
+        tb_panel.border: [0, 0, 0, 0]
+        tb_panel.background_image = 'path/to/background/image'
 
         # Create Performance tab
         performance_tab = TabbedPanelHeader(text='Performance')
