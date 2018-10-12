@@ -1,3 +1,7 @@
+# 2018-10-12
+    Add mypy requirement to tox and update everyone's code to be typing-compliant
+    Add authentication and message logging / posting feature to Discord
+    Add more precommit hooks for code complexity and style
 # 2018-10-05
     Created config parser interface
         Saves config to an .ini file
