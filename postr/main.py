@@ -9,29 +9,30 @@ from kivy.uix.textinput import TextInput
 
 
 class TabbedPanelApp(App):
-    def build(self):
+    @classmethod
+    def build(cls) -> TabbedPanel:
         performance_layout = FloatLayout()
         posts_layout = FloatLayout()
         events_layout = FloatLayout()
         update_layout = FloatLayout()
         profile_layout = FloatLayout()
 
-        def spinner():
+        def spinner() -> Spinner:
             spinner = Spinner(
                 # default value
                 text='Choose a site:',
 
                 # available values
                 values=(
-                    "Discord", "Facebook", "Instagram", "Reddit",
-                    "Slack", "Tumblr", "Twitter", "YouTube",
+                    'Discord', 'Facebook', 'Instagram', 'Reddit',
+                    'Slack', 'Tumblr', 'Twitter', 'YouTube',
                 ),
 
                 size_hint=(.15, .1),
                 pos=(15, 985),
             )
 
-            def show_selected_value(spinner, text):
+            def show_selected_value(spinner: Spinner, text: str) -> None:
                 print('The spinner', spinner, 'have text', text)
 
             spinner.bind(text=show_selected_value)
@@ -42,7 +43,7 @@ class TabbedPanelApp(App):
         posts_layout.add_widget(spinner())
         posts_layout.add_widget(
             Label(
-                text="Scheduled Posts: ", font_size='20sp',
+                text='Scheduled Posts: ', font_size='20sp',
                 pos=(315, 900), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -51,14 +52,14 @@ class TabbedPanelApp(App):
         events_layout.add_widget(spinner())
         events_layout.add_widget(
             Label(
-                text="React to: ", font_size='20sp',
+                text='React to: ', font_size='20sp',
                 pos=(275, 900), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
         )
         events_layout.add_widget(
             Label(
-                text="Hastag(s)", font_size='12sp',
+                text='Hastag(s)', font_size='12sp',
                 pos=(275, 850), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -70,7 +71,7 @@ class TabbedPanelApp(App):
         )
         events_layout.add_widget(
             Label(
-                text="Key word", font_size='12sp',
+                text='Key word', font_size='12sp',
                 pos=(275, 800), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -82,7 +83,7 @@ class TabbedPanelApp(App):
         )
         events_layout.add_widget(
             Label(
-                text="Mention/Tag", font_size='12sp',
+                text='Mention/Tag', font_size='12sp',
                 pos=(275, 750), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -94,7 +95,7 @@ class TabbedPanelApp(App):
         )
         events_layout.add_widget(
             Label(
-                text="Like", font_size='12sp',
+                text='Like', font_size='12sp',
                 pos=(275, 700), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -106,7 +107,7 @@ class TabbedPanelApp(App):
         )
         events_layout.add_widget(
             Label(
-                text="Comment", font_size='12sp',
+                text='Comment', font_size='12sp',
                 pos=(275, 650), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -118,7 +119,7 @@ class TabbedPanelApp(App):
         )
         events_layout.add_widget(
             Label(
-                text="Retweet/Repost/Share", font_size='12sp',
+                text='Retweet/Repost/Share', font_size='12sp',
                 pos=(275, 600), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -132,7 +133,7 @@ class TabbedPanelApp(App):
         update_layout.add_widget(spinner())
         update_layout.add_widget(
             Label(
-                text="Search for: ", font_size='20sp',
+                text='Search for: ', font_size='20sp',
                 pos=(275, 950), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -145,7 +146,7 @@ class TabbedPanelApp(App):
         )
         update_layout.add_widget(
             Label(
-                text="Replace with: ", font_size='20sp',
+                text='Replace with: ', font_size='20sp',
                 pos=(575, 950), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -159,7 +160,7 @@ class TabbedPanelApp(App):
 
         profile_layout.add_widget(
             Label(
-                text="Username: ", font_size='20sp',
+                text='Username: ', font_size='20sp',
                 pos=(45, 970), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -173,14 +174,14 @@ class TabbedPanelApp(App):
         )
         profile_layout.add_widget(
             Label(
-                text="Change Password: ", font_size='20sp',
+                text='Change Password: ', font_size='20sp',
                 pos=(55, 900), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
         )
         profile_layout.add_widget(
             Label(
-                text="Old Password: ", font_size='12sp',
+                text='Old Password: ', font_size='12sp',
                 pos=(50, 850), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -193,7 +194,7 @@ class TabbedPanelApp(App):
         )
         profile_layout.add_widget(
             Label(
-                text="New Password: ", font_size='12sp',
+                text='New Password: ', font_size='12sp',
                 pos=(50, 795), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -206,7 +207,7 @@ class TabbedPanelApp(App):
         )
         profile_layout.add_widget(
             Label(
-                text="Confirm New Password: ", font_size='12sp',
+                text='Confirm New Password: ', font_size='12sp',
                 pos=(50, 745), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
@@ -214,14 +215,14 @@ class TabbedPanelApp(App):
         profile_layout.add_widget(
             TextInput(
                 multiline=False,
-                pos=(300, 831), size_hint=(.1, .04),
+                pos=(300, 835), size_hint=(.1, .04),
             ),
         )
 
         tb_panel = TabbedPanel()
         tb_panel.do_default_tab = False
-        tb_panel.background_color: (1, 1, 1, 1)
-        tb_panel.border: [0, 0, 0, 0]
+        tb_panel.background_color = (1, 1, 1, 1)
+        tb_panel.border = [0, 0, 0, 0]
         tb_panel.background_image = 'path/to/background/image'
 
         # Create Performance tab
