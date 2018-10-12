@@ -25,9 +25,10 @@
   - Added prerequirements.txt
 
 # October 12, 2018
-  - Changed background color to white for tab content
+  - Changed background color to white for tab content panels
   - Changed text color from white to black for greater visibility
   - Added text input boxes for profile updates
   - Added search and replace option to update tab
   - Added event options and checkboxes to events tab
   - Added heading to post tab
+  - Refactored and organized the layout of each of the tabs
