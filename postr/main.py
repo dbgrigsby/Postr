@@ -39,7 +39,32 @@ class TabbedPanelApp(App):
         performance_layout.add_widget(spinner())
         posts_layout.add_widget(spinner())
         events_layout.add_widget(spinner())
+
         update_layout.add_widget(spinner())
+        update_layout.add_widget(
+            Label(
+                text="Search for: ", font_size='20sp',
+                pos=(275, 950), size_hint=(.15, .2),
+            ),
+        )
+        update_layout.add_widget(
+            TextInput(
+                multiline=False,
+                pos=(300, 970), size_hint=(.15, .04),
+            ),
+        )
+        update_layout.add_widget(
+            Label(
+                text="Replace with: ", font_size='20sp',
+                pos=(575, 950), size_hint=(.15, .2),
+            ),
+        )
+        update_layout.add_widget(
+            TextInput(
+                multiline=False,
+                pos=(575, 970), size_hint=(.15, .04),
+            ),
+        )
 
         profile_layout.add_widget(
             Label(
