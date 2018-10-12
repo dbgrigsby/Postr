@@ -4,6 +4,7 @@ from kivy.uix.label import Label
 from kivy.uix.spinner import Spinner
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.tabbedpanel import TabbedPanelHeader
+from kivy.uix.textinput import TextInput
 
 
 class TabbedPanelApp(App):
@@ -39,10 +40,17 @@ class TabbedPanelApp(App):
         posts_layout.add_widget(spinner())
         events_layout.add_widget(spinner())
         update_layout.add_widget(spinner())
+
         profile_layout.add_widget(
             Label(
                 text="Username: ", font_size='20sp',
                 pos=(45, 970), size_hint=(.15, .2),
+            ),
+        )
+        profile_layout.add_widget(
+            Label(
+                text='TEMP USERNAME', font_size='15sp',
+                pos=(275, 967), size_hint=(.15, .2),
             ),
         )
         profile_layout.add_widget(
@@ -58,15 +66,33 @@ class TabbedPanelApp(App):
             ),
         )
         profile_layout.add_widget(
+            TextInput(
+                multiline=False,
+                pos=(300, 935), size_hint=(.1, .04),
+            ),
+        )
+        profile_layout.add_widget(
             Label(
                 text="New Password: ", font_size='12sp',
-                pos=(50, 800), size_hint=(.15, .2),
+                pos=(50, 795), size_hint=(.15, .2),
+            ),
+        )
+        profile_layout.add_widget(
+            TextInput(
+                multiline=False,
+                pos=(300, 885), size_hint=(.1, .04),
             ),
         )
         profile_layout.add_widget(
             Label(
                 text="Confirm New Password: ", font_size='12sp',
-                pos=(50, 750), size_hint=(.15, .2),
+                pos=(50, 745), size_hint=(.15, .2),
+            ),
+        )
+        profile_layout.add_widget(
+            TextInput(
+                multiline=False,
+                pos=(300, 831), size_hint=(.1, .04),
             ),
         )
 
