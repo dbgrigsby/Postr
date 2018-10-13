@@ -36,7 +36,7 @@ class Reddit(ApiInterface):
         self.client = praw.Reddit(
             user_agent='Postr (by Adam Beck, Dan Grisby, Tommy Lu, Dominique Owens, Rachel Pavlakovic)',
             client_id='AZQxN0WW9txW3g', client_secret=None,
-            refresh_token='175172957565-NI61KRGDJaLIaez4MGv4mY9SIPo',
+            refresh_token='',
         )
         self.subreddit = 'Postr'
 
@@ -77,6 +77,8 @@ class Reddit(ApiInterface):
 
     def get_user_likes(self) -> int:
         ''' This method returns the number of likes a user has total between link and client'''
+        # TODO look into api for proper way to get karma
+        # pylint: disable=R0201
         return -1  # self.client.user.me.comment_karma + self.client.user.me.link_karma
 
     def get_user_followers(self, text: str) -> List[str]:
@@ -85,7 +87,9 @@ class Reddit(ApiInterface):
         # Not possible on reddit, someone who friends someone is one-way and private.
         # This is due to the fact that any public reddit posts are public from a user,
         # and becoming friends only involves seeing someone's posts on a separate tab.
-        return []
+        # pylint: disable=unused-argument
+        # pylint: disable=R0201
+        return None  # type: ignore
 
     def remove_post(self, post_id: str) -> bool:
         ''' This method removes the post with the specified id
