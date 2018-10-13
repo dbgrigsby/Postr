@@ -13,6 +13,7 @@ chardet==3.0.4
 coverage==4.5.1
 discord.py==0.16.12
 docutils==0.14
+facebook-sdk
 fbchat==1.4.1
 flake8==3.5.0
 future==0.16.0

@@ -7,20 +7,18 @@ class ApiInterface(abc.ABC):
 
     @abc.abstractmethod
     def post_text(self, text: str) -> bool:
-        ''' This method takes in the text the user want to post
-        and returns the success of this action'''
+        ''' This method takes in the text the user want to post and returns the success of this action'''
         return False
 
     @abc.abstractmethod
     def post_video(self, url: str, text: str) -> bool:
-        ''' This method takes in the url for the video the user
-        want to post and returns the success of this action'''
+        ''' This method takes in the url for the video the user want to post and returns the success of this action'''
         return False
 
     @abc.abstractmethod
     def post_photo(self, url: str, text: str) -> bool:
-        ''' This method takes in the url for the photo the user
-        want to post and returns the success of this action'''
+        ''' This method takes in the url for the photo the user wants
+        to post and returns the success of this action'''
         return False
 
     @abc.abstractmethod
@@ -30,12 +28,10 @@ class ApiInterface(abc.ABC):
 
     @abc.abstractmethod
     def get_user_followers(self, text: str) -> List[str]:
-        ''' This method returns a list of all the people that
-        follow the user'''
-        return None  # type: ignore
+        ''' This method returns a list of all the people that follow the user'''
+        return [text]
 
     @abc.abstractmethod
     def remove_post(self, post_id: str) -> bool:
-        ''' This method removes the post with the specified id
-        and returns the successs of this action'''
+        ''' This method removes the post with the specified id and returns the successs of this action'''
         return False
