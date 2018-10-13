@@ -18,6 +18,8 @@ DEFAULT_CONFIG: Mapping[str, Mapping[str, Any]] = {
     'Twitter': {},
     'Reddit': {
         'subreddit': '',
+        'client_id': 'AZQxN0WW9txW3g',
+        'refresh_token': '175172957565-NI61KRGDJaLIaez4MGv4mY9SIPo',
     },
     'Slack': {},
     'Instagram': {},

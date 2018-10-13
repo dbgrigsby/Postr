@@ -35,8 +35,8 @@ class Reddit(ApiInterface):
         # TODO config for client id, and refresh token
         self.client = praw.Reddit(
             user_agent='Postr (by Adam Beck, Dan Grisby, Tommy Lu, Dominique Owens, Rachel Pavlakovic)',
-            client_id='AZQxN0WW9txW3g', client_secret=None,
-            refresh_token='',
+            client_id=get_key('client_id'), client_secret=None,
+            refresh_token=get_key('refresh_token'),
         )
         self.subreddit = 'Postr'
 
