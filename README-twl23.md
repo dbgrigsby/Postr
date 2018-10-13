@@ -29,3 +29,6 @@
     Reddit functionality
         - Fixed Module use to conform with api
         - Started implementing methods
+        - Utilized config for secret keys
+        - Created class for Reddit usage
+        - Typed methods
