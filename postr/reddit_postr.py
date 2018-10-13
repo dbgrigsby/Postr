@@ -77,7 +77,7 @@ class Reddit(ApiInterface):
 
     def get_user_likes(self) -> int:
         ''' This method returns the number of likes a user has total between link and client'''
-        # TODO look into api for proper way to get karma
+        # TODO look into api for proper way to get karma, pylint disabled for now
         # pylint: disable=R0201
         return -1  # self.client.user.me.comment_karma + self.client.user.me.link_karma
 
@@ -87,6 +87,8 @@ class Reddit(ApiInterface):
         # Not possible on reddit, someone who friends someone is one-way and private.
         # This is due to the fact that any public reddit posts are public from a user,
         # and becoming friends only involves seeing someone's posts on a separate tab.
+        # This is why the pylint precommit is disabled
+
         # pylint: disable=unused-argument
         # pylint: disable=R0201
         return None  # type: ignore
