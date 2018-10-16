@@ -1,13 +1,12 @@
 # YouTube Video: https://www.youtube.com/watch?v=wlnx-7cm4Gg
-from typing import Any
 from typing import List
 
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
-import config
 
 from api_interface import ApiInterface
+from twitter_key import TwitterKey
 
 
 class TwitterStreamer():
@@ -15,16 +14,16 @@ class TwitterStreamer():
     Class for streaming and processing live tweets
     """
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, keys: TwitterKey) -> None:
+        """ Holds API keys for twitter access """
+        self.keys = keys
 
-    @classmethod
-    def stream_tweets(cls, output_filename: str, hashtags: list) -> None:
+    def stream_tweets(self, output_filename: str, hashtags: list) -> None:
         """ Finds realtime tweets given a list of hashtags to look for.
             Writes results to an output file"""
         listener = StdOutListener(output_filename)
-        auth = OAuthHandler(get_key('CONSUMER_KEY'), get_key('CONSUMER_SECRET'))
-        auth.set_access_token(get_key('ACCESS_TOKEN'), get_key('ACCESS_TOKEN_SECRET'))
+        auth = OAuthHandler(self.keys.consumer_pub, self.keys.consumer_sec)
+        auth.set_access_token(self.keys.access_pub, self.keys.access_sec)
         stream = Stream(auth, listener)
 
         # This line filter Twitter Streams to capture data by the keywords:
@@ -57,15 +56,11 @@ class StdOutListener(StreamListener):
         print(status_code)
 
 
-def get_key(key: str) -> Any:
-    """Gets a specified key for the twitter API """
-    return config.get_api_key('Twitter', key)
-
-
 class Twitter(ApiInterface):
     def __init__(self, hashtags: List[str], output_file: str) -> None:
         self.hashtags = hashtags
         self.output_file = output_file
+        self.keys = TwitterKey()
 
     # pylint: disable=no-self-use, unused-argument
     def post_text(self, text: str) -> bool:
@@ -98,5 +93,5 @@ class Twitter(ApiInterface):
         return True
 
     def stream_tweets_to_output_file(self) -> None:
-        twitter_streamer = TwitterStreamer()
+        twitter_streamer = TwitterStreamer(self.keys)
         twitter_streamer.stream_tweets(self.output_file, self.hashtags)
