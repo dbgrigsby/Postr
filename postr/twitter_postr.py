@@ -1,10 +1,13 @@
 # YouTube Video: https://www.youtube.com/watch?v=wlnx-7cm4Gg
 from typing import Any
+from typing import List
 
-import config
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
+import config
+
+from api_interface import ApiInterface
 
 
 class TwitterStreamer():
@@ -59,10 +62,41 @@ def get_key(key: str) -> Any:
     return config.get_api_key('Twitter', key)
 
 
-if __name__ == '__main__':
-    # Authenticate using config.py and connect to Twitter Streaming API.
-    tags = ['politics']
-    fetched_tweets_filename = 'tweets.txt'
+class Twitter(ApiInterface):
+    def __init__(self, hashtags: List[str], output_file: str) -> None:
+        self.hashtags = hashtags
+        self.output_file = output_file
 
-    twitter_streamer = TwitterStreamer()
-    twitter_streamer.stream_tweets(fetched_tweets_filename, tags)
+    # pylint: disable=no-self-use, unused-argument
+    def post_text(self, text: str) -> bool:
+        """ TODO """
+        return True
+
+    # pylint: disable=no-self-use, unused-argument
+    def post_video(self, url: str, text: str) -> bool:
+        """ TODO """
+        return True
+
+    # pylint: disable=no-self-use, unused-argument
+    def post_photo(self, url: str, text: str) -> bool:
+        """ TODO """
+        return True
+
+    # pylint: disable=no-self-use, unused-argument
+    def get_user_likes(self) -> int:
+        """ TODO """
+        return -1
+
+    # pylint: disable=no-self-use, unused-argument
+    def get_user_followers(self, text: str) -> List[str]:
+        """ TODO """
+        return [text]
+
+    # pylint: disable=no-self-use, unused-argument
+    def remove_post(self, post_id: str) -> bool:
+        """ TODO """
+        return True
+
+    def stream_tweets_to_output_file(self) -> None:
+        twitter_streamer = TwitterStreamer()
+        twitter_streamer.stream_tweets(self.output_file, self.hashtags)
