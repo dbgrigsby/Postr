@@ -34,23 +34,13 @@ class Server(HTTPServer):
 class FacebookApi(ApiInterface):
 
     def __init__(self) -> None:
+        FacebookApi.authenticate()
 
-        if config.get_api_key('FACEBOOK', 'has_token') == 'true':
-
-            authToken = config.get_api_key('FACEBOOK', 'auth_token')
-            self.graph = facebook.GraphAPI(
-                access_token=authToken,
-                version='2.12',
-            )
-        else:  # may need to just auth user with no has_token check
-            # need to auth  user
-            FacebookApi.authenticate()
-
-            authToken = config.get_api_key('FACEBOOK', 'authToken')
-            self.graph = facebook.GraphAPI(
-                access_token=authToken,
-                version='2.12',
-            )
+        authToken = config.get_api_key('FACEBOOK', 'authToken')
+        self.graph = facebook.GraphAPI(
+            access_token=authToken,
+            version='2.12',
+        )
 
     @staticmethod
     def wait_for_request(
@@ -102,8 +92,6 @@ class FacebookApi(ApiInterface):
         # get the code returned from authenticating user
         real_code = FacebookApi.parse_code(code)
 
-        # print('Code = ' + real_code)
-
         # send request for auth token with the code
         auth = test.get_access_token_from_code(
             code=real_code,
@@ -119,37 +107,60 @@ class FacebookApi(ApiInterface):
         config.update_api_key('FACEBOOK', 'has_token', 'true')
 
     def post_text(self, text: str) -> bool:
-        self.graph.put_object(parent_object='me', connection_name='feed', message=text)
-        return True
+        success = True
+        try:
+            self.graph.put_object(parent_object='me', connection_name='feed', message=text)
+        except facebook.GraphAPIError:
+            print('An error occured when trying to post text.')
+            success = False
+        return success
 
     def post_video(self, url: str, text: str) -> bool:
-        self.graph.put_object(
-            parent_object='me',
-            connection_name='feed',
-            message=text,
-            link=url,
-        )
-        return True
+        success = True
+        try:
+            self.graph.put_object(
+                parent_object='me',
+                connection_name='feed',
+                message=text,
+                link=url,
+            )
+        except facebook.GraphAPIError:
+            print('An error occured when trying to post video.')
+            success = False
+        return success
 
     def post_photo(self, url: str, text: str) -> bool:
-        self.graph.put_photo(image=open(url, 'rb'), message=text)
-        return True
+        success = True
+        try:
+            self.graph.put_photo(image=open(url, 'rb'), message=text)
+        except facebook.GraphAPIError:
+            print('An error occured when trying to post photo.')
+            success = False
+        return success
 
     def get_user_likes(self) -> int:
-        self.graph.get_connections(id='me', connection_name='friends')
-        return 0
-
-    # def get_user_followers(self) -> List[str]:
-        # self.graph.get_connections(id='me', connection_name='friends')
-        # return ['nope']
+        likesCount = 0
+        try:
+            likes = self.graph.get_connections(id='me', connection_name='likes')
+            likesCount = len(list(likes))
+        except facebook.GraphAPIError:
+            print('An error occured when trying to get user likes.')
+        return likesCount
 
     def get_user_followers(self, text: str) -> List[str]:
-        self.graph.get_connections(id='me', connection_name='friends')
-        return [text]
+        friend_list = [text]
+        try:
+            friends = self.graph.get_connections(id='me', connection_name='friends')
+            friend_list = list(friends)
+        except facebook.GraphAPIError:
+            print('An error occured when trying to get user likes.')
+        return friend_list
 
     def remove_post(self, post_id: str) -> bool:
-        self.graph.delete_object(id=post_id)
-        return True
-
-
-# test = FacebookApi()
+        success = True
+        try:
+            self.graph.delete_object(id=post_id)
+        except facebook.GraphAPIError:
+            print('An error occured when trying to post photo.')
+            success = False
+        return success
