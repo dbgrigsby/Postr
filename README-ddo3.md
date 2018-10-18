@@ -1,3 +1,8 @@
+#### 10/17/2018  
+Finish the Facebook API implementation  
+Cannot test this API yet because Facebook wants to approve apps before certain permissions can be granted, and without these permissions, I cannot make calls to the Facebook Graph API.  
+Researched how to get the permissions approved and started work on getting our app approved - need UI elements  
+
 #### 10/9/2018
 Started implementing Facebook api  
 Research OAuth authentication for Facebook  
