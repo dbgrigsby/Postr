@@ -11,6 +11,7 @@ from tweepy.cursor import Cursor
 from api_interface import ApiInterface
 from twitter_key import TwitterKey
 from twitter_info import TwitterInfo
+from twitter_bio import TwitterBio
 
 
 class TwitterStreamer():
@@ -73,6 +74,7 @@ class Twitter(ApiInterface):
 
         """ Store easy access for twitter info operations """
         self.info = TwitterInfo(self.api)
+        self.bio = TwitterBio(self.api)
 
     def post_text(self, text: str) -> bool:
         """ Posts a tweet containing text """
@@ -136,4 +138,4 @@ class Twitter(ApiInterface):
 
 if __name__ == '__main__':
     t = Twitter()
-    t.post_text('sample API post')
+    print(t.bio.username())
