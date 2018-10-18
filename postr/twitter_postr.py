@@ -1,6 +1,5 @@
 import json
 from typing import List
-from typing import Any
 
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -109,9 +108,6 @@ class Twitter(ApiInterface):
         """ Streams tweets from a hashtag and writes data into an output file """
         twitter_streamer = TwitterStreamer(self.keys)
         twitter_streamer.stream_tweets(hashtags, output_filename, self.auth)
-
-    def get_self_status(self, handle: str) -> Any:
-        return self.api.get_status()
 
     def update_bio(self, message: str) -> None:
         """ Updates the text in your bio """
