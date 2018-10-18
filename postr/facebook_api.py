@@ -34,23 +34,16 @@ class Server(HTTPServer):
 class FacebookApi(ApiInterface):
 
     def __init__(self) -> None:
+        success = FacebookApi.authenticate()
 
-        if config.get_api_key('FACEBOOK', 'has_token') == 'true':
-
-            authToken = config.get_api_key('FACEBOOK', 'auth_token')
-            self.graph = facebook.GraphAPI(
-                access_token=authToken,
-                version='2.12',
-            )
-        else:  # may need to just auth user with no has_token check
-            # need to auth  user
-            FacebookApi.authenticate()
-
+        if success:
             authToken = config.get_api_key('FACEBOOK', 'authToken')
             self.graph = facebook.GraphAPI(
                 access_token=authToken,
                 version='2.12',
             )
+        else:
+            self.graph = facebook.GraphAPI()
 
     @staticmethod
     def wait_for_request(
@@ -79,77 +72,105 @@ class FacebookApi(ApiInterface):
         return str(dic['access_token'])
 
     @staticmethod
-    def authenticate() -> None:  # in future, add check for if the login auth fails
-        # get all values needed for auth
-        app_id = config.get_api_key('FACEBOOK', 'app_id')
-        token = config.get_api_key('FACEBOOK', 'access_token')
-        appsecret = config.get_api_key('FACEBOOK', 'app_secret')
+    def authenticate() -> bool:
+        success = True
+        try:
+            # get all values needed for auth
+            app_id = config.get_api_key('FACEBOOK', 'app_id')
+            token = config.get_api_key('FACEBOOK', 'access_token')
+            appsecret = config.get_api_key('FACEBOOK', 'app_secret')
 
-        canvas_url = 'http://localhost:8000/login_success'
-        # 'https://www.facebook.com/connect/login_success.html'
-        perms = ['manage_pages', 'publish_pages']
+            canvas_url = 'http://localhost:8000/login_success'
+            # 'https://www.facebook.com/connect/login_success.html'
+            perms = ['manage_pages', 'publish_pages']
 
-        test = facebook.GraphAPI(access_token=token, version='2.12')
+            graph = facebook.GraphAPI(access_token=token, version='2.12')
 
-        # get url for authenticating user
-        url = test.get_auth_url(app_id, canvas_url, perms)
+            # get url for authenticating user
+            url = graph.get_auth_url(app_id, canvas_url, perms)
 
-        webbrowser.open(url)
-        FacebookApi.wait_for_request(server_class=Server, handler_class=Handler)
+            webbrowser.open(url)
+            FacebookApi.wait_for_request(server_class=Server, handler_class=Handler)
 
-        global code  # pylint: disable=global-statement
+            global code  # pylint: disable=global-statement
 
-        # get the code returned from authenticating user
-        real_code = FacebookApi.parse_code(code)
+            # get the code returned from authenticating user
+            real_code = FacebookApi.parse_code(code)
 
-        # print('Code = ' + real_code)
+            # send request for auth token with the code
+            auth = graph.get_access_token_from_code(
+                code=real_code,
+                redirect_uri=canvas_url, app_id=app_id, app_secret=appsecret,
+            )
 
-        # send request for auth token with the code
-        auth = test.get_access_token_from_code(
-            code=real_code,
-            redirect_uri=canvas_url, app_id=app_id, app_secret=appsecret,
-        )
+            # get the actual token
+            actual_token = json.dumps(auth)
+            print('token = ' + actual_token)
 
-        # get the actual token
-        actual_token = json.dumps(auth)
-        print('token = ' + actual_token)
+            # update the config file
+            config.update_api_key('FACEBOOK', 'auth_token', actual_token)
+            config.update_api_key('FACEBOOK', 'has_token', 'true')
+        except facebook.GraphAPIError:
+            print('Unsuccessful attempt to get access token')
+            success = False
 
-        # update the config file
-        config.update_api_key('FACEBOOK', 'auth_token', actual_token)
-        config.update_api_key('FACEBOOK', 'has_token', 'true')
+        return success
 
     def post_text(self, text: str) -> bool:
-        self.graph.put_object(parent_object='me', connection_name='feed', message=text)
-        return True
+        success = True
+        try:
+            self.graph.put_object(parent_object='me', connection_name='feed', message=text)
+        except facebook.GraphAPIError:
+            print('An error occured when trying to post text.')
+            success = False
+        return success
 
     def post_video(self, url: str, text: str) -> bool:
-        self.graph.put_object(
-            parent_object='me',
-            connection_name='feed',
-            message=text,
-            link=url,
-        )
-        return True
+        success = True
+        try:
+            self.graph.put_object(
+                parent_object='me',
+                connection_name='feed',
+                message=text,
+                link=url,
+            )
+        except facebook.GraphAPIError:
+            print('An error occured when trying to post video.')
+            success = False
+        return success
 
     def post_photo(self, url: str, text: str) -> bool:
-        self.graph.put_photo(image=open(url, 'rb'), message=text)
-        return True
+        success = True
+        try:
+            self.graph.put_photo(image=open(url, 'rb'), message=text)
+        except facebook.GraphAPIError:
+            print('An error occured when trying to post photo.')
+            success = False
+        return success
 
     def get_user_likes(self) -> int:
-        self.graph.get_connections(id='me', connection_name='friends')
-        return 0
-
-    # def get_user_followers(self) -> List[str]:
-        # self.graph.get_connections(id='me', connection_name='friends')
-        # return ['nope']
+        likesCount = 0
+        try:
+            likes = self.graph.get_connections(id='me', connection_name='likes')
+            likesCount = len(list(likes))
+        except facebook.GraphAPIError:
+            print('An error occured when trying to get user likes.')
+        return likesCount
 
     def get_user_followers(self, text: str) -> List[str]:
-        self.graph.get_connections(id='me', connection_name='friends')
-        return [text]
+        friend_list = [text]
+        try:
+            friends = self.graph.get_connections(id='me', connection_name='friends')
+            friend_list = list(friends)
+        except facebook.GraphAPIError:
+            print('An error occured when trying to get user likes.')
+        return friend_list
 
     def remove_post(self, post_id: str) -> bool:
-        self.graph.delete_object(id=post_id)
-        return True
-
-
-# test = FacebookApi()
+        success = True
+        try:
+            self.graph.delete_object(id=post_id)
+        except facebook.GraphAPIError:
+            print('An error occured when trying to post photo.')
+            success = False
+        return success
