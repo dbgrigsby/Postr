@@ -32,3 +32,6 @@
   - Added event options and checkboxes to events tab
   - Added heading to post tab
   - Refactored and organized the layout of each of the tabs
+
+# October 19, 2018
+  -
