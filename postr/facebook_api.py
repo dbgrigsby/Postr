@@ -34,13 +34,16 @@ class Server(HTTPServer):
 class FacebookApi(ApiInterface):
 
     def __init__(self) -> None:
-        FacebookApi.authenticate()
+        success = FacebookApi.authenticate()
 
-        authToken = config.get_api_key('FACEBOOK', 'authToken')
-        self.graph = facebook.GraphAPI(
-            access_token=authToken,
-            version='2.12',
-        )
+        if success:
+            authToken = config.get_api_key('FACEBOOK', 'authToken')
+            self.graph = facebook.GraphAPI(
+                access_token=authToken,
+                version='2.12',
+            )
+        else:
+            self.graph = facebook.GraphAPI()
 
     @staticmethod
     def wait_for_request(
@@ -69,42 +72,49 @@ class FacebookApi(ApiInterface):
         return str(dic['access_token'])
 
     @staticmethod
-    def authenticate() -> None:  # in future, add check for if the login auth fails
-        # get all values needed for auth
-        app_id = config.get_api_key('FACEBOOK', 'app_id')
-        token = config.get_api_key('FACEBOOK', 'access_token')
-        appsecret = config.get_api_key('FACEBOOK', 'app_secret')
+    def authenticate() -> bool:
+        success = True
+        try:
+            # get all values needed for auth
+            app_id = config.get_api_key('FACEBOOK', 'app_id')
+            token = config.get_api_key('FACEBOOK', 'access_token')
+            appsecret = config.get_api_key('FACEBOOK', 'app_secret')
 
-        canvas_url = 'http://localhost:8000/login_success'
-        # 'https://www.facebook.com/connect/login_success.html'
-        perms = ['manage_pages', 'publish_pages']
+            canvas_url = 'http://localhost:8000/login_success'
+            # 'https://www.facebook.com/connect/login_success.html'
+            perms = ['manage_pages', 'publish_pages']
 
-        test = facebook.GraphAPI(access_token=token, version='2.12')
+            graph = facebook.GraphAPI(access_token=token, version='2.12')
 
-        # get url for authenticating user
-        url = test.get_auth_url(app_id, canvas_url, perms)
+            # get url for authenticating user
+            url = graph.get_auth_url(app_id, canvas_url, perms)
 
-        webbrowser.open(url)
-        FacebookApi.wait_for_request(server_class=Server, handler_class=Handler)
+            webbrowser.open(url)
+            FacebookApi.wait_for_request(server_class=Server, handler_class=Handler)
 
-        global code  # pylint: disable=global-statement
+            global code  # pylint: disable=global-statement
 
-        # get the code returned from authenticating user
-        real_code = FacebookApi.parse_code(code)
+            # get the code returned from authenticating user
+            real_code = FacebookApi.parse_code(code)
 
-        # send request for auth token with the code
-        auth = test.get_access_token_from_code(
-            code=real_code,
-            redirect_uri=canvas_url, app_id=app_id, app_secret=appsecret,
-        )
+            # send request for auth token with the code
+            auth = graph.get_access_token_from_code(
+                code=real_code,
+                redirect_uri=canvas_url, app_id=app_id, app_secret=appsecret,
+            )
 
-        # get the actual token
-        actual_token = json.dumps(auth)
-        print('token = ' + actual_token)
+            # get the actual token
+            actual_token = json.dumps(auth)
+            print('token = ' + actual_token)
 
-        # update the config file
-        config.update_api_key('FACEBOOK', 'auth_token', actual_token)
-        config.update_api_key('FACEBOOK', 'has_token', 'true')
+            # update the config file
+            config.update_api_key('FACEBOOK', 'auth_token', actual_token)
+            config.update_api_key('FACEBOOK', 'has_token', 'true')
+        except facebook.GraphAPIError:
+            print('Unsuccessful attempt to get access token')
+            success = False
+
+        return success
 
     def post_text(self, text: str) -> bool:
         success = True
