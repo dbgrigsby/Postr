@@ -31,4 +31,7 @@ precommit: venv
 clean:
 	rm -rf venv
 
+twitter:
+	python3 postr/twitter_postr.py
+
 # link : https://blog.horejsek.com/makefile-with-python/
