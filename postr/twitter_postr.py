@@ -3,6 +3,7 @@ from typing import List
 
 from tweepy import OAuthHandler
 from tweepy import Stream
+from tweepy.api import API
 from tweepy.streaming import StreamListener
 
 from api_interface import ApiInterface
@@ -18,12 +19,11 @@ class TwitterStreamer():
         """ Holds API keys for twitter access """
         self.keys = keys
 
-    def stream_tweets(self, output_filename: str, hashtags: list) -> None:
+    @staticmethod
+    def stream_tweets(output_filename: str, hashtags: list, auth: OAuthHandler) -> None:
         """ Finds realtime tweets given a list of hashtags to look for.
             Writes results to an output file"""
         listener = StdOutListener(output_filename)
-        auth = OAuthHandler(self.keys.consumer_pub, self.keys.consumer_sec)
-        auth.set_access_token(self.keys.access_pub, self.keys.access_sec)
         stream = Stream(auth, listener)
 
         # This line filter Twitter Streams to capture data by the keywords:
@@ -48,8 +48,8 @@ class StdOutListener(StreamListener):
             print('Error on data %s' % str(e))
         return True
 
-    @classmethod
-    def on_error(cls, status_code: int) -> None:
+    @staticmethod
+    def on_error(status_code: int) -> None:
         """Print an error if the hashtag streaming fails for any reason.
            I can't seem to trigger this function. It probably only gets
            called if the twitter website itself is down. """
@@ -61,6 +61,11 @@ class Twitter(ApiInterface):
         self.hashtags = hashtags
         self.output_file = output_file
         self.keys = TwitterKey()
+
+        auth = OAuthHandler(self.keys.consumer_pub, self.keys.consumer_sec)
+        auth.set_access_token(self.keys.access_pub, self.keys.access_sec)
+        self.auth = auth
+        self.api = API(auth)
 
     # pylint: disable=no-self-use, unused-argument
     def post_text(self, text: str) -> bool:
@@ -94,4 +99,9 @@ class Twitter(ApiInterface):
 
     def stream_tweets_to_output_file(self) -> None:
         twitter_streamer = TwitterStreamer(self.keys)
-        twitter_streamer.stream_tweets(self.output_file, self.hashtags)
+        twitter_streamer.stream_tweets(self.output_file, self.hashtags, self.auth)
+
+
+if __name__ == '__main__':
+    t = Twitter(['politics'], 'testOutput.txt')
+    t.stream_tweets_to_output_file()
