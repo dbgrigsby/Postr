@@ -32,3 +32,10 @@
         - Utilized config for secret keys
         - Created class for Reddit usage
         - Typed methods
+
+# 2018 10-18
+	Updated Makefile
+		- Now properly uses venv
+		- Added creation of venv on windows and other OSes
+	Reddit functionality
+		-
