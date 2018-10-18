@@ -1,10 +1,12 @@
 import json
+import time
 from typing import List
 
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.api import API
 from tweepy.streaming import StreamListener
+from tweepy.cursor import Cursor
 
 from api_interface import ApiInterface
 from twitter_key import TwitterKey
@@ -77,7 +79,7 @@ class Twitter(ApiInterface):
 
     # pylint: disable=no-self-use, unused-argument
     def post_video(self, url: str, text: str) -> bool:
-        """ Not supported by the api  """
+        """ Not applicable """
         return False
 
     def post_photo(self, url: str, text: str) -> bool:
@@ -91,17 +93,30 @@ class Twitter(ApiInterface):
 
     # pylint: disable=no-self-use, unused-argument
     def get_user_likes(self) -> int:
-        """ TODO """
+        """ Not applicable """
         return -1
 
     # pylint: disable=no-self-use, unused-argument
     def get_user_followers(self, text: str) -> List[str]:
-        """ TODO """
-        return [text]
+        """ Gets user followers, note: this is rate limited """
+        my_followers = []
+        i = 0
+
+        # Use the cursor module for pagination
+        for follower in Cursor(self.api.followers, screen_name=text).items():
+            my_followers.append(follower.screen_name)
+            i += 1
+
+            # Simple rate limit for requests
+            if i >= 100:
+                i = 0
+                time.sleep(1)
+
+        return my_followers
 
     # pylint: disable=no-self-use, unused-argument
     def remove_post(self, post_id: str) -> bool:
-        """ TODO """
+        """ Not applicable """
         return True
 
     def stream_tweets(self, hashtags: List[str], output_filename: str) -> None:
@@ -117,7 +132,20 @@ class Twitter(ApiInterface):
         """ Updates your profile name """
         self.api.update_profile(name=new_name)
 
+    def username(self) -> str:
+        """ Gets the username of the authenticated user """
+        return str(self.user_info()['screen_name'])
+
+    def id(self) -> int:
+        """ Gets the id of the authenticated user """
+        return int(self.api.me().id)
+
+    def bio(self) -> str:
+        """ Gets the bio description of the authenticated user """
+        return str(self.api.me().description)
+
 
 if __name__ == '__main__':
     t = Twitter()
-    t.stream_tweets(['politics'], 'test.txt')
+    people = t.get_user_followers(text='FunBuffet')
+    print(people)
