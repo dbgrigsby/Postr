@@ -7,10 +7,10 @@ from tweepy import Stream
 from tweepy.api import API
 from tweepy.streaming import StreamListener
 from tweepy.cursor import Cursor
-from tweepy.models import Status
 
 from api_interface import ApiInterface
 from twitter_key import TwitterKey
+from twitter_info import TwitterInfo
 
 
 class TwitterStreamer():
@@ -62,12 +62,17 @@ class StdOutListener(StreamListener):
 
 class Twitter(ApiInterface):
     def __init__(self) -> None:
+        """ Store easy access for keys """
         self.keys = TwitterKey()
 
+        """ Store pointer for OAuth access """
         auth = OAuthHandler(self.keys.consumer_pub, self.keys.consumer_sec)
         auth.set_access_token(self.keys.access_pub, self.keys.access_sec)
         self.auth = auth
         self.api = API(auth)
+
+        """ Store easy access for twitter info operations """
+        self.info = TwitterInfo(self.api)
 
     def post_text(self, text: str) -> bool:
         """ Posts a tweet containing text """
@@ -123,50 +128,10 @@ class Twitter(ApiInterface):
         twitter_streamer = TwitterStreamer(self.keys)
         twitter_streamer.stream_tweets(hashtags, output_filename, self.auth)
 
-    def update_bio(self, message: str) -> None:
-        """ Updates the text in your bio """
-        self.api.update_profile(description=message)
-
-    def update_name(self, new_name: str) -> None:
-        """ Updates your profile name """
-        self.api.update_profile(name=new_name)
-
-    def username(self) -> str:
-        """ Gets the username of the authenticated user """
-        return str(self.user_info()['screen_name'])
-
-    def id(self) -> int:
-        """ Gets the id of the authenticated user """
-        return int(self.api.me().id)
-
-    def bio(self) -> str:
-        """ Gets the bio description of the authenticated user """
-        return str(self.api.me().description)
-
     # pylint: disable=no-self-use, unused-argument
     def get_user_likes(self) -> int:
-        """ Not applicable, see helper methods below """
+        """ Not applicable, see helper methods in TwitterInfo class"""
         return -1
-
-    def last_tweet(self) -> Status:
-        """ Returns the info of the authenticated user's latest tweet """
-        return self.api.user_timeline(id=self.id(), count=1)[0]
-
-    def latest_favorites(self) -> int:
-        """ Returns the favorite count of the latest tweet """
-        return self.favorites_on(self.last_tweet().id)
-
-    def favorites_on(self, tweet_id: int) -> int:
-        """ Returns the favorite count of a specified tweet """
-        return int(self.api.get_status(tweet_id).favorite_count)
-
-    def latest_retweets(self) -> int:
-        """ Returns the retweet count of the latest tweet """
-        return self.retweets_on(self.last_tweet().id)
-
-    def retweets_on(self, tweet_id: int) -> int:
-        """ Returns the retweet count of a specified tweet """
-        return int(self.api.get_status(tweet_id).retweet_count)
 
 
 if __name__ == '__main__':
