@@ -7,6 +7,7 @@ from tweepy import Stream
 from tweepy.api import API
 from tweepy.streaming import StreamListener
 from tweepy.cursor import Cursor
+from tweepy.models import Status
 
 from api_interface import ApiInterface
 from twitter_key import TwitterKey
@@ -91,12 +92,6 @@ class Twitter(ApiInterface):
             print(e)
             return False
 
-    # pylint: disable=no-self-use, unused-argument
-    def get_user_likes(self) -> int:
-        """ Not applicable """
-        return -1
-
-    # pylint: disable=no-self-use, unused-argument
     def get_user_followers(self, text: str) -> List[str]:
         """ Gets user followers, note: this is rate limited """
         my_followers = []
@@ -114,10 +109,14 @@ class Twitter(ApiInterface):
 
         return my_followers
 
-    # pylint: disable=no-self-use, unused-argument
     def remove_post(self, post_id: str) -> bool:
-        """ Not applicable """
-        return True
+        """ Removes a tweet given its ID """
+        try:
+            self.api.destroy_status(post_id)
+            return True
+        except BaseException as e:
+            print(e)
+            return False
 
     def stream_tweets(self, hashtags: List[str], output_filename: str) -> None:
         """ Streams tweets from a hashtag and writes data into an output file """
@@ -144,8 +143,33 @@ class Twitter(ApiInterface):
         """ Gets the bio description of the authenticated user """
         return str(self.api.me().description)
 
+    # pylint: disable=no-self-use, unused-argument
+    def get_user_likes(self) -> int:
+        """ Not applicable, see helper methods below """
+        return -1
+
+    def last_tweet(self) -> Status:
+        """ Returns the info of the authenticated user's latest tweet """
+        return self.api.user_timeline(id=self.id(), count=1)[0]
+
+    def latest_favorites(self) -> int:
+        """ Returns the favorite count of the latest tweet """
+        return self.favorites_on(self.last_tweet().id)
+
+    def favorites_on(self, tweet_id: int) -> int:
+        """ Returns the favorite count of a specified tweet """
+        return int(self.api.get_status(tweet_id).favorite_count)
+
+    def latest_retweets(self) -> int:
+        """ Returns the retweet count of the latest tweet """
+        return self.retweets_on(self.last_tweet().id)
+
+    def retweets_on(self, tweet_id: int) -> int:
+        """ Returns the retweet count of a specified tweet """
+        return int(self.api.get_status(tweet_id).retweet_count)
+
 
 if __name__ == '__main__':
     t = Twitter()
-    people = t.get_user_followers(text='FunBuffet')
-    print(people)
+    print(t.latest_favorites())
+    print(t.latest_retweets())
