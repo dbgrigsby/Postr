@@ -8,10 +8,10 @@ from tweepy.api import API
 from tweepy.streaming import StreamListener
 from tweepy.cursor import Cursor
 
-from api_interface import ApiInterface
-from twitter_key import TwitterKey
-from twitter_info import TwitterInfo
-from twitter_bio import TwitterBio
+from .api_interface import ApiInterface
+from .twitter.twitter_key import TwitterKey
+from .twitter.twitter_info import TwitterInfo
+from .twitter.twitter_bio import TwitterBio
 
 
 class TwitterStreamer():

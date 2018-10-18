@@ -1,5 +1,5 @@
 from typing import Any
-import config
+from ..config import get_api_key
 
 
 class TwitterKey:
@@ -15,4 +15,4 @@ class TwitterKey:
 
 def get_key(key: str) -> Any:
     """ Gets a specified key for the twitter API """
-    return config.get_api_key('Twitter', key)
+    return get_api_key('Twitter', key)

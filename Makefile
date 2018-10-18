@@ -32,6 +32,6 @@ clean:
 	rm -rf venv
 
 twitter:
-	python3 postr/twitter_postr.py
+	python -m postr.twitter_postr
 
 # link : https://blog.horejsek.com/makefile-with-python/
