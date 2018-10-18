@@ -136,5 +136,4 @@ class Twitter(ApiInterface):
 
 if __name__ == '__main__':
     t = Twitter()
-    print(t.latest_favorites())
-    print(t.latest_retweets())
+    t.post_text('sample API post')
