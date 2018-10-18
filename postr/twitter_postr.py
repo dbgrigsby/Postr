@@ -1,5 +1,5 @@
-# YouTube Video: https://www.youtube.com/watch?v=wlnx-7cm4Gg
 from typing import List
+from typing import Any
 
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -20,7 +20,7 @@ class TwitterStreamer():
         self.keys = keys
 
     @staticmethod
-    def stream_tweets(output_filename: str, hashtags: list, auth: OAuthHandler) -> None:
+    def stream_tweets(hashtags: List[str], output_filename: str, auth: OAuthHandler) -> None:
         """ Finds realtime tweets given a list of hashtags to look for.
             Writes results to an output file"""
         listener = StdOutListener(output_filename)
@@ -57,9 +57,7 @@ class StdOutListener(StreamListener):
 
 
 class Twitter(ApiInterface):
-    def __init__(self, hashtags: List[str], output_file: str) -> None:
-        self.hashtags = hashtags
-        self.output_file = output_file
+    def __init__(self) -> None:
         self.keys = TwitterKey()
 
         auth = OAuthHandler(self.keys.consumer_pub, self.keys.consumer_sec)
@@ -67,20 +65,28 @@ class Twitter(ApiInterface):
         self.auth = auth
         self.api = API(auth)
 
-    # pylint: disable=no-self-use, unused-argument
     def post_text(self, text: str) -> bool:
-        """ TODO """
-        return True
+        """ Posts a tweet containing text """
+        try:
+            self.api.update_status(status=text)
+            return True
+        except BaseException as e:
+            print(e)
+            return False
 
     # pylint: disable=no-self-use, unused-argument
     def post_video(self, url: str, text: str) -> bool:
-        """ TODO """
-        return True
+        """ Not supported by the api  """
+        return False
 
-    # pylint: disable=no-self-use, unused-argument
     def post_photo(self, url: str, text: str) -> bool:
-        """ TODO """
-        return True
+        """ Posts a tweet with text and a picture """
+        try:
+            self.api.update_with_media(filename=url, status=text)
+            return True
+        except BaseException as e:
+            print(e)
+            return False
 
     # pylint: disable=no-self-use, unused-argument
     def get_user_likes(self) -> int:
@@ -97,11 +103,21 @@ class Twitter(ApiInterface):
         """ TODO """
         return True
 
-    def stream_tweets_to_output_file(self) -> None:
+    def stream_tweets_to_output_file(self, hashtags: List[str], output_filename: str) -> None:
+        """ Streams tweets from a hashtag and writes data into an output file """
         twitter_streamer = TwitterStreamer(self.keys)
-        twitter_streamer.stream_tweets(self.output_file, self.hashtags, self.auth)
+        twitter_streamer.stream_tweets(hashtags, output_filename, self.auth)
+
+    def get_self_status(self, handle: str) -> Any:
+        return self.api.get_status()
+
+    def update_bio(self, message: str) -> None:
+        self.api.update_profile(description=message)
+
+    def update_name(self, new_name: str) -> None:
+        self.api.update_profile(name=new_name)
 
 
 if __name__ == '__main__':
-    t = Twitter(['politics'], 'testOutput.txt')
-    t.stream_tweets_to_output_file()
+    t = Twitter()
+    t.update_name('test API new name')
