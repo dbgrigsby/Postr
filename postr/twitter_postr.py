@@ -1,3 +1,4 @@
+import json
 from typing import List
 from typing import Any
 
@@ -42,7 +43,8 @@ class StdOutListener(StreamListener):
         """Writes a tweet and all associated info that was streamed to an output file """
         try:
             with open(self.fetched_tweets_filename, 'a') as tf:
-                tf.write(raw_data)
+                j = json.loads(raw_data)
+                tf.write(j['text'])
             return True
         except BaseException as e:
             print('Error on data %s' % str(e))
@@ -103,7 +105,7 @@ class Twitter(ApiInterface):
         """ TODO """
         return True
 
-    def stream_tweets_to_output_file(self, hashtags: List[str], output_filename: str) -> None:
+    def stream_tweets(self, hashtags: List[str], output_filename: str) -> None:
         """ Streams tweets from a hashtag and writes data into an output file """
         twitter_streamer = TwitterStreamer(self.keys)
         twitter_streamer.stream_tweets(hashtags, output_filename, self.auth)
@@ -112,12 +114,14 @@ class Twitter(ApiInterface):
         return self.api.get_status()
 
     def update_bio(self, message: str) -> None:
+        """ Updates the text in your bio """
         self.api.update_profile(description=message)
 
     def update_name(self, new_name: str) -> None:
+        """ Updates your profile name """
         self.api.update_profile(name=new_name)
 
 
 if __name__ == '__main__':
     t = Twitter()
-    t.update_name('test API new name')
+    t.stream_tweets(['politics'], 'test.txt')
