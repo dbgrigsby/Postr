@@ -21,15 +21,15 @@ class TwitterStreamer():
     Class for streaming and processing live tweets
     """
 
-    def __init__(self, keys: TwitterKey) -> None:
+    def __init__(self, keys: TwitterKey, graphfile: str) -> None:
         """ Holds API keys for twitter access """
         self.keys = keys
+        self.graphfile = graphfile
 
-    @staticmethod
-    def stream_tweets(hashtags: List[str], output_filename: str, auth: OAuthHandler) -> None:
+    def stream_tweets(self, hashtags: List[str], output_filename: str, auth: OAuthHandler) -> None:
         """ Finds realtime tweets given a list of hashtags to look for.
             Writes results to an output file"""
-        listener = StdOutListener(output_filename)
+        listener = StdOutListener(output_filename, self.graphfile)
         stream = Stream(auth, listener)
 
         # This line filter Twitter Streams to capture data by the keywords:
@@ -39,14 +39,20 @@ class TwitterStreamer():
 class StdOutListener(StreamListener):
     """ A basic listener for real time hashtags """
 
-    def __init__(self, filename: str) -> None:
+    def __init__(self, filename: str, graphfile: str) -> None:
         """Constructor for the realtime streaming, writes results to the filename output file"""
         self.fetched_tweets_filename = filename
+        self.graphfile = graphfile
+        self.counter = 0
         super().__init__()
 
     def on_data(self, raw_data: str) -> bool:
         """Writes a tweet and all associated info that was streamed to an output file """
         try:
+            if self.counter == 10:
+                return False
+            print('found tweet #%d' % self.counter)
+
             with open(self.fetched_tweets_filename, 'a') as tf:
                 j = json.loads(raw_data)
                 tf.write(j['text'])
@@ -55,6 +61,7 @@ class StdOutListener(StreamListener):
                     writer = csv.writer(gf)
                     writer.writerow([j['text'], datetime.datetime.now()])
 
+            self.counter += 1
             return True
         except BaseException as e:
             print('Error on data %s' % str(e))
@@ -136,8 +143,9 @@ class Twitter(ApiInterface):
     def stream_tweets(self, hashtags: List[str], output_filename: str) -> None:
         """ Streams tweets from a hashtag and writes data into an output file """
         self.setup_csv()
-        twitter_streamer = TwitterStreamer(self.keys)
+        twitter_streamer = TwitterStreamer(self.keys, self.graphfile)
         twitter_streamer.stream_tweets(hashtags, output_filename, self.auth)
+        print('done streaming')
 
     def setup_csv(self) -> None:
         """ Initializes a csv file for time series graphing """
@@ -156,4 +164,4 @@ class Twitter(ApiInterface):
 
 if __name__ == '__main__':
     t = Twitter()
-    t.setup_csv()
+    t.stream_tweets(['yeet'], 'twitter_output.txt')
