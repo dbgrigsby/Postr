@@ -32,3 +32,14 @@
         - Utilized config for secret keys
         - Created class for Reddit usage
         - Typed methods
+
+# 2018 10-18
+	Updated Makefile
+		- Now properly uses venv
+		- Added creation of venv on windows and other OSes
+	Reddit functionality
+		- Added creating wiki pages (subreddit bio essentially)
+		- Added editing wiki pages
+		- Added functionality for returning a list of wiki pages from a subreddit
+		- Added basic foundation of parsing subreddit posts
+		-
