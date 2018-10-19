@@ -128,6 +128,14 @@ class Reddit(ApiInterface):
                 submission_list.append(submission)
         return submission_list
 
+    def create_wiki_page(self, subreddit_name: str, wiki_page_name: str, wiki_content: str) -> bool:
+        ''' This method takes in a subreddit that a user is a mod of
+        and creates a new wiki page on it
+        and returns the success of this action'''
+        subreddit_wiki = self.client.subreddit(subreddit_name).wiki
+        subreddit_wiki.create(wiki_page_name, wiki_content)
+        return True
+
 
 def get_key(key: str) -> Any:
     """Gets a specified key for the reddit API """
