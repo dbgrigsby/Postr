@@ -1,6 +1,7 @@
 import csv
 import datetime
 import json
+import re
 import time
 from typing import List
 
@@ -9,6 +10,7 @@ from tweepy import Stream
 from tweepy.api import API
 from tweepy.streaming import StreamListener
 from tweepy.cursor import Cursor
+from textblob import TextBlob
 
 from .api_interface import ApiInterface
 from .twitter.twitter_key import TwitterKey
@@ -89,7 +91,10 @@ class Twitter(ApiInterface):
         """ Store easy access for twitter info operations """
         self.info = TwitterInfo(self.api)
         self.bio = TwitterBio(self.api)
+
+        """ Contains info for real-time graphing """
         self.graphfile = 'twitter_graphing.csv'
+        self.blobfile = 'twitter_blob.csv'
 
     def post_text(self, text: str) -> bool:
         """ Posts a tweet containing text """
@@ -171,11 +176,26 @@ class Twitter(ApiInterface):
 
         return col[1::]  # Ignore the csv header
 
+    def analyzeSentiment(self) -> None:
+        """ Converts a real-time tweet content into a positivity score"""
+        with open(self.blobfile, 'w') as bf:
+            writer = csv.writer(bf)
+            graph_data = zip(self.read_graph_col(0), self.read_graph_col(1))
+
+            for pair in graph_data:
+                text = str(re.sub(r'[^a-zA-Z ]+', '', pair[0]))
+                score = Twitter.polarity(text)
+                writer.writerow([pair[1], score])
+
+            bf.close()
+
+    @staticmethod
+    def polarity(text: str) -> float:
+        """ Returns the polarity of text. Made into a separate
+            method to provide easy modification if needed in the future """
+        return float(TextBlob(text).sentiment.polarity)
+
 
 if __name__ == '__main__':
     t = Twitter()
-    # t.stream_tweets(['world'], 'twitter_output.txt')
-    result = t.read_graph_col(1)
-
-    for k in result:
-        print(k)
+    t.analyzeSentiment()
