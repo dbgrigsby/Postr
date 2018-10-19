@@ -34,4 +34,7 @@ clean:
 twitter:
 	python -m postr.twitter_postr
 
+setupTextblob:
+	python -m textblob.download_corpora
+
 # link : https://blog.horejsek.com/makefile-with-python/
