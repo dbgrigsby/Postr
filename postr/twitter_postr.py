@@ -1,4 +1,5 @@
 import csv
+import datetime
 import json
 import time
 from typing import List
@@ -49,6 +50,11 @@ class StdOutListener(StreamListener):
             with open(self.fetched_tweets_filename, 'a') as tf:
                 j = json.loads(raw_data)
                 tf.write(j['text'])
+
+                with open(self.graphfile, 'a') as gf:
+                    writer = csv.writer(gf)
+                    writer.writerow([j['text'], datetime.datetime.now()])
+
             return True
         except BaseException as e:
             print('Error on data %s' % str(e))
@@ -76,6 +82,7 @@ class Twitter(ApiInterface):
         """ Store easy access for twitter info operations """
         self.info = TwitterInfo(self.api)
         self.bio = TwitterBio(self.api)
+        self.graphfile = 'twitter_graphing.csv'
 
     def post_text(self, text: str) -> bool:
         """ Posts a tweet containing text """
@@ -132,12 +139,11 @@ class Twitter(ApiInterface):
         twitter_streamer = TwitterStreamer(self.keys)
         twitter_streamer.stream_tweets(hashtags, output_filename, self.auth)
 
-    @staticmethod
-    def setup_csv() -> None:
+    def setup_csv(self) -> None:
         """ Initializes a csv file for time series graphing """
         csvData = ['Tweet', 'Time']
 
-        with open('twitter_graphing.csv', 'w') as csvFile:
+        with open(self.graphfile, 'w') as csvFile:
             writer = csv.writer(csvFile)
             writer.writerow(csvData)
             csvFile.close()
@@ -150,4 +156,4 @@ class Twitter(ApiInterface):
 
 if __name__ == '__main__':
     t = Twitter()
-    Twitter.setup_csv()
+    t.setup_csv()
