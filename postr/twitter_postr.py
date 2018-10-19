@@ -1,3 +1,4 @@
+import csv
 import json
 import time
 from typing import List
@@ -127,8 +128,19 @@ class Twitter(ApiInterface):
 
     def stream_tweets(self, hashtags: List[str], output_filename: str) -> None:
         """ Streams tweets from a hashtag and writes data into an output file """
+        self.setup_csv()
         twitter_streamer = TwitterStreamer(self.keys)
         twitter_streamer.stream_tweets(hashtags, output_filename, self.auth)
+
+    @staticmethod
+    def setup_csv() -> None:
+        """ Initializes a csv file for time series graphing """
+        csvData = ['Tweet', 'Time']
+
+        with open('twitter_graphing.csv', 'w') as csvFile:
+            writer = csv.writer(csvFile)
+            writer.writerow(csvData)
+            csvFile.close()
 
     # pylint: disable=no-self-use, unused-argument
     def get_user_likes(self) -> int:
@@ -138,4 +150,4 @@ class Twitter(ApiInterface):
 
 if __name__ == '__main__':
     t = Twitter()
-    print(t.bio.username())
+    Twitter.setup_csv()
