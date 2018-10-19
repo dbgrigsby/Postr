@@ -1,3 +1,8 @@
+# Twitter
+postr/twitter/twitter_blob.csv
+postr/twitter/twitter_graphing.csv
+postr/twitter/twitter_stream.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
