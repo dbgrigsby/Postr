@@ -57,9 +57,9 @@ class StdOutListener(StreamListener):
                 j = json.loads(raw_data)
                 tf.write(j['text'])
 
-                with open(self.graphfile, 'a') as gf:
-                    writer = csv.writer(gf)
-                    writer.writerow([j['text'], datetime.datetime.now()])
+            with open(self.graphfile, 'a') as gf:
+                writer = csv.writer(gf)
+                writer.writerow([j['text'], datetime.datetime.now()])
 
             self.counter += 1
             return True
@@ -164,4 +164,4 @@ class Twitter(ApiInterface):
 
 if __name__ == '__main__':
     t = Twitter()
-    t.stream_tweets(['yeet'], 'twitter_output.txt')
+    t.stream_tweets(['world'], 'twitter_output.txt')
