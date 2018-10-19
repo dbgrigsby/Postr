@@ -1,3 +1,47 @@
+#10/19/2018
+## Implement twitter operations
+    Implemented methods for removing posts, getting
+    follower information, posting a photo, and posting text.
+
+## Impelement stream limits
+    Impelemented a limit on the hashtag streaming, so the streamer
+    stops after a set amount of tweets found.
+
+## create twitter info file
+    Implements getters for all info about a user profile, such as
+    their twitter ID, latest tweet, tweet from a given ID, latest
+    favorites, and retweet information.
+
+## create twitter bio file
+    Impelements getters and updaters for bio operations, such as
+    updating ones bio, updating their name, and getting name and
+    bio information.
+
+## create twitter graphing file
+    Implemented a graphing file in CSV format, that stores datetime
+    info about a streamed tweets
+
+## created a twitter blob file
+    Impelemnted a blob file, containing textblob sentiment analysis
+    on streamted tweets
+
+## overall sentiment analysis, pagination, and graphing
+    After filtering realtime tweets for the streamer, I was able to
+    load the tweet JSON object and extract the text of the tweet. I
+    implemented a streamlimed proccess for storing datetime info,
+    using a rudimentary AI to analyze the sentiment positivity, and
+    graph the positivity over time.
+
+
+
+
+
+
+
+
+
+
+
 
 #10/12/2018
 ## Create twitter streamer file
