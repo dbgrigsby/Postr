@@ -38,12 +38,12 @@ class Reddit(ApiInterface):
             client_id=get_key('client_id'), client_secret=None,
             refresh_token=get_key('refresh_token'),
         )
-        self.subreddit = 'Postr'
+        self.subreddit_name = 'Postr'
 
-    def set_subreddit(self, subreddit: str) -> bool:
+    def set_subreddit_name(self, subreddit_name: str) -> bool:
         ''' This method sets the subreddit that the user will post to
         and returns the success of this action'''
-        self.subreddit = subreddit
+        self.subreddit_name = subreddit_name
         return True
 
     def post_text(self, text: str) -> bool:
@@ -77,7 +77,6 @@ class Reddit(ApiInterface):
 
     def get_user_likes(self) -> int:
         ''' This method returns the number of likes a user has total between link and client'''
-        # TODO look into api for proper way to get karma, pylint disabled for now
         return int(
             self.client.user.me().comment_karma +
             self.client.user.me().link_karma,
@@ -110,6 +109,13 @@ class Reddit(ApiInterface):
         comment = self.client.comment(post_id)
         comment.delete()
         return True
+
+    def top_submissions_in_subreddit(self, subreddit_name: str) -> List:
+        subreddit = self.client.subreddit(subreddit_name)
+        submission_list = []
+        for submission in subreddit.hot(limit=25):
+            submission_list.append(submission)
+        return submission_list
 
 
 def get_key(key: str) -> Any:
