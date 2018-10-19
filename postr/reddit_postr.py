@@ -78,8 +78,10 @@ class Reddit(ApiInterface):
     def get_user_likes(self) -> int:
         ''' This method returns the number of likes a user has total between link and client'''
         # TODO look into api for proper way to get karma, pylint disabled for now
-        # pylint: disable=R0201
-        return -1  # self.client.user.me.comment_karma + self.client.user.me.link_karma
+        return int(
+            self.client.user.me().comment_karma +
+            self.client.user.me().link_karma,
+        )
 
     def get_user_followers(self, text: str) -> List[str]:
         ''' This method returns a list of all the people that
@@ -113,32 +115,3 @@ class Reddit(ApiInterface):
 def get_key(key: str) -> Any:
     """Gets a specified key for the reddit API """
     return config.get_api_key('Reddit', key)
-
-
-reddit = praw.Reddit(
-    user_agent='Postr (by Adam Beck, Dan Grisby, Tommy Lu, Dominique Owens, Rachel Pavlakovic)',
-    client_id=config.DEFAULT_CONFIG, client_secret=None,
-    redirect_uri='https://github.com/dbgrigsby/Postr/',
-)
-
-
-def get_reddit_oauth() -> Any:
-    # Note that once a user requests this,
-    # the user will be redirected and in the url the code for authorize
-    # is in the code = of the url.
-    # Will need to explain or get the code token much more easily somehow.
-    return reddit.auth.url(
-        scopes,
-        'https://github.com/dbgrigsby/Postr/',
-        'permanent',
-    )
-
-
-def get_reddit_refresh_token(authorized_code: str) -> Any:
-    """
-    Utilizes the code gained from a user approving
-    the application through the link found from get_reddit_oauth.
-    After utilization, returns refresh token and discards
-    authorized_code to disallow future use.
-    """
-    return reddit.auth.authorize(authorized_code)
