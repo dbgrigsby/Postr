@@ -161,7 +161,21 @@ class Twitter(ApiInterface):
         """ Not applicable, see helper methods in TwitterInfo class"""
         return -1
 
+    def read_graph_col(self, colNum: int) -> List[str]:
+        """ Reads a specific column by index in the graph csv"""
+        col = []
+        with open(self.graphfile, 'r') as rf:
+            reader = csv.reader(rf, delimiter=',')
+            for row in reader:
+                col.append(str(row[colNum]))
+
+        return col[1::]  # Ignore the csv header
+
 
 if __name__ == '__main__':
     t = Twitter()
-    t.stream_tweets(['world'], 'twitter_output.txt')
+    # t.stream_tweets(['world'], 'twitter_output.txt')
+    result = t.read_graph_col(1)
+
+    for k in result:
+        print(k)
