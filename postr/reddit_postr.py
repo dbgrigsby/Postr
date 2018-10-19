@@ -32,7 +32,6 @@ scopes = {
 class Reddit(ApiInterface):
 
     def __init__(self) -> None:
-        # TODO config for client id, and refresh token
         self.client = praw.Reddit(
             user_agent='Postr (by Adam Beck, Dan Grisby, Tommy Lu, Dominique Owens, Rachel Pavlakovic)',
             client_id=get_key('client_id'), client_secret=None,
@@ -96,7 +95,7 @@ class Reddit(ApiInterface):
 
     def remove_post(self, post_id: str) -> bool:
         ''' This method removes the post with the specified id
-        and returns the successs of this action'''
+        and returns the success of this action'''
         # TODO failure checking
         submission = self.client.submission(post_id)
         submission.delete()
@@ -104,13 +103,15 @@ class Reddit(ApiInterface):
 
     def remove_comment(self, post_id: str) -> bool:
         ''' This method removes the post with the specified id
-        and returns the successs of this action'''
+        and returns the success of this action'''
         # TODO failure checking
         comment = self.client.comment(post_id)
         comment.delete()
         return True
 
     def top_submissions_in_subreddit(self, subreddit_name: str) -> List:
+        ''' This method takes in a subreddit
+        and returns the subreddit's top submissions at the time'''
         subreddit = self.client.subreddit(subreddit_name)
         submission_list = []
         for submission in subreddit.hot(limit=25):
