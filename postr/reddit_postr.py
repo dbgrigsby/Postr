@@ -118,6 +118,16 @@ class Reddit(ApiInterface):
             submission_list.append(submission)
         return submission_list
 
+    def top_submissions_in_subreddit_filter_by_words(self, subreddit_name: str, words: List[str]) -> List:
+        ''' This method takes in a subreddit
+        and returns the subreddit's top submissions at the time filtered by words in title'''
+        subreddit = self.client.subreddit(subreddit_name)
+        submission_list = []
+        for submission in subreddit.hot(limit=25):
+            if any(s in submission.title for s in words):
+                submission_list.append(submission)
+        return submission_list
+
 
 def get_key(key: str) -> Any:
     """Gets a specified key for the reddit API """
