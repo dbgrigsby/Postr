@@ -108,4 +108,5 @@ config.py
 *.swo
 
 # Endline for OS Crlf
+# https://stackoverflow.com/questions/1822849/what-are-these-ms-that-keep-showing-up-in-my-files-in-emacs
 core.autocrlf = True
