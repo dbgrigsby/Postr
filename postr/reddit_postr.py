@@ -136,6 +136,22 @@ class Reddit(ApiInterface):
         subreddit_wiki.create(wiki_page_name, wiki_content)
         return True
 
+    def return_wiki_listings(self, subreddit_name: str) -> List:
+        ''' This method takes in a subreddit
+        and returns the wiki pages'''
+        wiki_pages = []
+        for wiki_page in self.client.subreddit(subreddit_name).wiki:
+            wiki_pages.append(wiki_page)
+        return wiki_pages
+
+    def edit_wiki_page(self, subreddit_name: str, wiki_page_name: str, wiki_content: str) -> bool:
+        ''' This method takes in a subreddit that a user is a mod of
+        and edits a wiki page on it
+        and returns the success of this action'''
+        subreddit_wiki_page = self.client.subreddit(subreddit_name).wiki[wiki_page_name]
+        subreddit_wiki_page.edit(wiki_content)
+        return True
+
 
 def get_key(key: str) -> Any:
     """Gets a specified key for the reddit API """
