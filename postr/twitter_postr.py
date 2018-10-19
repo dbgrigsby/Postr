@@ -201,11 +201,13 @@ class Twitter(ApiInterface):
         return float(TextBlob(text).sentiment.polarity)
 
     def stream_and_graph(self, hashtags: List[str]) -> None:
+        """ Streams tweets in real time, then graphs their sentiment """
         self.stream_tweets(hashtags, self.streamfile)
         self.analyzeSentiment()
         self.graph_blob()
 
     def graph_blob(self) -> None:
+        """ Graphs a blob file for twitter sentiment """
         # plot
         plt.plot(
             self.read_csv_col(0, self.blobfile),
