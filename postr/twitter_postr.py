@@ -5,6 +5,7 @@ import re
 import time
 from typing import List
 
+import matplotlib.pyplot as plt
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.api import API
@@ -93,8 +94,9 @@ class Twitter(ApiInterface):
         self.bio = TwitterBio(self.api)
 
         """ Contains info for real-time graphing """
-        self.graphfile = 'twitter_graphing.csv'
-        self.blobfile = 'twitter_blob.csv'
+        self.streamfile = 'postr/twitter/twitter_stream.txt'
+        self.graphfile = 'postr/twitter/twitter_graphing.csv'
+        self.blobfile = 'postr/twitter/twitter_blob.csv'
 
     def post_text(self, text: str) -> bool:
         """ Posts a tweet containing text """
@@ -166,10 +168,10 @@ class Twitter(ApiInterface):
         """ Not applicable, see helper methods in TwitterInfo class"""
         return -1
 
-    def read_graph_col(self, colNum: int) -> List[str]:
+    def read_csv_col(self, colNum: int, filename: str) -> List[str]:
         """ Reads a specific column by index in the graph csv"""
         col = []
-        with open(self.graphfile, 'r') as rf:
+        with open(filename, 'r') as rf:
             reader = csv.reader(rf, delimiter=',')
             for row in reader:
                 col.append(str(row[colNum]))
@@ -180,7 +182,10 @@ class Twitter(ApiInterface):
         """ Converts a real-time tweet content into a positivity score"""
         with open(self.blobfile, 'w') as bf:
             writer = csv.writer(bf)
-            graph_data = zip(self.read_graph_col(0), self.read_graph_col(1))
+            graph_data = zip(
+                self.read_csv_col(0, self.graphfile),
+                self.read_csv_col(1, self.graphfile),
+            )
 
             for pair in graph_data:
                 text = str(re.sub(r'[^a-zA-Z ]+', '', pair[0]))
@@ -195,7 +200,22 @@ class Twitter(ApiInterface):
             method to provide easy modification if needed in the future """
         return float(TextBlob(text).sentiment.polarity)
 
+    def stream_and_graph(self, hashtags: List[str]) -> None:
+        self.stream_tweets(hashtags, self.streamfile)
+        self.analyzeSentiment()
+        self.graph_blob()
+
+    def graph_blob(self) -> None:
+        # plot
+        plt.plot(
+            self.read_csv_col(0, self.blobfile),
+            self.read_csv_col(1, self.blobfile),
+        )
+        # beautify the x-labels
+        plt.gcf().autofmt_xdate()
+        plt.show()
+
 
 if __name__ == '__main__':
     t = Twitter()
-    t.analyzeSentiment()
+    t.stream_and_graph(['world'])
