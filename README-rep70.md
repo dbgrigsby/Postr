@@ -32,3 +32,12 @@
   - Added event options and checkboxes to events tab
   - Added heading to post tab
   - Refactored and organized the layout of each of the tabs
+
+# October 19, 2018
+  - Added to the performance tab
+    - Follower count and total likes
+  - Started method to add follower count and total likes to performance tab based on selected site
+  - Looked into how code for the four APIs from round one was written
+    - Implemented interface or not
+    - Necessary imports, what methods were left out, how to call etc.
+  - Researched connecting kivy frontend to a complex backend
