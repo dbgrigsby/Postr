@@ -218,6 +218,30 @@ class Twitter(ApiInterface):
         plt.show()
 
 
-if __name__ == '__main__':
+def examples() -> None:
+    """ Runs through major use cases """
     t = Twitter()
-    t.stream_and_graph(['world'])
+
+    # text and picture posting
+    t.post_text('sample API text')
+    # t.post_photo('enter path here', 'sample API text'), put a valid path here to use
+
+    # Get/Set info about the authenticated user
+    print(t.bio.username())
+    print(t.bio.bio())
+    t.bio.update_bio('sample API bio')
+    t.bio.update_name('Postr Project')
+
+    # Get info about the authenticated user's tweets
+    twt = t.info.last_tweet()  # Returns a Status object. Let's use it.
+    # All methods for a Status object:: https://gist.github.com/dev-techmoe/ef676cdd03ac47ac503e856282077bf2
+    print(twt.text)
+    print(twt.retweet_count)
+    print(twt.favorite_count)
+
+    # Let's stream some hashtags and graph them in real time
+    t.stream_and_graph(['Politics', 'News', 'School'])
+
+
+if __name__ == '__main__':
+    examples()
