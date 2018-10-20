@@ -103,6 +103,9 @@ venv.bak/
 # Config file
 postr_config.ini
 
+# Log files
+logs/
+
 # Vim swapfiles
 *~
 *.swp

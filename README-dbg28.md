@@ -1,3 +1,15 @@
+# 2018-10-19
+    Logger
+        Add a reusable logger for all devs, with dual file/stdout logging
+    Complete Discord API implementation
+        Delete bot messages
+        Posting images
+        Updating bot profile (status)
+        Posting announcements
+    More specific API:
+        Split discord away from general api_interface, first step of the separation
+    General
+        Style settings tweaks
 # 2018-10-12
     Add mypy requirement to tox and update everyone's code to be typing-compliant
     Add authentication and message logging / posting feature to Discord
