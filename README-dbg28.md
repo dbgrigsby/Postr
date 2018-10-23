@@ -1,3 +1,6 @@
+@ 2018-10-26
+    During this week, I  will get back on schedule, fix bugs, and cleanup the code.
+    This week will also be used for extra testing for discord and the config parser
 # 2018-10-19
     Logger
         Add a reusable logger for all devs, with dual file/stdout logging
