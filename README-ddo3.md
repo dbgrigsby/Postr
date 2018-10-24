@@ -1,3 +1,11 @@
+#### 10/24/2018  
+Started implementing Facebook Chat API
+* User can send messages, images, and files through facebook messenger
+* User can block and unblock people in the chat
+* User can view all messages in a chat
+* User can create chats with friends
+* User can delete chats
+
 #### 10/17/2018  
 Finish the Facebook API implementation  
 Cannot test this API yet because Facebook wants to approve apps before certain permissions can be granted, and without these permissions, I cannot make calls to the Facebook Graph API.  
