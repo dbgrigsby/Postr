@@ -2,37 +2,27 @@
 # https://fbchat.readthedocs.io/en/master/examples.html#basic-example
 from typing import List
 from fbchat import Client
-from fbchat.models import Message, ThreadType, FBchatException
-from .config import get_api_key
+from fbchat.models import Message, ThreadType
 
 
 class FacebookChatApi():
 
     def __init__(self, email: str, password: str) -> None:
 
-        test_email = str(get_api_key('TESTFB', 'email'))
-        test_password = str(get_api_key('TESTFB', 'password'))
+        client = Client(email, password)
+        self.client = client
 
-        self.client: Client = Client(test_email, test_password)
-        self.user_id: str = '00000'
-        self.threads: dict = {}
-        self.users: dict = {}
+        # stores the user id
+        self.user_id = client.uid
 
-        try:
-            client = Client(email, password)
-            self.client = client
+        # stores the name-thread_id pair for all threads this user has
+        self.threads = FacebookChatApi.get_all_threads(client)
 
-            # stores the user id
-            self.user_id = client.uid
+        # stores all users the logged in user is in a chat with
+        self.users = FacebookChatApi.get_all_users_in_chat_with(client)
 
-            # stores the name-thread_id pair for all threads this user has
-            self.threads = FacebookChatApi.get_all_threads(client)
-
-            # stores all users the logged in user is in a chat with
-            self.users = FacebookChatApi.get_all_users_in_chat_with(client)
-
-        except FBchatException:
-            print('Login Failure : Cannot execute this command.')
+        # except FBchatException:
+        # print('Login Failure : Cannot execute this command.')
 
     def get_client(self) -> Client:
         return self.client
@@ -231,5 +221,15 @@ class FacebookChatApi():
         """ Sends a 'wave' to the specified thread """
         self.client.wave(wave_first=True, thread_id=thread_id, thread_type=ThreadType.GROUP)
 
+# class DummyClient(Client):
 
-test = FacebookChatApi('ddo3@case.edu', 'seniorproject')
+    # def printAll(*all: str) -> None:
+        # for item in list(all):
+        # print(str(item))
+
+    # def wave(wave_first: bool, thread_id: str, thread_type: ThreadType) -> None:
+        # printAll(wave_first, thread_id, thread_type)
+        # print("This is all dummy data")
+
+    # def fetchUnseen() -> dict:
+        # return {}
