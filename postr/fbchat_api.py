@@ -3,12 +3,16 @@
 from typing import List
 from fbchat import Client
 from fbchat.models import Message, ThreadType, FBchatException
+import config
 
 
 class FacebookChatApi():
 
     def __init__(self, email: str, password: str) -> None:
-        self.client: Client = None
+        test_email = str(config.get_api_key('TESTFB', 'email'))
+        test_password = str(config.get_api_key('TESTFB', 'password'))
+
+        self.client: Client = Client(test_email, test_password)
         self.user_id: str = '00000'
         self.threads: dict = {}
         self.users: dict = {}
