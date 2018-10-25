@@ -1,8 +1,9 @@
 # test fbchat api
 import sys
 from unittest.mock import patch
-import config
-import fbchat_api
+from postr import config
+# import fbchat_api
+from postr import fbchat_api
 sys.path.insert(0, '../postr')
 
 
@@ -14,8 +15,8 @@ class Object():
     text: str = ''
 
 
-password = config.get_api_key('TESTFB', 'password')
-email = config.get_api_key('TESTFB', 'email')
+password: str = str(config.get_api_key('TESTFB', 'password'))
+email: str = str(config.get_api_key('TESTFB', 'email'))
 
 client = fbchat_api.FacebookChatApi(email, password)
 
