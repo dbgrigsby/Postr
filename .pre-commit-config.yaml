@@ -22,7 +22,6 @@ repos:
     -   id: check-yaml
         exclude: /template/
     -   id: name-tests-test
-        args: [--django]
     -   id: requirements-txt-fixer
     -   id: flake8
         exclude: ^docs/source/conf.py$

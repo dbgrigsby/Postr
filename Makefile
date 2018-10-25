@@ -1,34 +1,43 @@
-.PHONY: run
+.PHONY: install
+
 FOLDER :=
 ifeq ($(OS),Windows_NT)
-	FOLDER:=scripts
+	FOLDER:=Scripts
 else
 	FOLDER:=bin
 endif
 
 VENV_NAME?=venv
 VENV_ACTIVATE=. $(VENV_NAME)/$(FOLDER)/activate
-PYTHON=${VENV_NAME}/$(FOLDER)/python3
+PYTHON=${VENV_NAME}/$(FOLDER)/python
 
 # Requirements are in setup.py, so whenever setup.py is changed, re-run installation of dependencies.
-venv:
-	$(VENV_PATH)/$(FOLDER)/activate
-	$(VENV_NAME)/$(FOLDER)/activate: setup.py
-	test -d $(VENV_PATH) || virtualenv -p python3 $(VENV_PATH)
-	${PYTHON} -m pip install -U pip
-	${PYTHON} -m pip install -e .
-	touch $(VENV_PATH)/$(FOLDER)/activate
+install: create activate
 
-test: venv
-	${PYTHON} -m pytest
+create:
+ifeq ($(OS),Windows_NT)
+	virtualenv venv
+else
+	python -m venv venv
+endif
 
-run: venv
-	${PYTHON} postr/app.py
+activate:
+	source $(VENV_NAME)$(VENV_PATH)/$(FOLDER)/activate; \
+	pip install -r requirements.txt; \
 
-precommit: venv
-	pre-commit run --all-files
+test: activate
+	${PYTHON} -m pytest; \
+
+run: activate
+	${PYTHON} postr/app.py \
 
 clean:
 	rm -rf venv
+
+twitter: activate
+	${PYTHON} -m postr.twitter_postr \
+
+setupTextblob: activate
+	${PYTHON} -m textblob.download_corpora \
 
 # link : https://blog.horejsek.com/makefile-with-python/

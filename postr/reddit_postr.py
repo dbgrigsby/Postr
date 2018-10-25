@@ -32,18 +32,17 @@ scopes = {
 class Reddit(ApiInterface):
 
     def __init__(self) -> None:
-        # TODO config for client id, and refresh token
         self.client = praw.Reddit(
             user_agent='Postr (by Adam Beck, Dan Grisby, Tommy Lu, Dominique Owens, Rachel Pavlakovic)',
             client_id=get_key('client_id'), client_secret=None,
             refresh_token=get_key('refresh_token'),
         )
-        self.subreddit = 'Postr'
+        self.subreddit_name = 'Postr'
 
-    def set_subreddit(self, subreddit: str) -> bool:
+    def set_subreddit_name(self, subreddit_name: str) -> bool:
         ''' This method sets the subreddit that the user will post to
         and returns the success of this action'''
-        self.subreddit = subreddit
+        self.subreddit_name = subreddit_name
         return True
 
     def post_text(self, text: str) -> bool:
@@ -77,9 +76,10 @@ class Reddit(ApiInterface):
 
     def get_user_likes(self) -> int:
         ''' This method returns the number of likes a user has total between link and client'''
-        # TODO look into api for proper way to get karma, pylint disabled for now
-        # pylint: disable=R0201
-        return -1  # self.client.user.me.comment_karma + self.client.user.me.link_karma
+        return int(
+            self.client.user.me().comment_karma +
+            self.client.user.me().link_karma,
+        )
 
     def get_user_followers(self, text: str) -> List[str]:
         ''' This method returns a list of all the people that
@@ -95,7 +95,7 @@ class Reddit(ApiInterface):
 
     def remove_post(self, post_id: str) -> bool:
         ''' This method removes the post with the specified id
-        and returns the successs of this action'''
+        and returns the success of this action'''
         # TODO failure checking
         submission = self.client.submission(post_id)
         submission.delete()
@@ -103,42 +103,56 @@ class Reddit(ApiInterface):
 
     def remove_comment(self, post_id: str) -> bool:
         ''' This method removes the post with the specified id
-        and returns the successs of this action'''
+        and returns the success of this action'''
         # TODO failure checking
         comment = self.client.comment(post_id)
         comment.delete()
+        return True
+
+    def top_submissions_in_subreddit(self, subreddit_name: str) -> List:
+        ''' This method takes in a subreddit
+        and returns the subreddit's top submissions at the time'''
+        subreddit = self.client.subreddit(subreddit_name)
+        submission_list = []
+        for submission in subreddit.hot(limit=25):
+            submission_list.append(submission)
+        return submission_list
+
+    def top_submissions_in_subreddit_filter_by_words(self, subreddit_name: str, words: List[str]) -> List:
+        ''' This method takes in a subreddit
+        and returns the subreddit's top submissions at the time filtered by words in title'''
+        subreddit = self.client.subreddit(subreddit_name)
+        submission_list = []
+        for submission in subreddit.hot(limit=25):
+            if any(s in submission.title for s in words):
+                submission_list.append(submission)
+        return submission_list
+
+    def create_wiki_page(self, subreddit_name: str, wiki_page_name: str, wiki_content: str) -> bool:
+        ''' This method takes in a subreddit that a user is a mod of
+        and creates a new wiki page on it
+        and returns the success of this action'''
+        subreddit_wiki = self.client.subreddit(subreddit_name).wiki
+        subreddit_wiki.create(wiki_page_name, wiki_content)
+        return True
+
+    def return_wiki_listings(self, subreddit_name: str) -> List:
+        ''' This method takes in a subreddit
+        and returns the wiki pages'''
+        wiki_pages = []
+        for wiki_page in self.client.subreddit(subreddit_name).wiki:
+            wiki_pages.append(wiki_page)
+        return wiki_pages
+
+    def edit_wiki_page(self, subreddit_name: str, wiki_page_name: str, wiki_content: str) -> bool:
+        ''' This method takes in a subreddit that a user is a mod of
+        and edits a wiki page on it
+        and returns the success of this action'''
+        subreddit_wiki_page = self.client.subreddit(subreddit_name).wiki[wiki_page_name]
+        subreddit_wiki_page.edit(wiki_content)
         return True
 
 
 def get_key(key: str) -> Any:
     """Gets a specified key for the reddit API """
     return config.get_api_key('Reddit', key)
-
-
-reddit = praw.Reddit(
-    user_agent='Postr (by Adam Beck, Dan Grisby, Tommy Lu, Dominique Owens, Rachel Pavlakovic)',
-    client_id=config.DEFAULT_CONFIG, client_secret=None,
-    redirect_uri='https://github.com/dbgrigsby/Postr/',
-)
-
-
-def get_reddit_oauth() -> Any:
-    # Note that once a user requests this,
-    # the user will be redirected and in the url the code for authorize
-    # is in the code = of the url.
-    # Will need to explain or get the code token much more easily somehow.
-    return reddit.auth.url(
-        scopes,
-        'https://github.com/dbgrigsby/Postr/',
-        'permanent',
-    )
-
-
-def get_reddit_refresh_token(authorized_code: str) -> Any:
-    """
-    Utilizes the code gained from a user approving
-    the application through the link found from get_reddit_oauth.
-    After utilization, returns refresh token and discards
-    authorized_code to disallow future use.
-    """
-    return reddit.auth.authorize(authorized_code)

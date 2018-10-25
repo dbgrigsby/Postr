@@ -1,3 +1,6 @@
+10/19/2018:
+    - Each team member implemented the final version of their API
+    - The User Experience Engineer begin hooking up last week's development to the frontend.
 10/12/2018:
 - User Experience Engineer Only:  Create the different GUI pages and a navigation system, so that each developer can work relatively independantly on an API.
 - This week will create a base format for a social media platform GUI with buttons and icons. These buttons will be hooked up to the abstract class/interface that all API classes will conform to, and won't actually do anything. A beta of the stats tracking page should exist here, which will read data from the database. A GUI wizard (or similar) process for logging into / authenticating an acount should be created, but again, will not do anything.

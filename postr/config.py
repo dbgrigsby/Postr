@@ -33,7 +33,7 @@ printer = pprint.PrettyPrinter(indent=4)
 # Internal functions
 
 
-def _git_root_dir() -> str:
+def git_root_dir() -> str:
     git_repo = git.Repo('.', search_parent_directories=True)
     git_root = git_repo.git.rev_parse('--show-toplevel')
     return str(git_root)
@@ -44,8 +44,8 @@ def _current_config() -> ConfigParser:
     Intended to be used internally only
     """
     config = ConfigParser()
-    if os.path.isfile(os.path.join(_git_root_dir(), CONFIG_FILE)):
-        config.read(os.path.join(_git_root_dir(), CONFIG_FILE))
+    if os.path.isfile(os.path.join(git_root_dir(), CONFIG_FILE)):
+        config.read(os.path.join(git_root_dir(), CONFIG_FILE))
     else:
         config.read_dict(DEFAULT_CONFIG)
         _save_config(config)
@@ -55,7 +55,7 @@ def _current_config() -> ConfigParser:
 
 def _save_config(config: ConfigParser) -> None:
     """Saves the configuration to a file"""
-    with open(os.path.join(_git_root_dir(), CONFIG_FILE), 'w') as config_file:
+    with open(os.path.join(git_root_dir(), CONFIG_FILE), 'w') as config_file:
         config.write(config_file)
 
 # Exposes functions to config users

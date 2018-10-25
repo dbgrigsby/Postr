@@ -1,3 +1,5 @@
+# from typing import List
+
 from kivy.app import App
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.floatlayout import FloatLayout
@@ -39,6 +41,20 @@ class TabbedPanelApp(App):
             return spinner
 
         performance_layout.add_widget(spinner())
+        performance_layout.add_widget(
+            Label(
+                text='Follower Count: ', font_size='20sp',
+                pos=(300, 900), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
+            ),
+        )
+        performance_layout.add_widget(
+            Label(
+                text='Total Likes: ', font_size='20sp',
+                pos=(300, 850), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
+            ),
+        )
 
         posts_layout.add_widget(spinner())
         posts_layout.add_widget(
@@ -251,6 +267,48 @@ class TabbedPanelApp(App):
         tb_panel.add_widget(profile_tab)
 
         return tb_panel
+
+    # def performance(platform_enum) -> List[int]:
+    #     if platform_enum is platform_enum.REDDIT:
+    #         from postr.reddit_postr import Reddit
+    #         follower_count = Reddit.get_user_followers(),
+    #         total_likes = Reddit.get_user_likes(),
+    #     elif platform_enum is platform_enum.FACEBOOK:
+    #         from postr.facebook_api import FacebookApi
+    #         follower_count = FacebookApi.get_user_followers(),
+    #         total_likes = FacebookApi.get_user_likes(),
+    #     elif platform_enum is platform_enum.TUMBLR:
+    #         follower_count = 0,
+    #         total_likes = 0,
+    #     elif platform_enum is platform_enum.INSTAGRAM:
+    #         follower_count = 0,
+    #         total_likes = 0,
+    #     elif platform_enum is platform_enum.TWITTER:
+    #         from postr.twitter_postr import Twitter
+    #         follower_count = Twitter.get_user_followers(),
+    #         total_likes = Twitter.get_user_likes(),
+    #     elif platform_enum is platform_enum.YOUTUBE:
+    #         follower_count = 0,
+    #         total_likes = 0,
+    #     elif platform_enum is platform_enum.PINTEREST:
+    #         follower_count = 0,
+    #         total_likes = 0,
+    #     elif platform_enum is platform_enum.SLACK:
+    #         follower_count = 0,
+    #         total_likes = 0,
+    #     elif platform_enum is platform_enum.DISCORD:
+    #         follower_count = 0,
+    #         total_likes = 0,
+    #     elif platform_enum is platform_enum.YELP:
+    #         follower_count = 0,
+    #         total_likes = 0,
+    #     elif platform_enum is platform_enum.LINKEDIN:
+    #         follower_count = 0,
+    #         total_likes = 0,
+    #     else:
+    #         follower_count = 0,
+    #         total_likes = 0,
+    #     return [follower_count, total_likes]
 
 
 if __name__ == '__main__':
