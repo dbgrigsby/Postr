@@ -24,6 +24,9 @@ class FacebookChatApi():
         except FBchatException:
             print('Login Failure : Cannot execute this command.')
 
+    def get_client(self) -> Client:
+        return self.client
+
     def get_user_id(self, name: str) -> str:
         """ Returns the userid of input person, if that person is in a chat with or
         friends with the person who logged in """
@@ -35,21 +38,24 @@ class FacebookChatApi():
 
     def get_user_name(self, user_id: str) -> str:
         """ Returns the name of the user specified by the input user id """
-        userList = self.client.fetchUserInfo(user_id)
+        user_dict = self.client.fetchUserInfo(user_id)
 
-        name = ''
-        if userList:
-            name = str(userList[0].first_name + userList[0].last_name)
+        if not user_dict:
+            name = ''
+        else:
+            user = user_dict[user_id]
+            name = str(user.first_name + ' ' + user.last_name)
 
         return name
 
     def get_thread_name(self, thread_id: str) -> str:
         """ Returns the name of the thread specified by the input thread id """
-        thread_list = self.client.fetchThreadInfo(thread_id)
+        thread_dict = self.client.fetchThreadInfo(thread_id)
 
         name = ''
-        if thread_list:
-            name = str(thread_list[0].name)
+        if thread_dict:
+            thread = thread_dict[thread_id]
+            name = str(thread.name)
 
         return name
 
@@ -63,7 +69,6 @@ class FacebookChatApi():
         # Prints the content of all the messages
         for message in messages:
             messageList.append(message.text)
-            # print(message.text)
         return messageList
 
     @staticmethod
