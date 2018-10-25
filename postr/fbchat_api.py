@@ -8,6 +8,11 @@ from fbchat.models import Message, ThreadType, FBchatException
 class FacebookChatApi():
 
     def __init__(self, email: str, password: str) -> None:
+        self.client: Client = None
+        self.user_id: str = '00000'
+        self.threads: dict = {}
+        self.users: dict = {}
+
         try:
             client = Client(email, password)
             self.client = client
