@@ -1,7 +1,7 @@
 # test fbchat api
 import sys
 from unittest.mock import patch
-from postr import config
+# from postr import config
 # import fbchat_api
 from postr import fbchat_api
 sys.path.insert(0, '../postr')
@@ -15,10 +15,10 @@ class Object():
     text: str = ''
 
 
-password: str = str(config.get_api_key('TESTFB', 'password'))
-email: str = str(config.get_api_key('TESTFB', 'email'))
+# password: str = str(config.get_api_key('TESTFB', 'password'))
+# email: str = str(config.get_api_key('TESTFB', 'email'))
 
-client = fbchat_api.FacebookChatApi(email, password)
+client = fbchat_api.FacebookChatApi('ddo3@case.edu', 'seniorproject')
 
 
 def test_nothing(fbchat_test: int) -> None:
