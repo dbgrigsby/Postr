@@ -3,14 +3,15 @@
 from typing import List
 from fbchat import Client
 from fbchat.models import Message, ThreadType, FBchatException
-import config
+from .config import get_api_key
 
 
 class FacebookChatApi():
 
     def __init__(self, email: str, password: str) -> None:
-        test_email = str(config.get_api_key('TESTFB', 'email'))
-        test_password = str(config.get_api_key('TESTFB', 'password'))
+
+        test_email = str(get_api_key('TESTFB', 'email'))
+        test_password = str(get_api_key('TESTFB', 'password'))
 
         self.client: Client = Client(test_email, test_password)
         self.user_id: str = '00000'
@@ -229,3 +230,6 @@ class FacebookChatApi():
     def wave_in_message(self, thread_id: str) -> None:
         """ Sends a 'wave' to the specified thread """
         self.client.wave(wave_first=True, thread_id=thread_id, thread_type=ThreadType.GROUP)
+
+
+test = FacebookChatApi('ddo3@case.edu', 'seniorproject')
