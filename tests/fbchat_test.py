@@ -1,10 +1,17 @@
 # test fbchat api
 import sys
 from unittest.mock import patch
-# from postr import config
-# import fbchat_api
+from pathlib import Path
+import pytest
 from postr import fbchat_api
+from postr import config
 sys.path.insert(0, '../postr')
+
+
+my_file = Path('../postr_config.ini')
+
+if not my_file.is_file():
+    pytest.skip('If there is no config_file, then all these tests will fail', allow_module_level=True)
 
 
 class Object():
@@ -15,7 +22,10 @@ class Object():
     text: str = ''
 
 
-client = fbchat_api.FacebookChatApi('ddo3@case.edu', 'seniorproject')
+password: str = str(config.get_api_key('TESTFB', 'password'))
+email: str = str(config.get_api_key('TESTFB', 'email'))
+
+client = fbchat_api.FacebookChatApi(email, password)
 
 
 def test_nothing(fbchat_test: int) -> None:
@@ -45,6 +55,7 @@ def test_get_user_id() -> None:
 
 
 def test_get_user_name() -> None:
+
     with patch('fbchat.Client.fetchUserInfo') as mock_fetch:
         test_dict = {}
         user1 = Object()
@@ -146,25 +157,25 @@ def test_get_all_users_in_chat_with() -> None:
     with patch('fbchat.Client.fetchAllUsers') as mock_fetch:
         test_list = []
 
-        obj1 = Object()
-        obj1.name = 'Billy'
-        obj1.uid = '11111'
-        test_list.append(obj1)
+        user1 = Object()
+        user1.name = 'Billy'
+        user1.uid = '11111'
+        test_list.append(user1)
 
-        obj2 = Object()
-        obj2.name = 'Daniel'
-        obj2.uid = '22222'
-        test_list.append(obj2)
+        user2 = Object()
+        user2.name = 'Daniel'
+        user2.uid = '22222'
+        test_list.append(user2)
 
-        obj3 = Object()
-        obj3.name = 'Sally'
-        obj3.uid = '33333'
-        test_list.append(obj3)
+        user3 = Object()
+        user3.name = 'Sally'
+        user3.uid = '33333'
+        test_list.append(user3)
 
-        obj4 = Object()
-        obj4.name = 'Fred'
-        obj4.uid = '44444'
-        test_list.append(obj4)
+        user4 = Object()
+        user4.name = 'Fred'
+        user4.uid = '44444'
+        test_list.append(user4)
 
         mock_fetch.return_value = test_list
 
