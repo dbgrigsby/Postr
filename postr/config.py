@@ -1,4 +1,3 @@
-import logging
 import os.path
 import pprint
 from configparser import ConfigParser
@@ -6,7 +5,8 @@ from typing import Any
 from typing import Mapping
 from typing import Optional
 
-import git
+from postr import postr_logger
+from postr.git_tools import git_root_dir
 
 # Creates or reads the authentication config file
 CONFIG_FILE = 'postr_config.ini'
@@ -29,14 +29,9 @@ DEFAULT_CONFIG: Mapping[str, Mapping[str, Any]] = {
     'miscellaneous': {},
 }
 printer = pprint.PrettyPrinter(indent=4)
+log = postr_logger.make_logger('config_parser')
 
 # Internal functions
-
-
-def git_root_dir() -> str:
-    git_repo = git.Repo('.', search_parent_directories=True)
-    git_root = git_repo.git.rev_parse('--show-toplevel')
-    return str(git_root)
 
 
 def _current_config() -> ConfigParser:
@@ -95,12 +90,10 @@ def update_api_key(api: str, key: str, value: str) -> ConfigParser:
     try:
         config[api][key] = value
         _save_config(config)
-        # pylint: disable=logging-fstring-interpolation
-        logging.info(f'Mapping {key} -> {value} added to config for {api}')
+        log.info(f'Mapping {key} -> {value} added to config for {api}')
     except Exception as exp:
-        # pylint: disable=logging-fstring-interpolation
-        logging.error(f'Failed to add mapping {key} -> {value} to {api}')
-        logging.error(str(exp))
+        log.error(f'Failed to add mapping {key} -> {value} to {api}')
+        log.error(str(exp))
 
     return config
 
@@ -110,7 +103,6 @@ def get_api_key(api: str, key: str) -> Optional[str]:
     try:
         return config[api][key]
     except Exception as exp:
-        # pylint: disable=logging-fstring-interpolation
-        logging.error(f'Failed to retrieve {key} from {api}')
-        logging.error(str(exp))
+        log.error(f'Failed to retrieve {key} from {api}')
+        log.error(str(exp))
         return None

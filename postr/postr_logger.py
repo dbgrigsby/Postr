@@ -4,7 +4,7 @@ import errno
 import datetime
 import os
 import sys
-from .config import git_root_dir
+from postr.git_tools import git_root_dir
 
 
 debug_level = logging.INFO
@@ -14,14 +14,11 @@ LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 def make_log_path(log_path: str) -> None:
     if not os.path.exists(log_path):
-        print('We made the dir..')
         try:
             os.makedirs(log_path)
         except OSError as exc:  # Lack of permissions
             if exc.errno != errno.EEXIST:
                 raise exc
-    else:
-        print('We didnt need to make the dir')
 
 
 def make_logger(name: str) -> logging.Logger:
