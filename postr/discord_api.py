@@ -12,19 +12,15 @@ log = postr_logger.make_logger('discord')
 
 
 def id_to_channel(channel_id: Optional[str]) -> Channel:
-    print('id to channel was called')
     if channel_id:
         chan = discord_client.get_channel(channel_id)
-        print(f'Chan converted was {chan}')
         return chan
     log.error('No default channel found!')
     return next(iter(discord_client.get_all_channels()))
 
 
 def default_channel_id() -> Optional[str]:
-    log.info('Default channel id called..')
     ret = get_api_key('Discord', 'default_channel')
-    print(f'Default channel id found: {ret}')
     return ret
 
 
@@ -32,9 +28,6 @@ async def post_text(text: str, channel_id: Optional[str] = default_channel_id())
     ''' This method takes in the text the user want to post
         and returns the success of this action'''
     channel = id_to_channel(channel_id)
-    log.info(default_channel_id())
-    log.info('printing id to channel of channel id...')
-    log.info(id_to_channel(default_channel_id()))
     log.info(f'Trying to post "{text}" to {channel}')
     try:
         await discord_client.send_typing(channel)
