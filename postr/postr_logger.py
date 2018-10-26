@@ -4,7 +4,7 @@ import errno
 import datetime
 import os
 import sys
-from .config import git_root_dir
+from postr.git_tools import git_root_dir
 
 
 debug_level = logging.INFO
