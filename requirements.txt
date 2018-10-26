@@ -3,6 +3,7 @@ aspy.yaml==1.1.1
 astroid==2.0.4
 async-timeout==3.0.1
 asyncio==3.4.3
+asynctest==0.12.2
 atomicwrites==1.2.1
 attrs==18.2.0
 beautifulsoup4==4.6.3
@@ -42,6 +43,7 @@ pygame==1.9.4
 Pygments==2.2.0
 pylint==2.1.0
 pytest==3.8.1
+pytest-asyncio
 PyTumblr==0.0.8
 PyYAML==3.13
 requests==2.19.1
