@@ -45,5 +45,8 @@
 		-
 
 # 2018 10-25
-	Set up YouTube
+	Set up simple YouTube functionality
 		- Added google requirements to requirements
+		- Set up basic template
+		- Generated link
+		- Utilized refresh token
