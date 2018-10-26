@@ -15,9 +15,6 @@ class Object():
     text: str = ''
 
 
-# password: str = str(config.get_api_key('TESTFB', 'password'))
-# email: str = str(config.get_api_key('TESTFB', 'email'))
-
 client = fbchat_api.FacebookChatApi('ddo3@case.edu', 'seniorproject')
 
 
@@ -28,40 +25,40 @@ def test_nothing(fbchat_test: int) -> None:
 def test_get_user_id() -> None:
     with patch('fbchat.Client.fetchAllUsers') as mock_fetch:
         user_list = []
-        obj1 = Object()
-        obj1.name = 'sally'
-        obj1.uid = '111222333'
+        user1 = Object()
+        user1.name = 'sally'
+        user1.uid = '111222333'
 
-        obj2 = Object()
-        obj2.name = 'martha'
-        obj2.uid = '1111111'
-        user_list.append(obj1)
-        user_list.append(obj2)
+        user2 = Object()
+        user2.name = 'martha'
+        user2.uid = '1111111'
+        user_list.append(user1)
+        user_list.append(user2)
 
         mock_fetch.return_value = user_list
 
         user_id1 = client.get_user_id('sally')
         user_id2 = client.get_user_id('martha')
 
-    assert user_id1 == obj1.uid
-    assert user_id2 == obj2.uid
+    assert user_id1 == user1.uid
+    assert user_id2 == user2.uid
 
 
 def test_get_user_name() -> None:
     with patch('fbchat.Client.fetchUserInfo') as mock_fetch:
         test_dict = {}
-        obj1 = Object()
-        obj1.first_name = 'Sally'
-        obj1.last_name = 'Glass'
+        user1 = Object()
+        user1.first_name = 'Sally'
+        user1.last_name = 'Glass'
 
         uid = '111222333'
-        test_dict[uid] = obj1
+        test_dict[uid] = user1
 
         mock_fetch.return_value = test_dict
 
         user_name = client.get_user_name(uid)
 
-    assert user_name == obj1.first_name + ' ' + obj1.last_name
+    assert user_name == user1.first_name + ' ' + user1.last_name
 
 
 def test_get_thread_name() -> None:
