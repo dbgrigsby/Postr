@@ -26,7 +26,7 @@ activate:
 	pip install -r requirements.txt; \
 
 test: activate
-	${PYTHON} -m pytest; \
+	${PYTHON} -m tox
 
 run: activate
 	${PYTHON} postr/app.py \
