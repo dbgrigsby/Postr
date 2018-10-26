@@ -15,7 +15,7 @@ def id_to_channel(channel_id: Optional[str]) -> Channel:
     print('id to channel was called')
     if channel_id:
         return discord_client.get_channel(id=channel_id)
-    return next(iter(discord_client.get_all_channels))
+    return next(iter(discord_client.get_all_channels()))
 
 
 def default_channel_id() -> Optional[str]:
