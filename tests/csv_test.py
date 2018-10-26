@@ -1,12 +1,14 @@
 import csv
+import os
 from pathlib import Path
 
 from postr.twitter_postr import Twitter
 
+testpath = os.path.join('tests/twitter/graphtest.csv')
+
 
 def test_csv_setup() -> None:
     t = Twitter()
-    testpath = '/tests/twitter/graphtest.csv'
     t.graphfile = testpath
     t.setup_csv()
 
@@ -16,7 +18,6 @@ def test_csv_setup() -> None:
 
 def test_csv_contents() -> None:
     t = Twitter()
-    testpath = 'graphtest.csv'
     t.graphfile = testpath
 
     col = []
