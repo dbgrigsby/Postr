@@ -1,5 +1,5 @@
-from typing import Any
 from unittest.mock import patch
+from unittest.mock import MagicMock
 import pytest
 
 from asynctest import CoroutineMock
@@ -18,14 +18,16 @@ TEST_CONFIG_FILE = 'postr_config_test.ini'
 # @patch('postr.discord_api.discord.Client.send_typing', new=Mock(return_value=None))
 # @patch('postr.discord_api.discord.Client.send_message', new=Mock(return_value=None))
 
-@patch('postr.discord_api.Channel', spec=Channel)
 @pytest.mark.asyncio
-async def test_post_text(channel: Any) -> None:
+async def test_post_text() -> None:
     text = 'test text'
+    channel_id = '123'
 
     with patch('postr.discord_api.Client.send_typing', new=CoroutineMock()) as send_typing:
         with patch('postr.discord_api.Client.send_message', new=CoroutineMock()) as send_message:
-            posted = await discord_api.post_text(channel=channel.return_value, text=text)
-            send_typing.assert_called_once_with(channel.return_value)
-            send_message.assert_called_once_with(channel.return_value, text)
-            assert posted
+            with patch('postr.discord_api.id_to_channel') as mock_id_to_channel:
+                mock_id_to_channel.return_value = MagicMock(spec=Channel)
+                posted = await discord_api.post_text(channel_id=channel_id, text=text)
+                send_typing.assert_called_once_with(mock_id_to_channel.return_value)
+                send_message.assert_called_once_with(mock_id_to_channel.return_value, text)
+                assert posted
