@@ -7,3 +7,8 @@ import pytest
 @pytest.fixture(scope='module')
 def add() -> int:
     return 2 + 3
+
+
+@pytest.fixture(scope='module')
+def fbchat_test() -> int:
+    return 17
