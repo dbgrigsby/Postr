@@ -279,47 +279,85 @@ class TabbedPanelApp(App):
 
         return tb_panel
 
-    # def performance(platform_enum) -> List[int]:
-    #     if platform_enum is platform_enum.REDDIT:
+    # def performance(self, platform: str) -> List[int]:
+    #     if platform is 'Reddit':
     #         from postr.reddit_postr import Reddit
-    #         follower_count = Reddit.get_user_followers(),
-    #         total_likes = Reddit.get_user_likes(),
-    #     elif platform_enum is platform_enum.FACEBOOK:
+    #         reddit = Reddit()
+    #         follower_count = len(reddit.get_user_followers('')),
+    #         # total_likes = reddit.get_user_likes()
+    #         total_likes = 0
+    #     elif platform is 'Facebook':
     #         from postr.facebook_api import FacebookApi
-    #         follower_count = FacebookApi.get_user_followers(),
-    #         total_likes = FacebookApi.get_user_likes(),
-    #     elif platform_enum is platform_enum.TUMBLR:
+    #         facebook = FacebookApi()
+    #         follower_count = len(facebook.get_user_followers('')),
+    #         total_likes = facebook.get_user_likes(),
+    #     elif platform is 'Tumblr':
     #         follower_count = 0,
     #         total_likes = 0,
-    #     elif platform_enum is platform_enum.INSTAGRAM:
+    #     elif platform is 'Instagram':
     #         follower_count = 0,
     #         total_likes = 0,
-    #     elif platform_enum is platform_enum.TWITTER:
+    #     elif platform is 'Twitter':
     #         from postr.twitter_postr import Twitter
-    #         follower_count = Twitter.get_user_followers(),
-    #         total_likes = Twitter.get_user_likes(),
-    #     elif platform_enum is platform_enum.YOUTUBE:
+    #         twitter = Twitter()
+    #         follower_count = len(twitter.get_user_followers('')),
+    #         total_likes = twitter.get_user_likes(),
+    #     elif platform is 'Youtube':
     #         follower_count = 0,
     #         total_likes = 0,
-    #     elif platform_enum is platform_enum.PINTEREST:
+    #     elif platform is 'Slack':
     #         follower_count = 0,
     #         total_likes = 0,
-    #     elif platform_enum is platform_enum.SLACK:
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform_enum is platform_enum.DISCORD:
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform_enum is platform_enum.YELP:
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform_enum is platform_enum.LINKEDIN:
+    #     elif platform is 'Discord':
     #         follower_count = 0,
     #         total_likes = 0,
     #     else:
     #         follower_count = 0,
     #         total_likes = 0,
-    #     return [follower_count, total_likes]
+    #     stats = List()
+    #     stats.append(follower_count)
+    #     stats.append(total_likes)
+    #     return stats
+
+    # def events(self, platform):
+    #     if platform is 'Reddit':
+    #
+    #     elif platform is 'Facebook':
+    #
+    #     elif platform is 'Tumblr':
+    #
+    #     elif platform is 'Instagram':
+    #
+    #     elif platform is 'Twitter':
+    #
+    #     elif platform is 'Youtube':
+    #
+    #     elif platform is 'Slack':
+    #
+    #     elif platform is 'Discord':
+    #
+    #     else:
+
+    # def update(self, platform, search, replace):
+    #     if platform is 'Reddit':
+    #
+    #     elif platform is 'Facebook':
+    #
+    #     elif platform is 'Tumblr':
+    #
+    #     elif platform is 'Instagram':
+    #
+    #     elif platform is 'Twitter':
+    #
+    #     elif platform is 'Youtube':
+    #
+    #     elif platform is 'Slack':
+    #
+    #     elif platform is 'Discord':
+    #
+    #     else:
+
+    # def update_profile(self, new_password):
 
 
 if __name__ == '__main__':
