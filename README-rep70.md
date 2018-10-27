@@ -54,3 +54,4 @@
     - Cannot be implemented until additions are made to individual APIs and the API interface
   - Basic structure for method to update user profile
     - Considering breaking out sure profile into a new data structure, looking into kivy and passwords/ account information
+  ** Some emthods commented out due to the inability to fully implement. These methods were triggering our mypy testing and weren't able to be changed
