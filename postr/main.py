@@ -40,7 +40,8 @@ class TabbedPanelApp(App):
             spinner.bind(text=show_selected_value)
             return spinner
 
-        performance_layout.add_widget(spinner())
+        performance_spinner = spinner()
+        performance_layout.add_widget(performance_spinner)
         performance_layout.add_widget(
             Label(
                 text='Follower Count: ', font_size='20sp',
@@ -56,7 +57,8 @@ class TabbedPanelApp(App):
             ),
         )
 
-        posts_layout.add_widget(spinner())
+        post_spinner = spinner()
+        posts_layout.add_widget(post_spinner)
         posts_layout.add_widget(
             Label(
                 text='Scheduled Posts: ', font_size='20sp',
@@ -65,7 +67,8 @@ class TabbedPanelApp(App):
             ),
         )
 
-        events_layout.add_widget(spinner())
+        events_spinner = spinner()
+        events_layout.add_widget(events_spinner)
         events_layout.add_widget(
             Label(
                 text='React to: ', font_size='20sp',
@@ -80,11 +83,8 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
-        events_layout.add_widget(
-            CheckBox(
-                pos=(450, 850), size_hint=(.15, .2),
-            ),
-        )
+        hashtag_checkbox = CheckBox(pos=(450, 850), size_hint=(.15, .2),)
+        events_layout.add_widget(hashtag_checkbox)
         events_layout.add_widget(
             Label(
                 text='Key word', font_size='12sp',
@@ -92,10 +92,11 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        keyword_checkbox = CheckBox(
+            pos=(450, 800), size_hint=(.15, .2),
+        )
         events_layout.add_widget(
-            CheckBox(
-                pos=(450, 800), size_hint=(.15, .2),
-            ),
+            keyword_checkbox,
         )
         events_layout.add_widget(
             Label(
@@ -104,10 +105,11 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        mention_tag_checkbox = CheckBox(
+            pos=(450, 750), size_hint=(.15, .2),
+        )
         events_layout.add_widget(
-            CheckBox(
-                pos=(450, 750), size_hint=(.15, .2),
-            ),
+            mention_tag_checkbox,
         )
         events_layout.add_widget(
             Label(
@@ -116,10 +118,11 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        like_checkbox = CheckBox(
+            pos=(450, 700), size_hint=(.15, .2),
+        )
         events_layout.add_widget(
-            CheckBox(
-                pos=(450, 700), size_hint=(.15, .2),
-            ),
+            like_checkbox,
         )
         events_layout.add_widget(
             Label(
@@ -128,10 +131,11 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        comment_checkbox = CheckBox(
+            pos=(450, 650), size_hint=(.15, .2),
+        )
         events_layout.add_widget(
-            CheckBox(
-                pos=(450, 650), size_hint=(.15, .2),
-            ),
+            comment_checkbox,
         )
         events_layout.add_widget(
             Label(
@@ -140,13 +144,15 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        retweet_repost_share_checkbox = CheckBox(
+            pos=(450, 600), size_hint=(.15, .2),
+        )
         events_layout.add_widget(
-            CheckBox(
-                pos=(450, 600), size_hint=(.15, .2),
-            ),
+            retweet_repost_share_checkbox,
         )
 
-        update_layout.add_widget(spinner())
+        update_spinner = spinner()
+        update_layout.add_widget(update_spinner)
         update_layout.add_widget(
             Label(
                 text='Search for: ', font_size='20sp',
@@ -154,11 +160,12 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        search_input = TextInput(
+            multiline=False,
+            pos=(300, 970), size_hint=(.15, .04),
+        )
         update_layout.add_widget(
-            TextInput(
-                multiline=False,
-                pos=(300, 970), size_hint=(.15, .04),
-            ),
+            search_input,
         )
         update_layout.add_widget(
             Label(
@@ -167,11 +174,12 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        replace_input = TextInput(
+            multiline=False,
+            pos=(575, 970), size_hint=(.15, .04),
+        )
         update_layout.add_widget(
-            TextInput(
-                multiline=False,
-                pos=(575, 970), size_hint=(.15, .04),
-            ),
+            replace_input,
         )
 
         profile_layout.add_widget(
@@ -202,11 +210,12 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        old_password_input = TextInput(
+            multiline=False,
+            pos=(300, 935), size_hint=(.1, .04),
+        )
         profile_layout.add_widget(
-            TextInput(
-                multiline=False,
-                pos=(300, 935), size_hint=(.1, .04),
-            ),
+            old_password_input,
         )
         profile_layout.add_widget(
             Label(
@@ -215,11 +224,12 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        new_password_input = TextInput(
+            multiline=False,
+            pos=(300, 885), size_hint=(.1, .04),
+        )
         profile_layout.add_widget(
-            TextInput(
-                multiline=False,
-                pos=(300, 885), size_hint=(.1, .04),
-            ),
+            new_password_input,
         )
         profile_layout.add_widget(
             Label(
@@ -228,11 +238,12 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        confirm_new_password_input = TextInput(
+            multiline=False,
+            pos=(300, 835), size_hint=(.1, .04),
+        )
         profile_layout.add_widget(
-            TextInput(
-                multiline=False,
-                pos=(300, 835), size_hint=(.1, .04),
-            ),
+            confirm_new_password_input,
         )
 
         tb_panel = TabbedPanel()
@@ -268,47 +279,85 @@ class TabbedPanelApp(App):
 
         return tb_panel
 
-    # def performance(platform_enum) -> List[int]:
-    #     if platform_enum is platform_enum.REDDIT:
+    # def performance(self, platform: str) -> List[int]:
+    #     if platform is 'Reddit':
     #         from postr.reddit_postr import Reddit
-    #         follower_count = Reddit.get_user_followers(),
-    #         total_likes = Reddit.get_user_likes(),
-    #     elif platform_enum is platform_enum.FACEBOOK:
+    #         reddit = Reddit()
+    #         follower_count = len(reddit.get_user_followers('')),
+    #         # total_likes = reddit.get_user_likes()
+    #         total_likes = 0
+    #     elif platform is 'Facebook':
     #         from postr.facebook_api import FacebookApi
-    #         follower_count = FacebookApi.get_user_followers(),
-    #         total_likes = FacebookApi.get_user_likes(),
-    #     elif platform_enum is platform_enum.TUMBLR:
+    #         facebook = FacebookApi()
+    #         follower_count = len(facebook.get_user_followers('')),
+    #         total_likes = facebook.get_user_likes(),
+    #     elif platform is 'Tumblr':
     #         follower_count = 0,
     #         total_likes = 0,
-    #     elif platform_enum is platform_enum.INSTAGRAM:
+    #     elif platform is 'Instagram':
     #         follower_count = 0,
     #         total_likes = 0,
-    #     elif platform_enum is platform_enum.TWITTER:
+    #     elif platform is 'Twitter':
     #         from postr.twitter_postr import Twitter
-    #         follower_count = Twitter.get_user_followers(),
-    #         total_likes = Twitter.get_user_likes(),
-    #     elif platform_enum is platform_enum.YOUTUBE:
+    #         twitter = Twitter()
+    #         follower_count = len(twitter.get_user_followers('')),
+    #         total_likes = twitter.get_user_likes(),
+    #     elif platform is 'Youtube':
     #         follower_count = 0,
     #         total_likes = 0,
-    #     elif platform_enum is platform_enum.PINTEREST:
+    #     elif platform is 'Slack':
     #         follower_count = 0,
     #         total_likes = 0,
-    #     elif platform_enum is platform_enum.SLACK:
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform_enum is platform_enum.DISCORD:
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform_enum is platform_enum.YELP:
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform_enum is platform_enum.LINKEDIN:
+    #     elif platform is 'Discord':
     #         follower_count = 0,
     #         total_likes = 0,
     #     else:
     #         follower_count = 0,
     #         total_likes = 0,
-    #     return [follower_count, total_likes]
+    #     stats = List()
+    #     stats.append(follower_count)
+    #     stats.append(total_likes)
+    #     return stats
+
+    # def events(self, platform):
+    #     if platform is 'Reddit':
+    #
+    #     elif platform is 'Facebook':
+    #
+    #     elif platform is 'Tumblr':
+    #
+    #     elif platform is 'Instagram':
+    #
+    #     elif platform is 'Twitter':
+    #
+    #     elif platform is 'Youtube':
+    #
+    #     elif platform is 'Slack':
+    #
+    #     elif platform is 'Discord':
+    #
+    #     else:
+
+    # def update(self, platform, search, replace):
+    #     if platform is 'Reddit':
+    #
+    #     elif platform is 'Facebook':
+    #
+    #     elif platform is 'Tumblr':
+    #
+    #     elif platform is 'Instagram':
+    #
+    #     elif platform is 'Twitter':
+    #
+    #     elif platform is 'Youtube':
+    #
+    #     elif platform is 'Slack':
+    #
+    #     elif platform is 'Discord':
+    #
+    #     else:
+
+    # def update_profile(self, new_password):
 
 
 if __name__ == '__main__':

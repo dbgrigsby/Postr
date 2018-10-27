@@ -41,3 +41,17 @@
     - Implemented interface or not
     - Necessary imports, what methods were left out, how to call etc.
   - Researched connecting kivy frontend to a complex backend
+
+# October 26, 2018
+  - Broke out spinners to allow for individual access
+  - Named and redefined all of the text input variables to all for easy text access
+  - Restructured how the checkboxes were created to allow for future integration
+  - Added to and modified the performance method
+    - Calls appropriate method for each site to get follower count and total likes
+    - Values set ot 0 represent APIs that are not yet implemented
+  - Basic structure for events method
+  - Basic structure for updates method
+    - Cannot be implemented until additions are made to individual APIs and the API interface
+  - Basic structure for method to update user profile
+    - Considering breaking out sure profile into a new data structure, looking into kivy and passwords/ account information
+  ** Some emthods commented out due to the inability to fully implement. These methods were triggering our mypy testing and weren't able to be changed
