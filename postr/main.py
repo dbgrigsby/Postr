@@ -94,7 +94,7 @@ class TabbedPanelApp(App):
         )
         keyword_checkbox = CheckBox(
             pos=(450, 800), size_hint=(.15, .2),
-        ),
+        )
         events_layout.add_widget(
             keyword_checkbox,
         )
@@ -107,7 +107,7 @@ class TabbedPanelApp(App):
         )
         mention_tag_checkbox = CheckBox(
             pos=(450, 750), size_hint=(.15, .2),
-        ),
+        )
         events_layout.add_widget(
             mention_tag_checkbox,
         )
@@ -120,7 +120,7 @@ class TabbedPanelApp(App):
         )
         like_checkbox = CheckBox(
             pos=(450, 700), size_hint=(.15, .2),
-        ),
+        )
         events_layout.add_widget(
             like_checkbox,
         )
@@ -133,7 +133,7 @@ class TabbedPanelApp(App):
         )
         comment_checkbox = CheckBox(
             pos=(450, 650), size_hint=(.15, .2),
-        ),
+        )
         events_layout.add_widget(
             comment_checkbox,
         )
@@ -146,7 +146,7 @@ class TabbedPanelApp(App):
         )
         retweet_repost_share_checkbox = CheckBox(
             pos=(450, 600), size_hint=(.15, .2),
-        ),
+        )
         events_layout.add_widget(
             retweet_repost_share_checkbox,
         )
@@ -163,7 +163,7 @@ class TabbedPanelApp(App):
         search_input = TextInput(
             multiline=False,
             pos=(300, 970), size_hint=(.15, .04),
-        ),
+        )
         update_layout.add_widget(
             search_input,
         )
@@ -177,7 +177,7 @@ class TabbedPanelApp(App):
         replace_input = TextInput(
             multiline=False,
             pos=(575, 970), size_hint=(.15, .04),
-        ),
+        )
         update_layout.add_widget(
             replace_input,
         )
@@ -213,7 +213,7 @@ class TabbedPanelApp(App):
         old_password_input = TextInput(
             multiline=False,
             pos=(300, 935), size_hint=(.1, .04),
-        ),
+        )
         profile_layout.add_widget(
             old_password_input,
         )
@@ -227,7 +227,7 @@ class TabbedPanelApp(App):
         new_password_input = TextInput(
             multiline=False,
             pos=(300, 885), size_hint=(.1, .04),
-        ),
+        )
         profile_layout.add_widget(
             new_password_input,
         )
@@ -241,7 +241,7 @@ class TabbedPanelApp(App):
         confirm_new_password_input = TextInput(
             multiline=False,
             pos=(300, 835), size_hint=(.1, .04),
-        ),
+        )
         profile_layout.add_widget(
             confirm_new_password_input,
         )
