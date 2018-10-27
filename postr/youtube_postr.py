@@ -1,6 +1,6 @@
-from typing import List
-from api_interface import ApiInterface
-
+from typing import List, Any
+from postr.api_interface import ApiInterface
+from postr import config
 
 # This OAuth 2.0 access scope allows for full read/write access to the
 # authenticated user's account and requires requests to use an SSL connection.
@@ -56,8 +56,9 @@ class Youtube(ApiInterface):
         return True
 
 
-# def get_key(key: str) -> Any:
-#    """Gets a specified key for the reddit API """
-#    return config.get_api_key('Reddit', key)
+def get_key(key: str) -> Any:
+    """Gets a specified key for the reddit API """
+    return config.get_api_key('Reddit', key)
+
 
 new_Youtube = Youtube()
