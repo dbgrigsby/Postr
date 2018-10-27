@@ -43,3 +43,10 @@
 		- Added functionality for returning a list of wiki pages from a subreddit
 		- Added basic foundation of parsing subreddit posts
 		-
+
+# 2018 10-25
+	Set up simple YouTube functionality
+		- Added google requirements to requirements
+		- Set up basic template
+		- Generated link
+		- Utilized refresh token
