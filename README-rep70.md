@@ -41,3 +41,9 @@
     - Implemented interface or not
     - Necessary imports, what methods were left out, how to call etc.
   - Researched connecting kivy frontend to a complex backend
+
+# October 26, 2018
+  - Broke out spinners to allow for individual access
+  - Named and redefined all of the text input variables to all for easy text access
+  - Restructured how the checkboxes were created to allow for future integration
+  -
