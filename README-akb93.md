@@ -1,3 +1,16 @@
+#10/26/2018
+## Implement AI testing
+    Found in AI_test.py
+    Tested the polarity of sentences
+    Tested the sentiment conversion from a sample graphfile
+    Tested sentiment output for a blobfile
+
+## Implement CSV testing
+    Found in csv_test.py
+    Tested read column reading, ignoring the headers
+    Tested CSV setup for the twitter streaming
+    Tested CSV contents of the setup file
+
 #10/19/2018
 ## Implement twitter operations
     Implemented methods for removing posts, getting
