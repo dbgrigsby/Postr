@@ -25,7 +25,7 @@ def make_logger(name: str) -> logging.Logger:
     log_path = os.path.join(ROOT_DIR, 'logs', name)
     make_log_path(log_path)
 
-    now = datetime.datetime.now()
+    now = str(datetime.datetime.now()).replace(':', '-').replace(' ', '_')
     filename = os.path.join(log_path, f'{name}-{now}.log')
 
     logging.basicConfig(format=LOG_FORMAT, filename=filename, level=logging.DEBUG)
