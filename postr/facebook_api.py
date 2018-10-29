@@ -4,7 +4,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import webbrowser
 import json
 from typing import Type, List
-import config
+from postr.config import get_api_key
+from postr.config import update_api_key
 import facebook
 from api_interface import ApiInterface
 
@@ -37,7 +38,7 @@ class FacebookApi(ApiInterface):
         success = FacebookApi.authenticate()
 
         if success:
-            authToken = config.get_api_key('FACEBOOK', 'authToken')
+            authToken = get_api_key('FACEBOOK', 'authToken')
             self.graph = facebook.GraphAPI(
                 access_token=authToken,
                 version='2.12',
@@ -76,9 +77,9 @@ class FacebookApi(ApiInterface):
         success = True
         try:
             # get all values needed for auth
-            app_id = config.get_api_key('FACEBOOK', 'app_id')
-            token = config.get_api_key('FACEBOOK', 'access_token')
-            appsecret = config.get_api_key('FACEBOOK', 'app_secret')
+            app_id = get_api_key('FACEBOOK', 'app_id')
+            token = get_api_key('FACEBOOK', 'access_token')
+            appsecret = get_api_key('FACEBOOK', 'app_secret')
 
             canvas_url = 'http://localhost:8000/login_success'
             # 'https://www.facebook.com/connect/login_success.html'
@@ -108,9 +109,9 @@ class FacebookApi(ApiInterface):
             print('token = ' + actual_token)
 
             # update the config file
-            config.update_api_key('FACEBOOK', 'auth_token', actual_token)
-            config.update_api_key('FACEBOOK', 'has_token', 'true')
-        except facebook.GraphAPIError:
+            update_api_key('FACEBOOK', 'auth_token', actual_token)
+            update_api_key('FACEBOOK', 'has_token', 'true')
+        except Exception:
             print('Unsuccessful attempt to get access token')
             success = False
 
