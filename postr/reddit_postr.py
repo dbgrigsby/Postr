@@ -76,10 +76,7 @@ class Reddit(ApiInterface):
 
     def get_user_likes(self) -> int:
         ''' This method returns the number of likes a user has total between link and client'''
-        return int(
-            self.client.user.me().comment_karma +
-            self.client.user.me().link_karma,
-        )
+        return int(self.client.user.me().comment_karma + self.client.user.me().link_karma)
 
     def get_user_followers(self, text: str) -> List[str]:
         ''' This method returns a list of all the people that
