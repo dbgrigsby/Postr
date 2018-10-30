@@ -1,10 +1,7 @@
 # facebook api test
 import sys
-# from unittest.mock import patch
-# from pathlib import Path
-# import pytest
+from unittest.mock import patch
 from postr import facebook_api
-# from postr import config
 sys.path.insert(0, '../postr')
 
 
@@ -16,7 +13,13 @@ class Object():
     text: str = ''
 
 
-client = facebook_api.FacebookApi()
+def get_mock_client() -> facebook_api.FacebookApi:
+    with patch('postr.facebook_api.FacebookApi.authenticate') as mock_auth:
+        mock_auth.return_value = False
+        return facebook_api.FacebookApi()
+
+
+client = get_mock_client()
 
 
 def test_parse_code() -> None:

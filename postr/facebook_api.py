@@ -6,8 +6,9 @@ import json
 from typing import Type, List
 from postr.config import get_api_key
 from postr.config import update_api_key
+from postr.api_interface import ApiInterface
 import facebook
-from api_interface import ApiInterface
+
 
 code = ''
 
