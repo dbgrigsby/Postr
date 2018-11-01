@@ -1,4 +1,4 @@
-# from typing import List
+from typing import List
 
 from kivy.app import App
 from kivy.uix.checkbox import CheckBox
@@ -279,45 +279,46 @@ class TabbedPanelApp(App):
 
         return tb_panel
 
-    # def performance(self, platform: str) -> List[int]:
-    #     if platform is 'Reddit':
-    #         from postr.reddit_postr import Reddit
-    #         reddit = Reddit()
-    #         follower_count = len(reddit.get_user_followers('')),
-    #         # total_likes = reddit.get_user_likes()
-    #         total_likes = 0
-    #     elif platform is 'Facebook':
-    #         from postr.facebook_api import FacebookApi
-    #         facebook = FacebookApi()
-    #         follower_count = len(facebook.get_user_followers('')),
-    #         total_likes = facebook.get_user_likes(),
-    #     elif platform is 'Tumblr':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform is 'Instagram':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform is 'Twitter':
-    #         from postr.twitter_postr import Twitter
-    #         twitter = Twitter()
-    #         follower_count = len(twitter.get_user_followers('')),
-    #         total_likes = twitter.get_user_likes(),
-    #     elif platform is 'Youtube':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform is 'Slack':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform is 'Discord':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     else:
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     stats = List()
-    #     stats.append(follower_count)
-    #     stats.append(total_likes)
-    #     return stats
+    @staticmethod
+    def performance(platform: str) -> List[int]:
+        if platform == 'Reddit':
+            from postr.reddit_postr import Reddit
+            reddit = Reddit()
+            follower_count = len(reddit.get_user_followers(''))
+            # total_likes = reddit.get_user_likes()
+            total_likes = 0
+        elif platform == 'Facebook':
+            from postr.facebook_api import FacebookApi
+            facebook = FacebookApi()
+            follower_count = len(facebook.get_user_followers(''))
+            total_likes = facebook.get_user_likes()
+        elif platform == 'Tumblr':
+            follower_count = 0
+            total_likes = 0
+        elif platform == 'Instagram':
+            follower_count = 0
+            total_likes = 0
+        elif platform == 'Twitter':
+            from postr.twitter_postr import Twitter
+            twitter = Twitter()
+            follower_count = len(twitter.get_user_followers(''))
+            total_likes = twitter.get_user_likes()
+        elif platform == 'Youtube':
+            follower_count = 0
+            total_likes = 0
+        elif platform == 'Slack':
+            follower_count = 0
+            total_likes = 0
+        elif platform == 'Discord':
+            follower_count = 0
+            total_likes = 0
+        else:
+            follower_count = 0
+            total_likes = 0
+        stats = List()
+        stats.append(follower_count)
+        stats.append(total_likes)
+        return stats
 
     # def events(self, platform):
     #     if platform is 'Reddit':
