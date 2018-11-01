@@ -55,3 +55,7 @@
   - Basic structure for method to update user profile
     - Considering breaking out sure profile into a new data structure, looking into kivy and passwords/ account information
   ** Some emthods commented out due to the inability to fully implement. These methods were triggering our mypy testing and weren't able to be changed
+
+# November 2, 2018
+  - Modified performance method so that it passes all pre-commit tests and builds
+  - Updated tox.ini to allow for methods of greater complexity
