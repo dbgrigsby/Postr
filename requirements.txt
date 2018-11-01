@@ -48,7 +48,7 @@ pytest==3.8.1
 pytest-asyncio
 PyTumblr==0.0.8
 PyYAML==3.13
-requests==2.19.1
+requests==2.20.0
 requests-oauthlib==1.0.0
 six==1.11.0
 smmap2==2.0.4
