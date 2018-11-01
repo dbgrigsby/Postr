@@ -1,3 +1,8 @@
+#### 10/30/2018
+Finished testing for Facebook API  
+Testing mocks responses from Facebook graph API  
+Started finding online resources for implementing tumblr API  
+
 #### 10/24/2018  
 Started testing for Facebook Chat API and Facebook API  
 Testing mocks responses from fbchat API  
