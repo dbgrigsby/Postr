@@ -9,11 +9,6 @@ from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.tabbedpanel import TabbedPanelHeader
 from kivy.uix.textinput import TextInput
 
-from postr.reddit_postr import Reddit
-from postr.facebook_api import FacebookApi
-from postr.twitter_postr import Twitter
-from postr.youtube_postr import Youtube
-
 
 class TabbedPanelApp(App):
     @classmethod
@@ -67,10 +62,41 @@ class TabbedPanelApp(App):
         posts_layout.add_widget(
             Label(
                 text='Scheduled Posts: ', font_size='20sp',
-                pos=(315, 900), size_hint=(.15, .2),
+                pos=(315, 800), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
         )
+        post_types = Spinner(
+            # default value
+            text='Post type',
+
+            # available values
+            values=(
+                'Text', 'Image', 'Video',
+            ),
+
+            size_hint=(.15, .1),
+            pos=(300, 985),
+        )
+        post_timing = Spinner(
+            # default value
+            text='Choose a time:',
+
+            # available values
+            values=(
+                'Immediately', 'Schedule for',
+            ),
+
+            size_hint=(.15, .1),
+            pos=(600, 985),
+        )
+        post_time = TextInput(
+            multiline=False,
+            pos=(900, 985), size_hint=(.15, .04),
+        )
+        posts_layout.add_widget(post_types)
+        posts_layout.add_widget(post_timing)
+        posts_layout.add_widget(post_time)
 
         events_spinner = spinner()
         events_layout.add_widget(events_spinner)
@@ -286,11 +312,15 @@ class TabbedPanelApp(App):
 
     @staticmethod
     def performance(platform: str) -> List[int]:
+        from postr.reddit_postr import Reddit
+        from postr.facebook_api import FacebookApi
+        from postr.twitter_postr import Twitter
+        from postr.youtube_postr import Youtube
+
         if platform == 'Reddit':
             reddit = Reddit()
             follower_count = len(reddit.get_user_followers(''))
-            # total_likes = reddit.get_user_likes()
-            total_likes = 0
+            total_likes = reddit.get_user_likes()
         elif platform == 'Facebook':
             facebook = FacebookApi()
             follower_count = len(facebook.get_user_followers(''))
@@ -323,7 +353,26 @@ class TabbedPanelApp(App):
         stats.append(total_likes)
         return stats
 
-    # def events(self, platform):
+    # def immediate_post(self, platform):
+    #     if platform is 'Reddit':
+    #
+    #     elif platform is 'Facebook':
+    #
+    #     elif platform is 'Tumblr':
+    #
+    #     elif platform is 'Instagram':
+    #
+    #     elif platform is 'Twitter':
+    #
+    #     elif platform is 'Youtube':
+    #
+    #     elif platform is 'Slack':
+    #
+    #     elif platform is 'Discord':
+    #
+    #     else:
+
+    # def scheduled_post(self, platform):
     #     if platform is 'Reddit':
     #
     #     elif platform is 'Facebook':

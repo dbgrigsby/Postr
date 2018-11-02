@@ -61,3 +61,9 @@
   - Updated tox.ini to allow for methods of greater complexity
   - Reorganized inputs from individual methods to overall program
   - Hooked up youtube API to performance method
+  - Modified event method framework to instead work for immediate posting
+  - Added another method to later hook up to the scheduler for scheduling posts that are not immediate
+  - Added more options to post tab
+    - What kind of post
+    - When the post should be created (immediately or scheduled)
+    - Text input to allow for date and time to be added once the scheduler is implemented
