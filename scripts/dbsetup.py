@@ -40,8 +40,8 @@ c.execute("""CREATE TABLE DailyJob (
         Frequency INTEGER DEFAULT 1,
         FrequencyCounter INTEGER DEFAULT 1,
         IntervalInMinutes INTEGER DEFAULT 0,
-        StartTime TEXT NOT NULL,
-        EndTime TEXT,
+        StartTime INTEGER NOT NULL,
+        EndTime INTEGER,
         Job_ID INTEGER NOT NULL,
         FOREIGN KEY (Job_ID) REFERENCES Job(JobID) ON DELETE CASCADE
         )""")
@@ -52,15 +52,15 @@ c.execute("""CREATE TABLE MonthlyJob (
         Frequency INTEGER DEFAULT 1,
         FrequencyCounter INTEGER DEFAULT 1,
         IntervalInDays INTEGER DEFAULT 0,
-        StartTime TEXT NOT NULL,
-        EndTime TEXT,
+        StartTime INTEGER NOT NULL,
+        EndTime INTEGER,
         Job_ID INTEGER NOT NULL,
         FOREIGN KEY (Job_ID) REFERENCES Job(JobID) ON DELETE CASCADE
         )""")
 
 c.execute("""CREATE TABLE CustomJob (
         CustomJobID INTEGER PRIMARY KEY AUTOINCREMENT,
-        CustomDate TEXT NOT NULL,
+        CustomDate INTEGER NOT NULL,
         Job_ID INTEGER NOT NULL,
         FOREIGN KEY (Job_ID) REFERENCES Job(JobID) ON DELETE CASCADE
         )""")
