@@ -1,9 +1,11 @@
 from datetime import datetime as dt
 import sqlite3
-
+import time
 from typing import List
 from typing import Any
 from typing import Dict
+
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 class Reader():
@@ -16,6 +18,7 @@ class Reader():
         file_path: str = 'postr/schedule/master_schedule.sqlite'
         self.conn = sqlite3.connect(file_path, check_same_thread=False)
         self.cursor = self.conn.cursor()
+        self.sched = BackgroundScheduler()
 
     def cleanup(self) -> None:
         """ Closes the database connection"""
@@ -42,6 +45,18 @@ class Reader():
         } for row in self.cursor.fetchall()]
 
         return json
+
+    async def start(self) -> None:
+        """ Starts a scheduler """
+        self.sched.add_job(self.scan, 'interval', seconds=10)
+        self.sched.start()
+
+    async def scan(self) -> Any:
+        """ Scans every 30 seconds for new jobs in the past 30 seconds """
+        time.sleep(30)
+        todo = self.scan_custom_jobs()
+        print(todo)
+        # pass
 
     def schedule_range(self, seconds: int) -> int:
         """ Returns the lower bound for a scheduled range """
