@@ -2,6 +2,7 @@ from datetime import datetime as dt
 import sqlite3
 from typing import List
 from typing import Any
+from typing import Dict
 
 
 class Reader():
@@ -24,14 +25,15 @@ class Reader():
         """ Returns the current time """
         return int(dt.now().timestamp())
 
-    def scan_custom_jobs(self, seconds: int = 30) -> List[Any]:
+    def scan_custom_jobs(self, seconds: int = 30) -> List[Dict[str, Any]]:
         """ Scans jobs every 'seconds' seconds, and returns a JSON
             object representing any jobs to be operated on """
         lower = self.schedule_range(seconds)
         upper = self.now()
 
-        self.cursor.execute(f"""SELECT * FROM CustomJob WHERE
-                CustomJob.CustomDate BETWEEN {lower} and {upper}""")
+        self.cursor.execute(f"""SELECT * FROM CustomJob
+                INNER JOIN Job on Job.JobID = CustomJob.Job_ID
+                WHERE CustomJob.CustomDate BETWEEN {lower} and {upper}""")
 
         json = [{
             self.cursor.description[i][0]: value
