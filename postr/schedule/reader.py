@@ -1,3 +1,4 @@
+from datetime import datetime as dt
 import sqlite3
 
 
@@ -15,3 +16,8 @@ class Reader():
     def cleanup(self) -> None:
         """ Closes the database connection"""
         self.conn.close()
+
+    @classmethod
+    def now(cls) -> dt:
+        """ Returns the current time """
+        return dt.now()

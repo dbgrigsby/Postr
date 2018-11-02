@@ -1,4 +1,6 @@
+from datetime import datetime as dt
 import sqlite3
+import time
 
 
 class Writer():
@@ -16,7 +18,12 @@ class Writer():
         """ Closes the database connection"""
         self.conn.close()
 
-    def create_person(self, first: str, last: str, social: str) -> int:
+    @classmethod
+    def now(cls) -> dt:
+        """ Returns the current time """
+        return dt.now()
+
+    def create_person(self, first: str, last: str, social: str) -> str:
         """Inserts a person/user into the database Person table; generates a unique ID """
         self.cursor.execute(
             """INSERT INTO Person(FirstName, LastName, SocialMedia)
@@ -25,9 +32,9 @@ class Writer():
         self.conn.commit()
 
         # return the autoincrement ID
-        return int(self.cursor.lastrowid)
+        return str(self.cursor.lastrowid)
 
-    def create_job(self, comment: str, media_path: str, optional_text: str) -> int:
+    def create_job(self, comment: str, media_path: str, optional_text: str) -> str:
         """Creates a scheduled job/task for media operations.
            comment and media path can be null """
         self.cursor.execute(
@@ -37,7 +44,7 @@ class Writer():
         self.conn.commit()
 
         # return the autoincrement ID
-        return int(self.cursor.lastrowid)
+        return str(self.cursor.lastrowid)
 
     def create_custom_job(self, date: str, job_id: str) -> None:
         """Creates a custom job/task, that is, a one-time job on a specific date """
@@ -66,3 +73,17 @@ class Writer():
             (use_display, display_first, display_last, age, comment, website, person_id),
         )
         self.conn.commit()
+
+    def example(self) -> None:
+        """ Inserts two times for custom jobs """
+        now1 = str(dt.now())
+        id1 = self.create_job('testComment1', 'testPath1', '')
+        self.create_custom_job(now1, id1)
+
+        time.sleep(5)
+
+        now2 = str(dt.now())
+        id2 = self.create_job('testComment2', 'testPath2', '')
+        self.create_custom_job(now2, id2)
+
+        print('done!')
