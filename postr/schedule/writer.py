@@ -19,9 +19,9 @@ class Writer():
         self.conn.close()
 
     @classmethod
-    def now(cls) -> dt:
+    def now(cls) -> float:
         """ Returns the current time """
-        return dt.now()
+        return dt.now().timestamp()
 
     def create_person(self, first: str, last: str, social: str) -> str:
         """Inserts a person/user into the database Person table; generates a unique ID """
@@ -76,13 +76,13 @@ class Writer():
 
     def example(self) -> None:
         """ Inserts two times for custom jobs """
-        now1 = str(dt.now())
+        now1 = str(self.now())
         id1 = self.create_job('testComment1', 'testPath1', '')
         self.create_custom_job(now1, id1)
 
         time.sleep(5)
 
-        now2 = str(dt.now())
+        now2 = str(self.now())
         id2 = self.create_job('testComment2', 'testPath2', '')
         self.create_custom_job(now2, id2)
 
