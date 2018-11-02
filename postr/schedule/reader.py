@@ -18,6 +18,6 @@ class Reader():
         self.conn.close()
 
     @classmethod
-    def now(cls) -> float:
+    def now(cls) -> int:
         """ Returns the current time """
-        return dt.now().timestamp()
+        return int(dt.now().timestamp())

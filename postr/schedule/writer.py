@@ -19,9 +19,9 @@ class Writer():
         self.conn.close()
 
     @classmethod
-    def now(cls) -> float:
+    def now(cls) -> int:
         """ Returns the current time """
-        return dt.now().timestamp()
+        return int(dt.now().timestamp())
 
     def create_person(self, first: str, last: str, social: str) -> str:
         """Inserts a person/user into the database Person table; generates a unique ID """
@@ -46,7 +46,7 @@ class Writer():
         # return the autoincrement ID
         return str(self.cursor.lastrowid)
 
-    def create_custom_job(self, date: str, job_id: str) -> None:
+    def create_custom_job(self, date: int, job_id: str) -> None:
         """Creates a custom job/task, that is, a one-time job on a specific date """
         self.cursor.execute(
             """INSERT INTO CustomJob(CustomDate, Job_ID)
@@ -76,13 +76,13 @@ class Writer():
 
     def example(self) -> None:
         """ Inserts two times for custom jobs """
-        now1 = str(self.now())
+        now1 = self.now()
         id1 = self.create_job('testComment1', 'testPath1', '')
         self.create_custom_job(now1, id1)
 
         time.sleep(5)
 
-        now2 = str(self.now())
+        now2 = self.now()
         id2 = self.create_job('testComment2', 'testPath2', '')
         self.create_custom_job(now2, id2)
 
