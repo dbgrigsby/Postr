@@ -1,3 +1,11 @@
+#11/2/2018
+## Implement schedule reader
+    Reads the database scheduler, and returns a JSON object of current
+    tasks to schedule.
+## Implement schedule writer
+    Writes to the database, using datetime's timestamp to provide
+    easy comparison for the reader operations
+
 #10/26/2018
 ## Implement AI testing
     Found in AI_test.py
