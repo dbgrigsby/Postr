@@ -34,12 +34,15 @@ class Writer():
         # return the autoincrement ID
         return str(self.cursor.lastrowid)
 
-    def create_job(self, comment: str, media_path: str, optional_text: str) -> str:
+    def create_job(
+        self, comment: str, media_path: str,
+        optional_text: str, platforms: str,
+    ) -> str:
         """Creates a scheduled job/task for media operations.
            comment and media path can be null """
         self.cursor.execute(
-            """INSERT INTO Job(Comment, MediaPath, OptionalText)
-                    VALUES(?, ?, ?)""", (comment, media_path, optional_text),
+            """INSERT INTO Job(Comment, MediaPath, OptionalText, Platforms)
+                    VALUES(?, ?, ?, ?)""", (comment, media_path, optional_text, platforms),
         )
         self.conn.commit()
 
@@ -77,13 +80,13 @@ class Writer():
     def example(self) -> None:
         """ Inserts two times for custom jobs """
         now1 = self.now()
-        id1 = self.create_job('testComment1', 'testPath1', '')
+        id1 = self.create_job('testComment1', 'testPath1', '', 'twitter,instagram')
         self.create_custom_job(now1, id1)
 
         time.sleep(5)
 
         now2 = self.now()
-        id2 = self.create_job('testComment2', 'testPath2', '')
+        id2 = self.create_job('testComment2', 'testPath2', '', 'discord,reddit')
         self.create_custom_job(now2, id2)
 
         print('done!')
