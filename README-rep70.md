@@ -59,3 +59,5 @@
 # November 2, 2018
   - Modified performance method so that it passes all pre-commit tests and builds
   - Updated tox.ini to allow for methods of greater complexity
+  - Reorganized inputs from individual methods to overall program
+  - Hooked up youtube API to performance method

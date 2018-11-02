@@ -9,6 +9,11 @@ from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.tabbedpanel import TabbedPanelHeader
 from kivy.uix.textinput import TextInput
 
+from postr.reddit_postr import Reddit
+from postr.facebook_api import FacebookApi
+from postr.twitter_postr import Twitter
+from postr.youtube_postr import Youtube
+
 
 class TabbedPanelApp(App):
     @classmethod
@@ -282,13 +287,11 @@ class TabbedPanelApp(App):
     @staticmethod
     def performance(platform: str) -> List[int]:
         if platform == 'Reddit':
-            from postr.reddit_postr import Reddit
             reddit = Reddit()
             follower_count = len(reddit.get_user_followers(''))
             # total_likes = reddit.get_user_likes()
             total_likes = 0
         elif platform == 'Facebook':
-            from postr.facebook_api import FacebookApi
             facebook = FacebookApi()
             follower_count = len(facebook.get_user_followers(''))
             total_likes = facebook.get_user_likes()
@@ -299,13 +302,13 @@ class TabbedPanelApp(App):
             follower_count = 0
             total_likes = 0
         elif platform == 'Twitter':
-            from postr.twitter_postr import Twitter
             twitter = Twitter()
             follower_count = len(twitter.get_user_followers(''))
             total_likes = twitter.get_user_likes()
         elif platform == 'Youtube':
-            follower_count = 0
-            total_likes = 0
+            youtube = Youtube()
+            follower_count = len(youtube.get_user_followers(''))
+            total_likes = youtube.get_user_likes()
         elif platform == 'Slack':
             follower_count = 0
             total_likes = 0
