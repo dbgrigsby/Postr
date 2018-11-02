@@ -1,5 +1,6 @@
 # scheduler database
 postr/schedule/master_schedule.sqlite
+postr/schedule/master_schedule.sqlite-journal
 
 # Twitter
 postr/twitter/twitter_blob.csv
