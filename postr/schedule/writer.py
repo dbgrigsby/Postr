@@ -16,7 +16,7 @@ class Writer():
         """ Closes the database connection"""
         self.conn.close()
 
-    def create_person(self, first: str, last: str, social: str) -> None:
+    def create_person(self, first: str, last: str, social: str) -> int:
         """Inserts a person/user into the database Person table; generates a unique ID """
         self.cursor.execute(
             """INSERT INTO Person(FirstName, LastName, SocialMedia)
@@ -24,7 +24,10 @@ class Writer():
         )
         self.conn.commit()
 
-    def create_job(self, comment: str, media_path: str, optional_text: str) -> None:
+        # return the autoincrement ID
+        return int(self.cursor.lastrowid)
+
+    def create_job(self, comment: str, media_path: str, optional_text: str) -> int:
         """Creates a scheduled job/task for media operations.
            comment and media path can be null """
         self.cursor.execute(
@@ -32,6 +35,9 @@ class Writer():
                     VALUES(?, ?, ?)""", (comment, media_path, optional_text),
         )
         self.conn.commit()
+
+        # return the autoincrement ID
+        return int(self.cursor.lastrowid)
 
     def create_custom_job(self, date: str, job_id: str) -> None:
         """Creates a custom job/task, that is, a one-time job on a specific date """
