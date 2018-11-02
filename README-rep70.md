@@ -1,16 +1,14 @@
 # September 28, 2018
-  Created basic kivy app
-  - Set up base application
-  - Added tabs for each future feature
-  - Runs locally using Cython 0.28.5 and Kivy 1.9.1
-
-  Researched how to dockerize kivy app
-  - Modified Dockerfile to included Cython, one of the dependencies required for Kivy
-  - Have tried using Cython versions 0.20 through 0.28.5
-  - Have tried using Kivy versions 1.09 through 1.10
-  - After reading countless articles and sifting through a lot of code I am currently unalbe to dockerize our kivy application, however there are a few other things to continue trying next week to make the application work
-
-  Created Kivy documentation in Docs. Will be updated as the project progresses
+  - Created basic kivy app
+    - Set up base application
+    - Added tabs for each future feature
+    - Runs locally using Cython 0.28.5 and Kivy 1.9.1
+  - Researched how to dockerize kivy app
+    - Modified Dockerfile to included Cython, one of the dependencies required for Kivy
+    - Have tried using Cython versions 0.20 through 0.28.5
+    - Have tried using Kivy versions 1.09 through 1.10
+    - After reading countless articles and sifting through a lot of code I am currently unalbe to dockerize our kivy application, however there are a few other things to continue trying next week to make the application work
+  - Created Kivy documentation in Docs. Will be updated as the project progresses
 
 # October 5, 2018
   - Updated Kivy documentation in Docs to include more detail and steps for installing and running
@@ -55,3 +53,15 @@
   - Basic structure for method to update user profile
     - Considering breaking out sure profile into a new data structure, looking into kivy and passwords/ account information
   ** Some emthods commented out due to the inability to fully implement. These methods were triggering our mypy testing and weren't able to be changed
+
+# November 2, 2018
+  - Modified performance method so that it passes all pre-commit tests and builds
+  - Updated tox.ini to allow for methods of greater complexity
+  - Reorganized inputs from individual methods to overall program
+  - Hooked up youtube API to performance method
+  - Modified event method framework to instead work for immediate posting
+  - Added another method to later hook up to the scheduler for scheduling posts that are not immediate
+  - Added more options to post tab
+    - What kind of post
+    - When the post should be created (immediately or scheduled)
+    - Text input to allow for date and time to be added once the scheduler is implemented
