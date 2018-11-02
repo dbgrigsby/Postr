@@ -6,6 +6,9 @@
     Writes to the database, using datetime's timestamp to provide
     easy comparison for the reader operations
 
+## Scheduler
+    Did various work on the setup db file, fixed minor errors
+
 #10/26/2018
 ## Implement AI testing
     Found in AI_test.py
