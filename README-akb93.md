@@ -5,9 +5,10 @@
 ## Implement schedule writer
     Writes to the database, using datetime's timestamp to provide
     easy comparison for the reader operations
-
 ## Scheduler
     Did various work on the setup db file, fixed minor errors
+    Refactored the database schema to accomodate job ID's and
+    also multiple platforms per job
 
 #10/26/2018
 ## Implement AI testing
