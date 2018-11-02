@@ -10,7 +10,8 @@ c.execute("""CREATE TABLE Job(
         JobID INTEGER PRIMARY KEY AUTOINCREMENT,
         Comment TEXT,
         MediaPath TEXT,
-        OptionalText TEXT
+        OptionalText TEXT,
+        Platforms TEXT
         )""")
 
 # Define a generic bio
