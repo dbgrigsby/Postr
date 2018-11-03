@@ -52,7 +52,7 @@ async def delete_bot_messages(channel_id: Optional[str] = default_channel_id()) 
         return False
 
 
-async def post_image(image_filepath: str, channel_id: str) -> bool:
+async def post_image(image_filepath: str, channel_id: Optional[str] = default_channel_id()) -> bool:
     channel = discord_client.get_channel(channel_id)
     try:
         with open(image_filepath, 'rb') as f:

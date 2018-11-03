@@ -1,4 +1,9 @@
-@ 2018-10-26
+# 2018-11-02
+    During this week, I created the task processor for executing a command from a Scheduler instruction,
+    This was designed to also be callable from a UI button click
+    THis involved reading and integrating all APIs into one task processor
+    Additionally fix some misc bugs in other APIs I found while doing it
+# 2018-10-26
     During this week, I  will get back on schedule, fix bugs, and cleanup the code.
     This week will also be used for extra testing for discord and the config parser
 # 2018-10-19

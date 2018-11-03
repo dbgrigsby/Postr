@@ -4,10 +4,16 @@ from typing import List
 from fbchat import Client
 from fbchat.models import Message, ThreadType
 
+from postr.config import get_api_key
+
 
 class FacebookChatApi():
 
-    def __init__(self, email: str, password: str) -> None:
+    def __init__(
+        self,
+        email: str = get_api_key('facebook', 'email') or '',
+        password: str = get_api_key('facebook', 'password') or '',
+    ) -> None:
 
         client = Client(email, password)
         self.client = client
