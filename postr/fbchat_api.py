@@ -9,10 +9,11 @@ from postr.config import get_api_key
 
 class FacebookChatApi():
 
-    def __init__(self) -> None:
-
-        email = get_api_key('facebook', 'email') or ''
-        password = get_api_key('facebook', 'password') or ''
+    def __init__(
+        self,
+        email: str = get_api_key('facebook', 'email') or '',
+        password: str = get_api_key('facebook', 'password') or '',
+    ) -> None:
 
         client = Client(email, password)
         self.client = client
