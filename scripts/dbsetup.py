@@ -11,7 +11,8 @@ c.execute("""CREATE TABLE Job(
         Comment TEXT,
         MediaPath TEXT,
         OptionalText TEXT,
-        Platforms TEXT
+        Platforms TEXT,
+        Action TEXT
         )""")
 
 # Define a generic bio
