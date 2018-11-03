@@ -50,3 +50,10 @@
 		- Set up basic template
 		- Generated link
 		- Utilized refresh token
+
+# 2018 11-2
+	YouTube functionality
+		- Utilized token to upload video. Added basis for adding videos.
+		- Converted sample code found here https://developers.google.com/youtube/v3/docs/videos/insert#usage
+		- Need to convert video uploading service into a more serviceable and integrated version.
+		- Need to save refresh token.
