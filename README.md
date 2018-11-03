@@ -1,3 +1,10 @@
+11/2/2018:
+- The team will pull back together and build the Scheduler, which will allow a user to schedule an arbitrary event for a specific API.
+- We will need a database to store the scheduling events, and  way for the program to run 'in the background' (likely minimized to a system tray).
+- A communication channel (MQTT?) will be created between the event-based part of the app, the frontend, and the long-running scheduler application, so that there is no intolerably long wait time for communication between the two parts of the app, or either and the database. The system should be tested.
+- Those not working on the scheduler will be working on their individual APIs
+
+
 10/26/2018:
 - During this week, the team will get back on schedule, fix bugs, and cleanup the code.  This week will also be used for extra testing.  We will work ahead if needed.
 - During this week the User Experience Engineer will finish adding last week's work, the finished APIs 1-4, to the GUI.

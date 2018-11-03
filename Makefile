@@ -40,4 +40,7 @@ twitter: activate
 setupTextblob: activate
 	${PYTHON} -m textblob.download_corpora \
 
+database: activate
+	${PYTHON} -m scripts.dbsetup \
+
 # link : https://blog.horejsek.com/makefile-with-python/
