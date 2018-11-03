@@ -214,8 +214,7 @@ def uploadvideo(file, title, description, category, keywords, privacy_status) ->
     parser.add_argument('--description', help='Video description', default=description)
     parser.add_argument(
         '--category', default=category,
-        help='Numeric video category. ' +
-        'See https://developers.google.com/youtube/v3/docs/videoCategories/list',
+        help='Numeric video category. ' + 'See https://developers.google.com/youtube/v3/docs/videoCategories/list',
     )
     parser.add_argument(
         '--keywords', help='Video keywords, comma separated',
