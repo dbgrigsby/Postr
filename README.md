@@ -1,3 +1,8 @@
+11/2/2018:
+- Each team member will take hold of one Social Media platform, listed in their individual Gantt chart, and set up authentication + one other featur.
+- Users should be able to authenticate and perform one media action after this is complete. Tests will be created for work done in this stage.
+
+
 10/26/2018:
 - During this week, the team will get back on schedule, fix bugs, and cleanup the code.  This week will also be used for extra testing.  We will work ahead if needed.
 - During this week the User Experience Engineer will finish adding last week's work, the finished APIs 1-4, to the GUI.
