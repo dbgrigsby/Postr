@@ -1,6 +1,7 @@
+import os
 import sqlite3
 
-file_path: str = 'master_schedule.sqlite'
+file_path: str = os.path.join('postr', 'schedule', 'master_schedule.sqlite')
 
 conn = sqlite3.connect(file_path)
 c = conn.cursor()
@@ -10,7 +11,9 @@ c.execute("""CREATE TABLE Job(
         JobID INTEGER PRIMARY KEY AUTOINCREMENT,
         Comment TEXT,
         MediaPath TEXT,
-        OptionalText TEXT
+        OptionalText TEXT,
+        Platforms TEXT,
+        Action TEXT
         )""")
 
 # Define a generic bio
@@ -40,8 +43,8 @@ c.execute("""CREATE TABLE DailyJob (
         Frequency INTEGER DEFAULT 1,
         FrequencyCounter INTEGER DEFAULT 1,
         IntervalInMinutes INTEGER DEFAULT 0,
-        StartTime TEXT NOT NULL,
-        EndTime TEXT,
+        StartTime INTEGER NOT NULL,
+        EndTime INTEGER,
         Job_ID INTEGER NOT NULL,
         FOREIGN KEY (Job_ID) REFERENCES Job(JobID) ON DELETE CASCADE
         )""")
@@ -52,15 +55,15 @@ c.execute("""CREATE TABLE MonthlyJob (
         Frequency INTEGER DEFAULT 1,
         FrequencyCounter INTEGER DEFAULT 1,
         IntervalInDays INTEGER DEFAULT 0,
-        StartTime TEXT NOT NULL,
-        EndTime TEXT,
+        StartTime INTEGER NOT NULL,
+        EndTime INTEGER,
         Job_ID INTEGER NOT NULL,
         FOREIGN KEY (Job_ID) REFERENCES Job(JobID) ON DELETE CASCADE
         )""")
 
 c.execute("""CREATE TABLE CustomJob (
         CustomJobID INTEGER PRIMARY KEY AUTOINCREMENT,
-        CustomDate TEXT NOT NULL,
+        CustomDate INTEGER NOT NULL,
         Job_ID INTEGER NOT NULL,
         FOREIGN KEY (Job_ID) REFERENCES Job(JobID) ON DELETE CASCADE
         )""")
