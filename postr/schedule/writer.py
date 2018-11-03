@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+import os
 import sqlite3
 import time
 
@@ -10,7 +11,7 @@ class Writer():
     """
 
     def __init__(self) -> None:
-        file_path: str = 'postr/schedule/master_schedule.sqlite'
+        file_path: str = os.path.join('postr', 'schedule', 'master_schedule.sqlite')
         self.conn = sqlite3.connect(file_path, check_same_thread=False)
         self.cursor = self.conn.cursor()
 

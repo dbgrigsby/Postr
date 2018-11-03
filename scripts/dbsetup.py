@@ -1,6 +1,7 @@
+import os
 import sqlite3
 
-file_path: str = 'postr/schedule/master_schedule.sqlite'
+file_path: str = os.path.join('postr', 'schedule', 'master_schedule.sqlite')
 
 conn = sqlite3.connect(file_path)
 c = conn.cursor()
