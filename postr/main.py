@@ -1,4 +1,4 @@
-# from typing import List
+from typing import List
 
 from kivy.app import App
 from kivy.uix.checkbox import CheckBox
@@ -62,10 +62,41 @@ class TabbedPanelApp(App):
         posts_layout.add_widget(
             Label(
                 text='Scheduled Posts: ', font_size='20sp',
-                pos=(315, 900), size_hint=(.15, .2),
+                pos=(315, 800), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
         )
+        post_types = Spinner(
+            # default value
+            text='Post type',
+
+            # available values
+            values=(
+                'Text', 'Image', 'Video',
+            ),
+
+            size_hint=(.15, .1),
+            pos=(300, 985),
+        )
+        post_timing = Spinner(
+            # default value
+            text='Choose a time:',
+
+            # available values
+            values=(
+                'Immediately', 'Schedule for',
+            ),
+
+            size_hint=(.15, .1),
+            pos=(600, 985),
+        )
+        post_time = TextInput(
+            multiline=False,
+            pos=(900, 985), size_hint=(.15, .04),
+        )
+        posts_layout.add_widget(post_types)
+        posts_layout.add_widget(post_timing)
+        posts_layout.add_widget(post_time)
 
         events_spinner = spinner()
         events_layout.add_widget(events_spinner)
@@ -279,47 +310,69 @@ class TabbedPanelApp(App):
 
         return tb_panel
 
-    # def performance(self, platform: str) -> List[int]:
-    #     if platform is 'Reddit':
-    #         from postr.reddit_postr import Reddit
-    #         reddit = Reddit()
-    #         follower_count = len(reddit.get_user_followers('')),
-    #         # total_likes = reddit.get_user_likes()
-    #         total_likes = 0
-    #     elif platform is 'Facebook':
-    #         from postr.facebook_api import FacebookApi
-    #         facebook = FacebookApi()
-    #         follower_count = len(facebook.get_user_followers('')),
-    #         total_likes = facebook.get_user_likes(),
-    #     elif platform is 'Tumblr':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform is 'Instagram':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform is 'Twitter':
-    #         from postr.twitter_postr import Twitter
-    #         twitter = Twitter()
-    #         follower_count = len(twitter.get_user_followers('')),
-    #         total_likes = twitter.get_user_likes(),
-    #     elif platform is 'Youtube':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform is 'Slack':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     elif platform is 'Discord':
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     else:
-    #         follower_count = 0,
-    #         total_likes = 0,
-    #     stats = List()
-    #     stats.append(follower_count)
-    #     stats.append(total_likes)
-    #     return stats
+    @staticmethod
+    def performance(platform: str) -> List[int]:
+        from postr.reddit_postr import Reddit
+        from postr.facebook_api import FacebookApi
+        from postr.twitter_postr import Twitter
+        from postr.youtube_postr import Youtube
 
-    # def events(self, platform):
+        if platform == 'Reddit':
+            reddit = Reddit()
+            follower_count = len(reddit.get_user_followers(''))
+            total_likes = reddit.get_user_likes()
+        elif platform == 'Facebook':
+            facebook = FacebookApi()
+            follower_count = len(facebook.get_user_followers(''))
+            total_likes = facebook.get_user_likes()
+        elif platform == 'Tumblr':
+            follower_count = 0
+            total_likes = 0
+        elif platform == 'Instagram':
+            follower_count = 0
+            total_likes = 0
+        elif platform == 'Twitter':
+            twitter = Twitter()
+            follower_count = len(twitter.get_user_followers(''))
+            total_likes = twitter.get_user_likes()
+        elif platform == 'Youtube':
+            youtube = Youtube()
+            follower_count = len(youtube.get_user_followers(''))
+            total_likes = youtube.get_user_likes()
+        elif platform == 'Slack':
+            follower_count = 0
+            total_likes = 0
+        elif platform == 'Discord':
+            follower_count = 0
+            total_likes = 0
+        else:
+            follower_count = 0
+            total_likes = 0
+        stats = List()
+        stats.append(follower_count)
+        stats.append(total_likes)
+        return stats
+
+    # def immediate_post(self, platform):
+    #     if platform is 'Reddit':
+    #
+    #     elif platform is 'Facebook':
+    #
+    #     elif platform is 'Tumblr':
+    #
+    #     elif platform is 'Instagram':
+    #
+    #     elif platform is 'Twitter':
+    #
+    #     elif platform is 'Youtube':
+    #
+    #     elif platform is 'Slack':
+    #
+    #     elif platform is 'Discord':
+    #
+    #     else:
+
+    # def scheduled_post(self, platform):
     #     if platform is 'Reddit':
     #
     #     elif platform is 'Facebook':
