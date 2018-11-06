@@ -1,9 +1,7 @@
 #11/9/2018
 ## Refactor previous week's Twitter code
-    In previous weeks, I split up my twitter code across
-    multiple modules and files. All of these will be combined
-    into one twitter file so that the scheduler can dynamic
-    dispatch the appropriate functions properly.
+    I moved a bio method to the main twitter module
+    so that the scheduler can dynamic dispatch this method.
 
 ## Implement Instagram media upload operations
     Implemented posting media/photos for an Instagram account
