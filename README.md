@@ -1,3 +1,9 @@
+11/9/2018:
+- The team will each begin implementation of their second set of APIs.
+- This is predicted to go much faster, but overlaps with scheduler development, so is alloted one week.
+-The User Experience Engineer will create a GUI for the Scheduling system.
+
+
 11/2/2018:
 - The team will pull back together and build the Scheduler, which will allow a user to schedule an arbitrary event for a specific API.
 - We will need a database to store the scheduling events, and  way for the program to run 'in the background' (likely minimized to a system tray).
