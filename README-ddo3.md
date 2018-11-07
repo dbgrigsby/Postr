@@ -1,5 +1,8 @@
 #### 11/8/2018
-Start implementing Tumblr API
+Started implementing Tumblr API
+* User can post text, photos, and videos to a specific tumblr blog
+* User can get the number of likes for a specific blog and the number of likes for that blog
+* User can delete a post from a certain blog
 
 #### 10/30/2018
 Finished testing for Facebook API  

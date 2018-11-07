@@ -119,7 +119,7 @@ class TumblrApi(ApiInterface):
         try:
             follow_list = list(self.client.followers(self.current_blog_name))
         except Exception:
-            follow_list = []
+            follow_list = [text]
         return follow_list
 
     def remove_post(self, post_id: str) -> bool:
