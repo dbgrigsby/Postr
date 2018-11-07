@@ -1,7 +1,7 @@
 11/9/2018:
 - The team will each begin implementation of their second set of APIs.
 - This is predicted to go much faster, but overlaps with scheduler development, so is alloted one week.
--The User Experience Engineer will create a GUI for the Scheduling system.
+- The User Experience Engineer will create a GUI for the Scheduling system.
 
 
 11/2/2018:
