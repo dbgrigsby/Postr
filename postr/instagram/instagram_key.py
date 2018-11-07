@@ -2,7 +2,7 @@ from typing import Any
 from ..config import get_api_key
 
 
-class TwitterKey:
+class InstagramKey:
     """ Used to provide easy access to Instagram API keys """
 
     def __init__(self) -> None:
