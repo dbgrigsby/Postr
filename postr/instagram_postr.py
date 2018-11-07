@@ -8,7 +8,7 @@ from .instagram.instagram_key import InstagramKey
 from .api_interface import ApiInterface
 
 
-class __InstagramUser:
+class _InstagramUser:
     """ Stores a user defined by the InstagramAPI user JSON """
 
     def __init__(self, user: Dict[str, Any]) -> None:
@@ -31,8 +31,8 @@ class Instagram(ApiInterface):
         self.api.login()
         self.uid = self.api.username_id
 
-        self.followers: List[__InstagramUser] = self.__user_follower_info()
-        self.followings: List[__InstagramUser] = self.__user_following_info()
+        self.followers: List[_InstagramUser] = self._user_follower_info()
+        self.followings: List[_InstagramUser] = self._user_following_info()
 
     def post_text(self, text: str) -> bool:
         """ Not an operation that this platform has. """
@@ -53,7 +53,7 @@ class Instagram(ApiInterface):
     def get_user_followers(self, text: str) -> List[str]:
         """ Gets the names of all users followers """
         # Get all follower information
-        followers: List[__InstagramUser] = self.__user_follower_info()
+        followers: List[_InstagramUser] = self._user_follower_info()
         # Convert each folllower to just their name
         names: List[str] = list([x.username for x in followers])
         return names
@@ -69,40 +69,39 @@ class Instagram(ApiInterface):
 
     def refresh(self) -> None:
         """ Updates the stored contents for a user's followers and followings """
-        self.followers = self.__user_follower_info()
-        self.followings = self.__user_following_info()
+        self.followers = self._user_follower_info()
+        self.followings = self._user_following_info()
 
     def spam_follower_ratio(self, uid: int = 0) -> float:
         """ Determines the ratio of spam followers on a given user.
             Assumption: A spam account is an account with a default profile
             picture, as well as a 10x or greater following/follower ratio """
-
         # If no uid was specified, use the authenticated user's uid
         if uid == 0:
             uid = self.uid
 
         # Get the followers for the given uid
-        followers: List[__InstagramUser] = self.__user_follower_info(uid)
+        followers: List[_InstagramUser] = self._user_follower_info(uid)
 
         # Filter the followers based on default profile picture
         default_profile_followers = list([x for x in followers if not x.is_anon])
 
         # Filter the followers again based on if the remaining are likely to be spam accounts
-        spam_default_profiles = list([x for x in default_profile_followers if self.__has_following_ratio_of(x, 10)])
+        spam_default_profiles = list([x for x in default_profile_followers if self._has_following_ratio_of(x, 10)])
 
         return len(spam_default_profiles) / len(followers)
 
-    def __has_following_ratio_of(self, user: __InstagramUser, ratio: float) -> bool:
+    def _has_following_ratio_of(self, user: _InstagramUser, ratio: float) -> bool:
         """ Determines if a user has a following/follower ratio greater than a threshold """
-        follower_count = len(self.__user_follower_info(uid=user.uid))
-        following_count = len(self.__user_following_info(uid=user.uid))
+        follower_count = len(self._user_follower_info(uid=user.uid))
+        following_count = len(self._user_following_info(uid=user.uid))
 
         if follower_count == 0:
             return True
 
         return (following_count / follower_count) > ratio
 
-    def __user_follower_info(self, uid: int = 0) -> List[__InstagramUser]:
+    def _user_follower_info(self, uid: int = 0) -> List[_InstagramUser]:
         """
         Gets info about followers
         rtype: List of JSON representing users
@@ -112,10 +111,10 @@ class Instagram(ApiInterface):
             uid = self.uid
 
         followers: List[Dict[str, Any]] = self.api.getTotalFollowers(uid)
-        user_followers = list([__InstagramUser(x) for x in followers])
+        user_followers = list([_InstagramUser(x) for x in followers])
         return user_followers
 
-    def __user_following_info(self, uid: int = 0) -> List[__InstagramUser]:
+    def _user_following_info(self, uid: int = 0) -> List[_InstagramUser]:
         """
         Gets info about followings
         rtype: List of JSON representing users
@@ -125,5 +124,5 @@ class Instagram(ApiInterface):
             uid = self.uid
 
         followings: List[Dict[str, Any]] = self.api.getTotalFollowings(uid)
-        user_followings = list([__InstagramUser(x) for x in followings])
+        user_followings = list([_InstagramUser(x) for x in followings])
         return user_followings
