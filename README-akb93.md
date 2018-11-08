@@ -1,3 +1,20 @@
+#11/9/2018
+## Refactor previous week's Twitter code
+    I moved a bio method to the main twitter module
+    so that the scheduler can dynamic dispatch this method.
+
+## Implement Instagram media upload operations
+    Implemented posting media/photos for an Instagram account
+
+## Implement Instagram bio operations
+    Created functions to handle all types of input for bio updating,
+    as well as string formatting for certain operations
+    (e.g. phone numbers)
+
+##  Misc
+    Add instagram tokens to the config parser, as well as Implemented
+    the api interface.
+
 #11/2/2018
 ## Implement schedule reader
     Reads the database scheduler, and returns a JSON object of current
@@ -57,17 +74,6 @@
     using a rudimentary AI to analyze the sentiment positivity, and
     graph the positivity over time.
 
-
-
-
-
-
-
-
-
-
-
-
 #10/12/2018
 ## Create twitter streamer file
     Filters realtime tweets based on a hashtag:
@@ -113,10 +119,6 @@
         Given a conneciton to master_schedule.py, inserts rows for
         Person, Job, CustomJob, and Bio tables. The rest of the tables will
         be implemented upon further discussion.
-
-
-
-
 
 # 9/28/2018
 ## Create a pylintrc file

@@ -217,6 +217,10 @@ class Twitter(ApiInterface):
         plt.gcf().autofmt_xdate()
         plt.show()
 
+    def update_bio(self, message: str) -> None:
+        """ Sets an authenticated user's bio to a specified message """
+        self.api.update_profile(description=message)
+
 
 def examples() -> None:
     """ Runs through major use cases """
@@ -229,7 +233,7 @@ def examples() -> None:
     # Get/Set info about the authenticated user
     print(t.bio.username())
     print(t.bio.bio())
-    t.bio.update_bio('sample API bio')
+    t.update_bio('sample API bio')
     t.bio.update_name('Postr Project')
 
     # Get info about the authenticated user's tweets

@@ -9,10 +9,6 @@ class TwitterBio:
     def __init__(self, api: API) -> None:
         self.api = api
 
-    def update_bio(self, message: str) -> None:
-        """ Updates the text in your bio """
-        self.api.update_profile(description=message)
-
     def update_name(self, new_name: str) -> None:
         """ Updates your profile name """
         self.api.update_profile(name=new_name)
