@@ -7,6 +7,7 @@ import httplib2
 
 from postr.api_interface import ApiInterface
 from postr import config
+from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
@@ -36,10 +37,19 @@ class Youtube(ApiInterface):
             SCOPES,
             redirect_uri=get_key('redirect_uri'),
         )
+        self.credentials = Credentials(
+            None,
+            refresh_token=get_key('refresh_token'),
+            token_uri='https://accounts.google.com/o/oauth2/token',
+            client_id=get_key('client_id'),
+            client_secret=get_key('client_secret'),
+        )
+        self.build = generate_build(self.credentials)
+
+    def get_refresh_token(self) -> Any:
+        # Follow the prompt to give an access code
         credentials = self.flow.run_console()
-        self.build = generate_build(credentials)
-        auth_url, _ = self.flow.authorization_url(prompt='consent')
-        print(auth_url)
+        return credentials.refresh_token
 
     def post_text(self, text: str) -> bool:
         ''' This method takes in the text the user want to post
