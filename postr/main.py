@@ -56,6 +56,21 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
+        performance_stats = cls.performance(performance_spinner.value())
+        performance_layout.add_widget(
+            Label(
+                text=performance_stats[0], font_size='20sp',
+                pos=(400, 900), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
+            ),
+        )
+        performance_layout.add_widget(
+            Label(
+                text=performance_stats[1], font_size='20sp',
+                pos=(400, 850), size_hint=(.15, .2),
+                color=(0, 0, 0, 1),
+            ),
+        )
 
         post_spinner = spinner()
         posts_layout.add_widget(post_spinner)
