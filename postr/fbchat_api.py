@@ -11,8 +11,8 @@ class FacebookChatApi():
 
     def __init__(
         self,
-        email: str = get_api_key('facebook', 'email') or '',
-        password: str = get_api_key('facebook', 'password') or '',
+        email: str = get_api_key('Facebook', 'email') or '',
+        password: str = get_api_key('Facebook', 'password') or '',
     ) -> None:
 
         client = Client(email, password)

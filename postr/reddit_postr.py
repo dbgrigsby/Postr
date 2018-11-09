@@ -1,7 +1,7 @@
 from typing import List, Any
-from api_interface import ApiInterface
-import config
 import praw
+from postr.api_interface import ApiInterface
+import postr.config
 
 # Scopes for user authentication
 # See get_reddit_oauth
@@ -152,4 +152,4 @@ class Reddit(ApiInterface):
 
 def get_key(key: str) -> Any:
     """Gets a specified key for the reddit API """
-    return config.get_api_key('Reddit', key)
+    return postr.config.get_api_key('Reddit', key)

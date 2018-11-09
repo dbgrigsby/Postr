@@ -4,8 +4,9 @@ import sqlite3
 from typing import List
 from typing import Any
 from typing import Dict
-
 from apscheduler.schedulers.background import BackgroundScheduler
+
+from postr.schedule.task_processor import process_scheduler_events
 
 
 class Reader():
@@ -49,11 +50,11 @@ class Reader():
 
         return json
 
-    def scan(self) -> Any:
+    async def scan(self) -> Any:
         """ Scans every 30 seconds for new jobs in the past 30 seconds """
-        todo = self.scan_custom_jobs()
-        print(todo)
-        # pass
+        tasks = self.scan_custom_jobs()
+        await process_scheduler_events(tasks)
+        print('Sent new jobs to task processor')
 
     def schedule_range(self, seconds: int) -> int:
         """ Returns the lower bound for a scheduled range """

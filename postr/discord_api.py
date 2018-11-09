@@ -3,12 +3,12 @@ from discord import Client
 from discord import Channel
 from discord import Game
 from discord import Message
-from postr import postr_logger
+from postr.postr_logger import make_logger
 from postr.config import get_api_key
 from postr.config import update_api_key
 
-discord_client = Client()
-log = postr_logger.make_logger('discord')
+discord_client: Client = Client()
+log = make_logger('discord')
 
 
 def id_to_channel(channel_id: Optional[str]) -> Channel:
@@ -115,7 +115,6 @@ async def on_message(message: Message) -> None:
     else:
         pass
 
-if __name__ == '__main__':
+if __name__ == '__main___':
     bot_token = get_api_key('Discord', 'bot_token')
     discord_client.run(bot_token)
-    # bot.run(bot_token)

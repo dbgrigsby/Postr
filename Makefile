@@ -18,12 +18,12 @@ create:
 ifeq ($(OS),Windows_NT)
 	virtualenv venv
 else
-	python -m venv venv
+	python3 -m venv venv
 endif
 
 activate:
 	source $(VENV_NAME)$(VENV_PATH)/$(FOLDER)/activate; \
-	pip install -r requirements.txt; \
+	$(VENV_NAME)$(VENV_PATH)/$(FOLDER)/pip install -r requirements.txt; \
 
 test: activate
 	${PYTHON} -m tox; \
