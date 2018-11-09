@@ -65,3 +65,6 @@
     - What kind of post
     - When the post should be created (immediately or scheduled)
     - Text input to allow for date and time to be added once the scheduler is implemented
+
+# November 9, 2018
+  -
