@@ -67,4 +67,7 @@
     - Text input to allow for date and time to be added once the scheduler is implemented
 
 # November 9, 2018
+  - Added Tumblr to performance method
+  - Added Slack to performance method
+  - Added Instagram to performance method
   -

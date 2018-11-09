@@ -316,6 +316,9 @@ class TabbedPanelApp(App):
         from postr.facebook_api import FacebookApi
         from postr.twitter_postr import Twitter
         from postr.youtube_postr import Youtube
+        from postr.tumblr_api import TumblrApi
+        from postr.instagram_postr import Instagram
+        from postr.slack_api import SlackApi
 
         if platform == 'Reddit':
             reddit = Reddit()
@@ -326,11 +329,13 @@ class TabbedPanelApp(App):
             follower_count = len(facebook.get_user_followers(''))
             total_likes = facebook.get_user_likes()
         elif platform == 'Tumblr':
-            follower_count = 0
-            total_likes = 0
+            tumblr = TumblrApi()
+            follower_count = len(tumblr.get_user_followers(''))
+            total_likes = tumblr.get_user_likes()
         elif platform == 'Instagram':
-            follower_count = 0
-            total_likes = 0
+            instagram = Instagram()
+            follower_count = len(instagram.get_user_followers(''))
+            total_likes = instagram.get_user_likes()
         elif platform == 'Twitter':
             twitter = Twitter()
             follower_count = len(twitter.get_user_followers(''))
@@ -340,8 +345,9 @@ class TabbedPanelApp(App):
             follower_count = len(youtube.get_user_followers(''))
             total_likes = youtube.get_user_likes()
         elif platform == 'Slack':
-            follower_count = 0
-            total_likes = 0
+            slack = SlackApi()
+            follower_count = len(slack.get_user_followers(''))
+            total_likes = slack.get_user_likes()
         elif platform == 'Discord':
             follower_count = 0
             total_likes = 0
