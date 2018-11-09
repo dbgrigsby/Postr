@@ -115,6 +115,6 @@ async def on_message(message: Message) -> None:
     else:
         pass
 
-
-bot_token = get_api_key('Discord', 'bot_token')
-discord_client.run(bot_token)
+if __name__ == '__main___':
+    bot_token = get_api_key('Discord', 'bot_token')
+    discord_client.run(bot_token)
