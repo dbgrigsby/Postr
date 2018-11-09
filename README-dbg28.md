@@ -1,3 +1,7 @@
+# 2018-11-09
+    I added the basis of the Slack API
+        With 2 supported functions>>
+    I also fixed some bugs with the Scheduler
 # 2018-11-02
     During this week, I created the task processor for executing a command from a Scheduler instruction,
     This was designed to also be callable from a UI button click
