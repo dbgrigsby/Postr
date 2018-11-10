@@ -1,8 +1,15 @@
 # tumblr api test
 import sys
 from unittest.mock import patch
+from pathlib import Path
+import pytest
 from postr import tumblr_api
 sys.path.insert(0, '../postr')
+
+my_file = Path('../postr_config.ini')
+
+if not my_file.is_file():
+    pytest.skip('If there is no config_file, then all these tests will fail', allow_module_level=True)
 
 
 client = tumblr_api.TumblrApi()
