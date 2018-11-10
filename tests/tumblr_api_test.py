@@ -39,8 +39,38 @@ def test_post_video() -> None:
     mock_post_remote.assert_called()
 
 
-# def test_get_user_likes() -> None:
+def test_get_user_likes() -> None:
+    with patch('pytumbr.TumblrRestClient.blog_likes') as mock_get:
+        like_list = []
+        like_list.append('aa')
+        like_list.append('bb')
+        like_list.append('cc')
+        like_list.append('dd')
+        like_list.append('ee')
 
-# def test_get_user_followers() -> None:
+        mock_get.return_value = like_list
+        like_num = client.get_user_likes()
+    assert like_num == len(like_list)
 
-# def test_remove_post() -> None:
+
+def test_get_user_followers() -> None:
+    with patch('pytumbr.TumblrRestClient.followers') as mock_get:
+        f_list = []
+        f_list.append('Sally')
+        f_list.append('Dan')
+        f_list.append('Tommy')
+        f_list.append('Adam')
+        f_list.append('Mary')
+        f_list.append('Rachel')
+        f_list.append('Sue')
+        mock_get.return_value = f_list
+        follow_list = client.get_user_followers('text')
+    assert len(follow_list) == len(f_list)
+    assert follow_list[1] == f_list[1]
+
+
+def test_remove_post() -> None:
+    with patch('pytumbr.TumblrRestClient.delete_post') as mock:
+        mock.return_value = None
+        client.remove_post('1122334455')
+    mock.assert_called()
