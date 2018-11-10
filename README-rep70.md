@@ -52,7 +52,7 @@
     - Cannot be implemented until additions are made to individual APIs and the API interface
   - Basic structure for method to update user profile
     - Considering breaking out sure profile into a new data structure, looking into kivy and passwords/ account information
-  ** Some emthods commented out due to the inability to fully implement. These methods were triggering our mypy testing and weren't able to be changed
+  ** Some methods commented out due to the inability to fully implement. These methods were triggering our mypy testing and weren't able to be changed
 
 # November 2, 2018
   - Modified performance method so that it passes all pre-commit tests and builds
@@ -65,3 +65,14 @@
     - What kind of post
     - When the post should be created (immediately or scheduled)
     - Text input to allow for date and time to be added once the scheduler is implemented
+
+# November 9, 2018
+  - Added Tumblr to performance method
+  - Added Slack to performance method
+  - Added Instagram to performance method
+  - Added performance stats to performance tab using the performance method
+    - Discord still returns [0,0] because there are no statsticla meauser for Discord in our current implementation
+  - Immediate post method for:
+    - Slack, instagram, facebook, tumblr, youtube, reddit, twitter
+    - Discord requires different implementation due to changes in channels and media types such as announcements
+  - Updated all comparisons to use '==' instead of 'is'
