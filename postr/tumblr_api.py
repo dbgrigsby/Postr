@@ -27,11 +27,15 @@ class TumblrApi(ApiInterface):
 
         info = self.client.info()
 
-        # get a list of all blog names
-        self.blogs = info['blogs']
+        self.blogs: dict = {}
+        self.current_blog_name = ''
 
-        # set first blog name to blog_name
-        self.current_blog_name = self.blogs[0].name
+        if 'blogs' in info:
+            # get a list of all blog names
+            self.blogs = info['blogs']
+
+            # set first blog name to blog_name
+            self.current_blog_name = self.blogs[0].name
 
     def change_current_blog(self, new_blog_name: str) -> None:
         for blog in self.blogs:
