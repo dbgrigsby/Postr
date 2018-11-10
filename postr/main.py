@@ -87,7 +87,7 @@ class TabbedPanelApp(App):
 
             # available values
             values=(
-                'Text', 'Image', 'Video',
+                'Text', 'Image', 'Video', 'Link', 'Announcement',
             ),
 
             size_hint=(.15, .1),
@@ -374,60 +374,119 @@ class TabbedPanelApp(App):
         stats.append(total_likes)
         return stats
 
-    # def immediate_post(self, platform):
-    #     if platform is 'Reddit':
-    #
-    #     elif platform is 'Facebook':
-    #
-    #     elif platform is 'Tumblr':
-    #
-    #     elif platform is 'Instagram':
-    #
-    #     elif platform is 'Twitter':
-    #
-    #     elif platform is 'Youtube':
-    #
-    #     elif platform is 'Slack':
-    #
-    #     elif platform is 'Discord':
-    #
-    #     else:
+    @staticmethod
+    def immediate_post(platform: str, post_type: str, text: str, image: str, video: str, link: str) -> None:
+        from postr.reddit_postr import Reddit
+        from postr.facebook_api import FacebookApi
+        from postr.twitter_postr import Twitter
+        from postr.youtube_postr import Youtube
+        from postr.tumblr_api import TumblrApi
+        from postr.instagram_postr import Instagram
+        from postr.slack_api import SlackApi
+        # from postr.discord_api import
+
+        if platform == 'Reddit':
+            reddit = Reddit()
+            if post_type == 'Text':
+                reddit.post_text(text)
+            elif post_type == 'Image':
+                reddit.post_photo(image, text)
+            elif post_type == 'Video':
+                reddit.post_video(video, text)
+            elif post_type == 'Link':
+                reddit.post_link(link, text)
+        elif platform == 'Facebook':
+            facebook = FacebookApi()
+            if post_type == 'Text':
+                facebook.post_text(text)
+            elif post_type == 'Image':
+                facebook.post_photo(image, text)
+            elif post_type == 'Video':
+                facebook.post_video(video, text)
+        elif platform == 'Tumblr':
+            tumblr = TumblrApi()
+            if post_type == 'Text':
+                tumblr.post_text(text)
+            elif post_type == 'Image':
+                tumblr.post_photo(image, text)
+            elif post_type == 'Video':
+                tumblr.post_video(video, text)
+        elif platform == 'Instagram':
+            instagram = Instagram()
+            if post_type == 'Text':
+                instagram.post_text(text)
+            elif post_type == 'Image':
+                instagram.post_photo(image, text)
+            elif post_type == 'Video':
+                instagram.post_video(video, text)
+        elif platform == 'Twitter':
+            twitter = Twitter()
+            if post_type == 'Text':
+                twitter.post_text(text)
+            elif post_type == 'Image':
+                twitter.post_photo(image, text)
+            elif post_type == 'Video':
+                twitter.post_video(video, text)
+        elif platform == 'Youtube':
+            youtube = Youtube()
+            if post_type == 'Text':
+                youtube.post_text(text)
+            elif post_type == 'Image':
+                youtube.post_photo(image, text)
+            elif post_type == 'Video':
+                youtube.post_video(video, text)
+        elif platform == 'Slack':
+            slack = SlackApi()
+            if post_type == 'Text':
+                slack.post_text(text)
+            elif post_type == 'Image':
+                slack.post_photo(image, text)
+            elif post_type == 'Video':
+                slack.post_video(video, text)
+        # elif platform == 'Discord':
+        #     discord =
+        #     if post_type == 'Text':
+        #
+        #     elif post_type == 'Image':
+        #
+        #     elif post_type == 'Announcement':
+        #
 
     # def scheduled_post(self, platform):
-    #     if platform is 'Reddit':
+    #     if platform == 'Reddit':
     #
-    #     elif platform is 'Facebook':
+    #     elif platform == 'Facebook':
     #
-    #     elif platform is 'Tumblr':
+    #     elif platform == 'Tumblr':
     #
-    #     elif platform is 'Instagram':
+    #     elif platform == 'Instagram':
     #
-    #     elif platform is 'Twitter':
+    #     elif platform == 'Twitter':
     #
-    #     elif platform is 'Youtube':
+    #     elif platform == 'Youtube':
     #
-    #     elif platform is 'Slack':
+    #     elif platform == 'Slack':
     #
-    #     elif platform is 'Discord':
+    #     elif platform == 'Discord':
     #
     #     else:
 
     # def update(self, platform, search, replace):
-    #     if platform is 'Reddit':
+    #     if platform == 'Reddit':
     #
-    #     elif platform is 'Facebook':
+    #     elif platform == 'Facebook':
     #
-    #     elif platform is 'Tumblr':
+    #     elif platform == 'Tumblr':
     #
-    #     elif platform is 'Instagram':
+    #     elif platform == 'Instagram':
     #
-    #     elif platform is 'Twitter':
+    #     elif platform == 'Twitter':
     #
-    #     elif platform is 'Youtube':
+    #     elif platform == 'Youtube':
     #
-    #     elif platform is 'Slack':
+    #     elif platform == 'Slack':
     #
-    #     elif platform is 'Discord':
+    #     elif platform == 'Discord':
     #
     #     else:
 

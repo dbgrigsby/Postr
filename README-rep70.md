@@ -71,3 +71,8 @@
   - Added Slack to performance method
   - Added Instagram to performance method
   - Added performance stats to performance tab using the performance method
+    - Discord still returns [0,0] because there are no statsticla meauser for Discord in our current implementation
+  - Immediate post method for:
+    - Slack, instagram, facebook, tumblr, youtube, reddit, twitter
+    - Discord requires different implementation due to changes in channels and media types such as announcements
+  - Updated all comparisons to use '==' instead of 'is'
