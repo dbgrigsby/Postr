@@ -2,11 +2,12 @@ import random
 import time
 import argparse
 import http.client
-from typing import List, Any
+from typing import List, Any, Dict
 import httplib2
 
 from postr.api_interface import ApiInterface
 from postr import config
+from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
@@ -36,10 +37,19 @@ class Youtube(ApiInterface):
             SCOPES,
             redirect_uri=get_key('redirect_uri'),
         )
+        self.credentials = Credentials(
+            None,
+            refresh_token=get_key('refresh_token'),
+            token_uri='https://accounts.google.com/o/oauth2/token',
+            client_id=get_key('client_id'),
+            client_secret=get_key('client_secret'),
+        )
+        self.build = generate_build(self.credentials)
+
+    def get_refresh_token(self) -> Any:
+        # Follow the prompt to give an access code
         credentials = self.flow.run_console()
-        self.build = generate_build(credentials)
-        auth_url, _ = self.flow.authorization_url(prompt='consent')
-        print(auth_url)
+        return credentials.refresh_token
 
     def post_text(self, text: str) -> bool:
         ''' This method takes in the text the user want to post
@@ -63,13 +73,6 @@ class Youtube(ApiInterface):
     def get_user_followers(self, text: str) -> List[str]:
         ''' This method returns a list of all the people that
         follow the user'''
-        # Not possible on reddit, someone who friends someone is one-way and private.
-        # This is due to the fact that any public reddit posts are public from a user,
-        # and becoming friends only involves seeing someone's posts on a separate tab.
-        # This is why the pylint precommit is disabled
-
-        # pylint: disable=unused-argument
-        # pylint: disable=R0201
         return None  # type: ignore
 
     def remove_post(self, post_id: str) -> bool:
@@ -78,8 +81,31 @@ class Youtube(ApiInterface):
         # TODO failure checking
         return True
 
+# Remove keyword arguments that are not set
+
+
+def remove_empty_kwargs(**kwargs: str) -> Dict[Any, Any]:
+    good_kwargs = {}
+    if kwargs is not None:
+        for key, value in kwargs.items():
+            if value:
+                good_kwargs[key] = value
+    return good_kwargs
+
+
+def channels_list_by_id(client: Any, **kwargs: str) -> Any:
+    # See full sample for function
+    kwargs = remove_empty_kwargs(**kwargs)
+
+    response = client.channels().list(
+        **kwargs,
+    ).execute()
+
+    return response
 
 # TODO type ignore fix
+
+
 def generate_build(credentials) -> Any:  # type: ignore
     return build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
@@ -232,7 +258,13 @@ def uploadvideo(file, title, description, category, keywords, privacy_status) ->
         print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
 
 
-uploadvideo(
-    'C:\\Users\\Tommy\\Pictures\\dank\\To be continued greenscreen.mp4',
-    'test upload', 'this is a test', 22, 'arg', 'private',
-)
+# uploadvideo(
+#    'C:\\Users\\Tommy\\Pictures\\dank\\To be continued greenscreen.mp4',
+#    'test upload', 'this is a test', 22, 'arg', 'private',
+# )
+
+print(channels_list_by_id(
+    new_Youtube.build,
+    part='snippet,contentDetails,statistics',
+    id='UClFg0gma3oCiQ_Ba7FAkW6Q',
+))
