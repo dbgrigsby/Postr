@@ -57,3 +57,10 @@
 		- Converted sample code found here https://developers.google.com/youtube/v3/docs/videos/insert#usage
 		- Need to convert video uploading service into a more serviceable and integrated version.
 		- Need to save refresh token.
+
+# 2018 11-9
+	YouTube functionality
+		- Set up refresh token function
+		- Reused refresh token generated
+		- Added functionality to provide statistics
+		- Need to figure out how to properly integrate YouTube (post values are upload and there is little need to post)
