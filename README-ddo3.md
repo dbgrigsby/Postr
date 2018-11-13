@@ -1,3 +1,7 @@
+#### 11/14/2018
+Started testing for Tumblr API  
+Testing mocks responses from pytumblr API  
+
 #### 11/8/2018
 Started implementing Tumblr API
 * User can post text, photos, and videos to a specific tumblr blog
