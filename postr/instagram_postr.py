@@ -72,6 +72,16 @@ class Instagram(ApiInterface):
         self.followers = self._user_follower_info()
         self.followings = self._user_following_info()
 
+    @staticmethod
+    def direct_share(mediaID: str, recipients: List[int], message: str = '') -> None:
+        """
+        Shares media to a list of recipients via a direct message
+        mediaID: The id of the media to share
+        recipients: A list of the user ids to share media with
+        mesage: The message to go along with the media share
+        """
+        InstagramAPI.direct_share(mediaID, recipients, message)
+
     def spam_follower_ratio(self, uid: int = 0) -> float:
         """ Determines the ratio of spam followers on a given user.
             Assumption: A spam account is an account with a default profile
