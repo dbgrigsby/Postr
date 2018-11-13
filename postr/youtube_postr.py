@@ -54,34 +54,82 @@ class Youtube(ApiInterface):
     def post_text(self, text: str) -> bool:
         ''' This method takes in the text the user want to post
         and returns the success of this action'''
+        # No text to be posted on YouTube
         return True
 
     def post_video(self, url: str, text: str) -> bool:
         ''' This method takes in the url for the video the user
         want to post and returns the success of this action'''
+        self.upload_video(url, text, text, 22, '', 'public',)
         return True
+
+    def upload_video(
+        self,
+        file: str, title: str, description: str,
+        category: int, keywords: str, privacy_status: str,
+    ) -> Any:
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--file', required=False, help='Video file to upload', default=file)
+        parser.add_argument('--title', help='Video title', default=title)
+        parser.add_argument('--description', help='Video description', default=description)
+        parser.add_argument(
+            '--category', default=category,
+            help='Numeric video category. ' + 'See https://developers.google.com/youtube/v3/docs/videoCategories/list',
+        )
+        parser.add_argument(
+            '--keywords', help='Video keywords, comma separated',
+            default=keywords,
+        )
+        parser.add_argument(
+            '--privacyStatus', choices=VALID_PRIVACY_STATUSES,
+            default=privacy_status, help='Video privacy status.',
+        )
+        args = parser.parse_args()
+
+        try:
+            initialize_upload(self.build, args)
+        except HttpError as e:
+            print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
 
     def post_photo(self, url: str, text: str) -> bool:
         ''' This method takes in the url for the photo the user
         want to post and returns the success of this action'''
+        # No photos on YouTube
         return True
 
     def get_user_likes(self) -> int:
         ''' This method returns the number of likes a user has total between link and client'''
-        return 0
+        # Returns subscriber count instead
+        return int(channels_list_by_id(
+            self.build,
+            part='statistics',
+            mine='true',
+        )['items'][0]['statistics']['subscriberCount'])
 
     def get_user_followers(self, text: str) -> List[str]:
         ''' This method returns a list of all the people that
         follow the user'''
+        # Not possible to get a list of subscriber names, as it is anonymous.
         return None  # type: ignore
 
     def remove_post(self, post_id: str) -> bool:
         ''' This method removes the post with the specified id
         and returns the success of this action'''
-        # TODO failure checking
+        videos_delete(self.build, id=post_id)
         return True
 
 # Remove keyword arguments that are not set
+
+
+def videos_delete(client: Any, **kwargs: str) -> Any:
+    # See full sample for function
+    kwargs = remove_empty_kwargs(**kwargs)
+
+    response = client.videos().delete(
+        **kwargs,
+    ).execute()
+
+    return response
 
 
 def remove_empty_kwargs(**kwargs: str) -> Dict[Any, Any]:
@@ -103,32 +151,14 @@ def channels_list_by_id(client: Any, **kwargs: str) -> Any:
 
     return response
 
-# TODO type ignore fix
 
-
-def generate_build(credentials) -> Any:  # type: ignore
+def generate_build(credentials: Any) -> Any:
     return build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
 
 def get_key(key: str) -> Any:
     """Gets a specified key for the reddit API """
     return config.get_api_key('YouTube', key)
-
-
-def channels_list_by_username(service, **kwargs):  # type: ignore
-    results = service.channels().list(
-        **kwargs,
-    ).execute()
-
-    print('This channel\'s ID is %s. Its title is %s, and it has %s views.' %
-          (
-              results['items'][0]['id'],
-              results['items'][0]['snippet']['title'],
-              results['items'][0]['statistics']['viewCount'],
-          ))
-
-
-new_Youtube = Youtube()
 
 
 # Explicitly tell the underlying HTTP transport library not to retry, since
@@ -153,8 +183,7 @@ RETRIABLE_STATUS_CODES = [500, 502, 503, 504]
 VALID_PRIVACY_STATUSES = ('public', 'private', 'unlisted')
 
 
-# TODO type ignore fix
-def initialize_upload(youtube, options) -> Any:  # type: ignore
+def initialize_upload(youtube: Any, options: Any) -> Any:
     tags = None
     if options.keywords:
         tags = options.keywords.split(',')
@@ -196,7 +225,7 @@ def initialize_upload(youtube, options) -> Any:  # type: ignore
 
 
 # TODO type ignore fix
-def resumable_upload(request) -> Any:  # type: ignore
+def resumable_upload(request: Any) -> Any:
     response = None
     error = None
     retry = 0
@@ -230,41 +259,3 @@ def resumable_upload(request) -> Any:  # type: ignore
             sleep_seconds = random.random() * max_sleep
             print('Sleeping %f seconds and then retrying...' % sleep_seconds)
             time.sleep(sleep_seconds)
-
-
-# TODO type ignore fix
-def uploadvideo(file, title, description, category, keywords, privacy_status) -> Any:  # type: ignore
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--file', required=False, help='Video file to upload', default=file)
-    parser.add_argument('--title', help='Video title', default=title)
-    parser.add_argument('--description', help='Video description', default=description)
-    parser.add_argument(
-        '--category', default=category,
-        help='Numeric video category. ' + 'See https://developers.google.com/youtube/v3/docs/videoCategories/list',
-    )
-    parser.add_argument(
-        '--keywords', help='Video keywords, comma separated',
-        default=keywords,
-    )
-    parser.add_argument(
-        '--privacyStatus', choices=VALID_PRIVACY_STATUSES,
-        default=privacy_status, help='Video privacy status.',
-    )
-    args = parser.parse_args()
-
-    try:
-        initialize_upload(new_Youtube.build, args)
-    except HttpError as e:
-        print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))
-
-
-# uploadvideo(
-#    'C:\\Users\\Tommy\\Pictures\\dank\\To be continued greenscreen.mp4',
-#    'test upload', 'this is a test', 22, 'arg', 'private',
-# )
-
-print(channels_list_by_id(
-    new_Youtube.build,
-    part='snippet,contentDetails,statistics',
-    id='UClFg0gma3oCiQ_Ba7FAkW6Q',
-))
