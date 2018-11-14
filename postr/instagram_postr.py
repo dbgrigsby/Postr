@@ -1,6 +1,9 @@
 from typing import List
 from typing import Any
 from typing import Dict
+import json
+import urllib
+import urllib.request
 
 from InstagramAPI import InstagramAPI
 
@@ -24,6 +27,12 @@ class _InstagramUser:
 
 class Instagram(ApiInterface):
     """ Wrapper for accessing the instagram API  """
+
+    # A workaround URL that retrieves a profile JSON without triggering a 403 error.
+    # URL before the username
+    PRE_PROFILE_URL = 'https://www.instagram.com/web/search/topsearch/?context=blended&query='
+    # URL after the username, which loads the profile JSON
+    POST_PROFILE_URL = '&rank_token=0.3953592318270893&count=1'
 
     def __init__(self) -> None:
         self.keys = InstagramKey()
@@ -100,6 +109,55 @@ class Instagram(ApiInterface):
         spam_default_profiles = list([x for x in default_profile_followers if self._has_following_ratio_of(x, 10)])
 
         return len(spam_default_profiles) / len(followers)
+
+    @staticmethod
+    def username_to_id(username: str) -> int:
+        """
+        Converts a username to its associated id
+
+        Unfortunately this isn't built in from the InstagramAPI (they wanted to decrease bot usage)
+        so I had to build this myself.
+
+        This function has a small chance of error, as documented in the _username_to_profile() function
+        """
+        profile_json = Instagram._username_to_profile(username)
+        user = Instagram._profile_to_InstagramUser(profile_json)
+        return user.uid
+
+    @staticmethod
+    def _profile_to_InstagramUser(profile: Dict[str, Any]) -> _InstagramUser:
+        """ Given a user profile JSON, builds an InstagramUser """
+        # Navigate to the user JSON that is coincidentally used by the provided API methods
+        user = profile['users'][0]['user']
+
+        # Simply build our InstagramUser, as the user JSON is the same
+        return _InstagramUser(user)
+
+    @staticmethod
+    def _username_to_profile(username: str) -> Dict[str, Any]:
+        """
+        Creates a json out of a user's profile info given their username
+
+        If the username contains any special characters, or just by random chance, Instagram
+        will not return the correct user. Instead, it seems to return any user whose name is
+        relatively similar to the given username. Is this a fuzzy matching error?
+
+        I'm not the first to discover this flaw.
+        https://stackoverflow.com/a/13586797
+
+        Hopefully Instagram fixes this flaw.
+        """
+
+        base_url = Instagram.PRE_PROFILE_URL + username + Instagram.POST_PROFILE_URL
+        print(base_url)
+
+        # Build the page source url for the given user's account
+        con = urllib.request.urlopen(base_url)
+        user_profile = con.read().decode('utf-8')
+
+        # Convert the webpage to a profile JSON
+        profile: dict = json.loads(str(user_profile))
+        return profile
 
     def _has_following_ratio_of(self, user: _InstagramUser, ratio: float) -> bool:
         """ Determines if a user has a following/follower ratio greater than a threshold """
