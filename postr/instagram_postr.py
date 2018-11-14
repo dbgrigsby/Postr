@@ -124,6 +124,30 @@ class Instagram(ApiInterface):
         user = Instagram._profile_to_InstagramUser(profile_json)
         return user.uid
 
+    def follow_by_id(self, uid: int) -> None:
+        """ Follows a user based off of their uid """
+        self.api.follow(uid)
+
+    def unsafe_follow_by_username(self, username: str) -> None:
+        """
+        Follows a user based off their username
+        See the _username_to_profile() function for correctness concerns
+        """
+        uid = InstagramAPI.username_to_id(username)
+        self.api.follow(uid)
+
+    def block_by_id(self, uid: int) -> None:
+        """ Blocks a user based off their uid """
+        self.api.block(uid)
+
+    def unsafe_block_by_username(self, username: str) -> None:
+        """
+        Blocks a user based off their username
+        Seee the _username_to_profile() function for correctness concerns
+        """
+        uid = InstagramAPI.username_to_id(username)
+        self.api.block(uid)
+
     @staticmethod
     def _profile_to_InstagramUser(profile: Dict[str, Any]) -> _InstagramUser:
         """ Given a user profile JSON, builds an InstagramUser """
