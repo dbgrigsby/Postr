@@ -54,7 +54,7 @@ class Youtube(ApiInterface):
         ''' This method takes in the text the user want to post
         and returns the success of this action'''
         # No text to be posted on YouTube
-        return True
+        return False
 
     def post_video(self, url: str, text: str) -> bool:
         ''' This method takes in the url for the video the user
@@ -80,7 +80,7 @@ class Youtube(ApiInterface):
         ''' This method takes in the url for the photo the user
         want to post and returns the success of this action'''
         # No photos on YouTube
-        return True
+        return False
 
     def get_user_likes(self) -> int:
         ''' This method returns the number of likes a user has total between link and client'''
