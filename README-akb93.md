@@ -2,6 +2,8 @@
 ## User ID Parser & follower
     Using bs4, I made a parser to parse the ID's out of account webpages.
     I made follow/unfollow/block and other related functions.
+    I encountered a flaw in the InstagramAPI, and documented this edge case in my
+    parser helper methods.
 
 ## Time Series Visualizer:
     I created graphs for dynamic instagram information over time
