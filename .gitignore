@@ -7,6 +7,9 @@ postr/twitter/twitter_blob.csv
 postr/twitter/twitter_graphing.csv
 postr/twitter/twitter_stream.txt
 
+# Instagram
+postr/instagram/instagram_graphing.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
