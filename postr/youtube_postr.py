@@ -1,6 +1,5 @@
 import random
 import time
-import argparse
 import http.client
 from typing import List, Any, Dict
 import httplib2
@@ -68,24 +67,10 @@ class Youtube(ApiInterface):
         file: str, title: str, description: str,
         category: int, keywords: str, privacy_status: str,
     ) -> Any:
-        parser = argparse.ArgumentParser()
-        parser.add_argument('--file', required=False, help='Video file to upload', default=file)
-        parser.add_argument('--title', help='Video title', default=title)
-        parser.add_argument('--description', help='Video description', default=description)
-        parser.add_argument(
-            '--category', default=category,
-            help='Numeric video category. ' + 'See https://developers.google.com/youtube/v3/docs/videoCategories/list',
-        )
-        parser.add_argument(
-            '--keywords', help='Video keywords, comma separated',
-            default=keywords,
-        )
-        parser.add_argument(
-            '--privacyStatus', choices=VALID_PRIVACY_STATUSES,
-            default=privacy_status, help='Video privacy status.',
-        )
-        args = parser.parse_args()
-
+        args = {
+            'file': file, 'title': title, 'description': description,
+            'category': category, 'keywords': keywords, 'privacy_status': privacy_status,
+        }
         try:
             initialize_upload(self.build, args)
         except HttpError as e:
@@ -152,7 +137,7 @@ def channels_list_by_id(client: Any, **kwargs: str) -> Any:
     return response
 
 
-def generate_build(credentials: Any) -> Any:
+def generate_build(credentials: Credentials) -> Any:
     return build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
 
@@ -183,25 +168,25 @@ RETRIABLE_STATUS_CODES = [500, 502, 503, 504]
 VALID_PRIVACY_STATUSES = ('public', 'private', 'unlisted')
 
 
-def initialize_upload(youtube: Any, options: Any) -> Any:
+def initialize_upload(client: Any, options: dict) -> Any:
     tags = None
-    if options.keywords:
-        tags = options.keywords.split(',')
+    if options['keywords']:
+        tags = options['keywords'].split(',')
 
     body = dict(
         snippet=dict(
-            title=options.title,
-            description=options.description,
+            title=options['title'],
+            description=options['description'],
             tags=tags,
-            categoryId=options.category,
+            categoryId=options['category'],
         ),
         status=dict(
-            privacyStatus=options.privacyStatus,
+            privacyStatus=options['privacy_status'],
         ),
     )
 
     # Call the API's videos.insert method to create and upload the video.
-    insert_request = youtube.videos().insert(
+    insert_request = client.videos().insert(
         part=','.join(list(body.keys())),
         body=body,
         # The chunksize parameter specifies the size of each chunk of data, in
@@ -215,7 +200,7 @@ def initialize_upload(youtube: Any, options: Any) -> Any:
         # practice, but if you're using Python older than 2.6 or if you're
         # running on App Engine, you should set the chunksize to something like
         # 1024 * 1024 (1 megabyte).
-        media_body=MediaFileUpload(options.file, chunksize=-1, resumable=True),
+        media_body=MediaFileUpload(options['file'], chunksize=-1, resumable=True),
     )
 
     resumable_upload(insert_request)
@@ -224,7 +209,6 @@ def initialize_upload(youtube: Any, options: Any) -> Any:
 # failed upload.
 
 
-# TODO type ignore fix
 def resumable_upload(request: Any) -> Any:
     response = None
     error = None
