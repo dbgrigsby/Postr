@@ -1,7 +1,13 @@
+11/16/2018:
+- The team will finish implementing their second set of APIs.
+- If implementation is finished, then they will begin testing for their second API.
+- The User Experience Engineer begin hooking up last week's development to the frontend.
+
+
 11/9/2018:
 - The team will each begin implementation of their second set of APIs.
-- This is predicted to go much faster, but overlaps with scheduler development, so is alloted one week.
--The User Experience Engineer will create a GUI for the Scheduling system.
+- This is predicted to go much faster, but overlaps with scheduler development, so is allotted one week.
+- The User Experience Engineer will create a GUI for the Scheduling system.
 
 
 11/2/2018:
