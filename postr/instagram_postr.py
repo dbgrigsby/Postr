@@ -1,10 +1,14 @@
+import csv
+import datetime
 from typing import List
 from typing import Any
 from typing import Dict
 import json
+import os
 import urllib
 import urllib.request
 
+import matplotlib.pyplot as plt
 from InstagramAPI import InstagramAPI
 
 from .instagram.instagram_key import InstagramKey
@@ -35,13 +39,23 @@ class Instagram(ApiInterface):
     POST_PROFILE_URL = '&rank_token=0.3953592318270893&count=1'
 
     def __init__(self) -> None:
+        # Store keys and api info
         self.keys = InstagramKey()
         self.api = InstagramAPI(self.keys.username, self.keys.password)
         self.api.login()
+
+        # Store the authenticated user's Instagram UID
         self.uid = self.api.username_id
 
+        # Memoize follower and following information for the authenticated user
         self.followers: List[_InstagramUser] = self._user_follower_info()
         self.followings: List[_InstagramUser] = self._user_following_info()
+
+        # Specify the output graphfile for follower/time graphing
+        self.graphfile = os.path.join('postr', 'instagram', 'instagram_graphing.csv')
+
+        if not os.path.isfile(self.graphfile):
+            self.setup_csv()
 
     def post_text(self, text: str) -> bool:
         """ Not an operation that this platform has. """
@@ -148,6 +162,50 @@ class Instagram(ApiInterface):
         uid = InstagramAPI.username_to_id(username)
         self.api.block(uid)
 
+    def setup_csv(self) -> None:
+        """ Initializes a csv file for the time series graphing """
+        csvData = ['Followers', 'Time']
+
+        # Create our CSV file header
+        with open(self.graphfile, 'w') as csvFile:
+            writer = csv.writer(csvFile)
+            writer.writerow(csvData)
+            csvFile.close()
+
+    def log_followers(self) -> None:
+        """ Logs follower information to the graph file """
+        with open(self.graphfile, 'a') as gf:
+            writer = csv.writer(gf)
+            follower_count = len(self.get_user_followers(''))
+            date = datetime.datetime.now()
+
+            # Append the current date and follower count to the file
+            writer.writerow([date, follower_count])
+            gf.close()
+
+    @staticmethod
+    def _read_csv_col(colNum: int, filename: str) -> List[str]:
+        """ Reads a specific column by index in the graph csv"""
+        col = []
+        with open(filename, 'r') as rf:
+            reader = csv.reader(rf, delimiter=',')
+            for row in reader:
+                col.append(str(row[colNum]))
+
+        return col[1::]  # Ignore the csv header
+
+    def graph_followers(self) -> None:
+        """ Graphs a blob file for twitter sentiment """
+        # plot
+        plt.plot(
+            Instagram._read_csv_col(0, self.graphfile),
+            Instagram._read_csv_col(1, self.graphfile),
+        )
+
+        # beautify the x-labels
+        plt.gcf().autofmt_xdate()
+        plt.show()
+
     @staticmethod
     def _profile_to_InstagramUser(profile: Dict[str, Any]) -> _InstagramUser:
         """ Given a user profile JSON, builds an InstagramUser """
@@ -218,3 +276,11 @@ class Instagram(ApiInterface):
         followings: List[Dict[str, Any]] = self.api.getTotalFollowings(uid)
         user_followings = list([_InstagramUser(x) for x in followings])
         return user_followings
+
+    def example_graphing(self) -> None:
+        """ Example method demonstrating graphing """
+        # Log the current amount of followers to our history of followers
+        self.log_followers()
+
+        # Graphs all followers / time
+        self.graph_followers()
