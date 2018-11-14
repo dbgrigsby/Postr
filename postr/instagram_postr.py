@@ -32,12 +32,6 @@ class _InstagramUser:
 class Instagram(ApiInterface):
     """ Wrapper for accessing the instagram API  """
 
-    # A workaround URL that retrieves a profile JSON without triggering a 403 error.
-    # URL before the username
-    PRE_PROFILE_URL = 'https://www.instagram.com/web/search/topsearch/?context=blended&query='
-    # URL after the username, which loads the profile JSON
-    POST_PROFILE_URL = '&rank_token=0.3953592318270893&count=1'
-
     def __init__(self) -> None:
         # Store keys and api info
         self.keys = InstagramKey()
@@ -124,8 +118,7 @@ class Instagram(ApiInterface):
 
         return len(spam_default_profiles) / len(followers)
 
-    @staticmethod
-    def username_to_id(username: str) -> int:
+    def username_to_id(self, username: str) -> int:
         """
         Converts a username to its associated id
 
@@ -134,7 +127,7 @@ class Instagram(ApiInterface):
 
         This function has a small chance of error, as documented in the _username_to_profile() function
         """
-        profile_json = Instagram._username_to_profile(username)
+        profile_json = self._username_to_profile(username)
         user = Instagram._profile_to_InstagramUser(profile_json)
         return user.uid
 
@@ -147,7 +140,7 @@ class Instagram(ApiInterface):
         Follows a user based off their username
         See the _username_to_profile() function for correctness concerns
         """
-        uid = InstagramAPI.username_to_id(username)
+        uid = self.username_to_id(username)
         self.api.follow(uid)
 
     def block_by_id(self, uid: int) -> None:
@@ -215,8 +208,7 @@ class Instagram(ApiInterface):
         # Simply build our InstagramUser, as the user JSON is the same
         return _InstagramUser(user)
 
-    @staticmethod
-    def _username_to_profile(username: str) -> Dict[str, Any]:
+    def _username_to_profile(self, username: str) -> Dict[str, Any]:
         """
         Creates a json out of a user's profile info given their username
 
@@ -230,8 +222,7 @@ class Instagram(ApiInterface):
         Hopefully Instagram fixes this flaw.
         """
 
-        base_url = Instagram.PRE_PROFILE_URL + username + Instagram.POST_PROFILE_URL
-        print(base_url)
+        base_url = self.keys.pre_profile + username + self.keys.rank_token + self.keys.post_profile
 
         # Build the page source url for the given user's account
         con = urllib.request.urlopen(base_url)
