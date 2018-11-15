@@ -10,6 +10,10 @@ class InstagramKey:
         self.username = get_key('USERNAME')
         self.password = get_key('PASSWORD')
 
+        self.pre_profile = get_key('PRE_PROFILE_JSON_URL')
+        self.rank_token = get_key('RANK_TOKEN')
+        self.post_profile = get_key('POST_PROFILE_JSON_URL')
+
 
 def get_key(key: str) -> Any:
     """ Gets a specified key for the Instagram API """

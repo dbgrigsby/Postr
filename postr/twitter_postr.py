@@ -2,6 +2,7 @@ import csv
 import datetime
 import json
 import re
+import os
 import time
 from typing import List
 
@@ -94,9 +95,9 @@ class Twitter(ApiInterface):
         self.bio = TwitterBio(self.api)
 
         """ Contains info for real-time graphing """
-        self.streamfile = 'postr/twitter/twitter_stream.txt'
-        self.graphfile = 'postr/twitter/twitter_graphing.csv'
-        self.blobfile = 'postr/twitter/twitter_blob.csv'
+        self.streamfile = os.path.join('postr', 'twitter', 'twitter_stream.txt')
+        self.graphfile = os.path.join('postr', 'twitter', 'twitter_graphing.csv')
+        self.blobfile = os.path.join('postr', 'twiter', 'twitter_blob.csv')
 
     def post_text(self, text: str) -> bool:
         """ Posts a tweet containing text """
