@@ -64,3 +64,11 @@
 		- Reused refresh token generated
 		- Added functionality to provide statistics
 		- Need to figure out how to properly integrate YouTube (post values are upload and there is little need to post)
+
+# 2018 11-16
+	YouTube functionality
+		- Integrated functionality for add, delete, and get subscriber count (equivalent to like count) onto api interface
+		- Commented on implementation reasons behind several interface functions
+		- Added typing to all functions and interface functions, with relevant sample code from google typed to Any if type unable to be determined
+		- Need to figure out still how to properly integrate into gui functionality, be it through disabling and adding option to post link of uploaded
+			- to other sites.
