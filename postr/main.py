@@ -82,22 +82,15 @@ class TabbedPanelApp(App):
             ),
         )
         post_types = Spinner(
-            # default value
             text='Post type',
-
-            # available values
             values=(
                 'Text', 'Image', 'Video', 'Link', 'Announcement',
             ),
-
             size_hint=(.15, .1),
             pos=(300, 985),
         )
         post_timing = Spinner(
-            # default value
             text='Choose a time:',
-
-            # available values
             values=(
                 'Immediately', 'Schedule for',
             ),
@@ -105,13 +98,67 @@ class TabbedPanelApp(App):
             size_hint=(.15, .1),
             pos=(600, 985),
         )
-        post_time = TextInput(
-            multiline=False,
-            pos=(900, 985), size_hint=(.15, .04),
-        )
         posts_layout.add_widget(post_types)
         posts_layout.add_widget(post_timing)
-        posts_layout.add_widget(post_time)
+        month = Spinner(
+            text='Month',
+            values=(
+                'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Spetember', 'October',
+                'November', 'December',
+            ),
+            size_hint=(.15, .1),
+            pos=(600, 1100),
+        )
+        day = Spinner(
+            text='Month',
+            values=(
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31',
+            ),
+            size_hint=(.15, .1),
+            pos=(600, 1250),
+        )
+        year = Spinner(
+            text='Year',
+            values=(
+                '2018', '2019', '2020',
+            ),
+            size_hint=(.15, .1),
+            pos=(600, 1400),
+        )
+        hour = Spinner(
+            text='Hour',
+            values=(
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+            ),
+            size_hint=(.15, .1),
+            pos=(500, 1100),
+        )
+        minute = Spinner(
+            text='Minute',
+            values=(
+                '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16',
+                '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33',
+                '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50',
+                '51', '52', '53', '54', '55', '56', '57', '58', '59',
+            ),
+            size_hint=(.15, .1),
+            pos=(500, 1250),
+        )
+        am_pm = Spinner(
+            text='am or pm',
+            values=(
+                'am', 'pm',
+            ),
+            size_hint=(.15, .1),
+            pos=(500, 1400),
+        )
+        posts_layout.add_widget(month)
+        posts_layout.add_widget(day)
+        posts_layout.add_widget(year)
+        posts_layout.add_widget(hour)
+        posts_layout.add_widget(minute)
+        posts_layout.add_widget(am_pm)
 
         events_spinner = spinner()
         events_layout.add_widget(events_spinner)
@@ -383,7 +430,6 @@ class TabbedPanelApp(App):
         from postr.tumblr_api import TumblrApi
         from postr.instagram_postr import Instagram
         from postr.slack_api import SlackApi
-        # from postr.discord_api import
 
         if platform == 'Reddit':
             reddit = Reddit()
@@ -443,14 +489,6 @@ class TabbedPanelApp(App):
                 slack.post_photo(image, text)
             elif post_type == 'Video':
                 slack.post_video(video, text)
-        # elif platform == 'Discord':
-        #     discord =
-        #     if post_type == 'Text':
-        #
-        #     elif post_type == 'Image':
-        #
-        #     elif post_type == 'Announcement':
-        #
 
     # def scheduled_post(self, platform):
     #     if platform == 'Reddit':
