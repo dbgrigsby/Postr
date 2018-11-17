@@ -83,3 +83,5 @@
   - Created date and time selection elements for post scheduling
     - Select month, day, and year to pick the scheduled date
     - Select hour, minute, and am or pm to set the time for the scheduled post
+  - Implemented beginning of scheduled_post method for all platforms
+    - Currently schedules posts for right away, will need to implement a way to convert between GUI date selector and the future date in milliseconds

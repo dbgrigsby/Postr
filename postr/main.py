@@ -422,7 +422,7 @@ class TabbedPanelApp(App):
         return stats
 
     @staticmethod
-    def immediate_post(platform: str, post_type: str, text: str, image: str, video: str, link: str) -> None:
+    def immediate_post(platform: str, post_type: str, text: str, media: str) -> None:
         from postr.reddit_postr import Reddit
         from postr.facebook_api import FacebookApi
         from postr.twitter_postr import Twitter
@@ -436,78 +436,68 @@ class TabbedPanelApp(App):
             if post_type == 'Text':
                 reddit.post_text(text)
             elif post_type == 'Image':
-                reddit.post_photo(image, text)
+                reddit.post_photo(media, text)
             elif post_type == 'Video':
-                reddit.post_video(video, text)
+                reddit.post_video(media, text)
             elif post_type == 'Link':
-                reddit.post_link(link, text)
+                reddit.post_link(media, text)
         elif platform == 'Facebook':
             facebook = FacebookApi()
             if post_type == 'Text':
                 facebook.post_text(text)
             elif post_type == 'Image':
-                facebook.post_photo(image, text)
+                facebook.post_photo(media, text)
             elif post_type == 'Video':
-                facebook.post_video(video, text)
+                facebook.post_video(media, text)
         elif platform == 'Tumblr':
             tumblr = TumblrApi()
             if post_type == 'Text':
                 tumblr.post_text(text)
             elif post_type == 'Image':
-                tumblr.post_photo(image, text)
+                tumblr.post_photo(media, text)
             elif post_type == 'Video':
-                tumblr.post_video(video, text)
+                tumblr.post_video(media, text)
         elif platform == 'Instagram':
             instagram = Instagram()
             if post_type == 'Text':
                 instagram.post_text(text)
             elif post_type == 'Image':
-                instagram.post_photo(image, text)
+                instagram.post_photo(media, text)
             elif post_type == 'Video':
-                instagram.post_video(video, text)
+                instagram.post_video(media, text)
         elif platform == 'Twitter':
             twitter = Twitter()
             if post_type == 'Text':
                 twitter.post_text(text)
             elif post_type == 'Image':
-                twitter.post_photo(image, text)
+                twitter.post_photo(media, text)
             elif post_type == 'Video':
-                twitter.post_video(video, text)
+                twitter.post_video(media, text)
         elif platform == 'Youtube':
             youtube = Youtube()
             if post_type == 'Text':
                 youtube.post_text(text)
             elif post_type == 'Image':
-                youtube.post_photo(image, text)
+                youtube.post_photo(media, text)
             elif post_type == 'Video':
-                youtube.post_video(video, text)
+                youtube.post_video(media, text)
         elif platform == 'Slack':
             slack = SlackApi()
             if post_type == 'Text':
                 slack.post_text(text)
             elif post_type == 'Image':
-                slack.post_photo(image, text)
+                slack.post_photo(media, text)
             elif post_type == 'Video':
-                slack.post_video(video, text)
+                slack.post_video(media, text)
 
-    # def scheduled_post(self, platform):
-    #     if platform == 'Reddit':
-    #
-    #     elif platform == 'Facebook':
-    #
-    #     elif platform == 'Tumblr':
-    #
-    #     elif platform == 'Instagram':
-    #
-    #     elif platform == 'Twitter':
-    #
-    #     elif platform == 'Youtube':
-    #
-    #     elif platform == 'Slack':
-    #
-    #     elif platform == 'Discord':
-    #
-    #     else:
+    @staticmethod
+    def scheduled_post(platform: str, post_type: str, text: str, media: str) -> None:
+        from postr.schedule.writer import Writer
+
+        writer = Writer()
+        job_id = writer.create_job('', media, text, platform, post_type)
+        # will have to change this in the future to take in a future time
+        writer.create_custom_job(writer.now(), job_id)
 
     # def update(self, platform, search, replace):
     #     if platform == 'Reddit':
