@@ -130,12 +130,16 @@ def create_command(api: str, task: Dict[str, Any], given_arguments: Set[str]) ->
     command += '('
 
     functions_for_actions: Dict[str, str] = api_to_function[api]['supported_actions'][action]['arguments']
+    log.info(f'Functions for actions were... {functions_for_actions}')
+    log.info(f'Given arguments were: {given_arguments}')
 
     method_args = ''
     for argument in given_arguments:
+        if argument not in functions_for_actions:
+            continue  # Scheduler provided extra argument, skip
         method_args += functions_for_actions[argument]
         method_args += '='
-        method_args += task[argument]
+        method_args += f'"{task[argument]}"'
         method_args += ','
 
     command += method_args
