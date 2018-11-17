@@ -9,6 +9,10 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from postr.schedule.task_processor import process_scheduler_events
 
 
+def clean_empty_strings(items: Dict[str, Any]) -> Dict[str, Any]:
+    return {k: v if not v == '' else None for k, v in items}
+
+
 class Reader():
     """
     Continuously reads the database for scheduled operations.
@@ -53,7 +57,11 @@ class Reader():
     async def scan(self) -> Any:
         """ Scans every 30 seconds for new jobs in the past 30 seconds """
         tasks = self.scan_custom_jobs()
-        await process_scheduler_events(tasks)
+        cleaned_tasks = [
+            clean_empty_strings(task)
+            for task in tasks
+        ]
+        await process_scheduler_events(cleaned_tasks)
         print('Sent new jobs to task processor')
 
     def schedule_range(self, seconds: int) -> int:
