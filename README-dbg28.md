@@ -1,6 +1,6 @@
 # 2018-11-16
     Finished the listed Slack API Functionality as planned
-    Additionally did some debugging on the task processor, which didn't result in a code change
+    Additionally, I made the Task Processor work for the multiple APIs by fixing bugs, and did a demo with Reddit"
 # 2018-11-09
     I added the basis of the Slack API
         With 2 supported functions>>
