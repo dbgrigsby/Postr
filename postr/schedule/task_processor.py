@@ -7,7 +7,7 @@ from postr.postr_logger import make_logger
 from postr.reddit_postr import Reddit
 from postr import discord_api
 from postr.twitter_postr import Twitter
-from postr.fbchat_api import FacebookChatApi
+# from postr.fbchat_api import FacebookChatApi
 
 
 log = make_logger('task_processor')
@@ -16,7 +16,7 @@ api_to_instance: Dict[str, Any] = {
     'discord': discord_api.discord_client,
     'reddit': Reddit(),
     'twitter': Twitter(),
-    'facebook': FacebookChatApi(),
+    # 'facebook': FacebookChatApi(),
 }
 
 api_to_function: Dict[str, Any] = {
@@ -97,7 +97,9 @@ api_to_function: Dict[str, Any] = {
 
 def has_required_arguments(api: str, action: str, arguments: Set[str]) -> bool:
     required_arguments: Set[str] = api_to_function[api]['supported_actions'][action]['arguments'].keys()
-    return arguments == required_arguments
+    print(f'required arguments were: {required_arguments}')
+    print(f'and provided arguments were {arguments}')
+    return required_arguments <= arguments
 
 
 def get_existing_arguments(task: Dict[str, Any]) -> Set[str]:
@@ -145,7 +147,8 @@ def create_command(api: str, task: Dict[str, Any], given_arguments: Set[str]) ->
 async def run_task(task: Dict[str, Any]) -> None:
     apis = task['Platforms'].split(',')
     for api in apis:
-        if api not in api_to_function.keys():
+        if api not in api_to_function:
+            log.error(f'The function keys were: {api_to_function.keys()}')
             log.error(f'{api} is not a valid api.')
             continue
 
