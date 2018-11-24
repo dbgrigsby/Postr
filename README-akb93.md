@@ -1,3 +1,8 @@
+#11/30/2018
+
+#11/23/2018
+    Thanksgiving break: gap week
+
 #11/13/2018
 ## User ID Parser & follower
     Using bs4, I made a parser to parse the ID's out of account webpages.
