@@ -82,22 +82,15 @@ class TabbedPanelApp(App):
             ),
         )
         post_types = Spinner(
-            # default value
             text='Post type',
-
-            # available values
             values=(
                 'Text', 'Image', 'Video', 'Link', 'Announcement',
             ),
-
             size_hint=(.15, .1),
             pos=(300, 985),
         )
         post_timing = Spinner(
-            # default value
             text='Choose a time:',
-
-            # available values
             values=(
                 'Immediately', 'Schedule for',
             ),
@@ -105,13 +98,67 @@ class TabbedPanelApp(App):
             size_hint=(.15, .1),
             pos=(600, 985),
         )
-        post_time = TextInput(
-            multiline=False,
-            pos=(900, 985), size_hint=(.15, .04),
-        )
         posts_layout.add_widget(post_types)
         posts_layout.add_widget(post_timing)
-        posts_layout.add_widget(post_time)
+        month = Spinner(
+            text='Month',
+            values=(
+                'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Spetember', 'October',
+                'November', 'December',
+            ),
+            size_hint=(.15, .1),
+            pos=(600, 1100),
+        )
+        day = Spinner(
+            text='Month',
+            values=(
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31',
+            ),
+            size_hint=(.15, .1),
+            pos=(600, 1250),
+        )
+        year = Spinner(
+            text='Year',
+            values=(
+                '2018', '2019', '2020',
+            ),
+            size_hint=(.15, .1),
+            pos=(600, 1400),
+        )
+        hour = Spinner(
+            text='Hour',
+            values=(
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+            ),
+            size_hint=(.15, .1),
+            pos=(500, 1100),
+        )
+        minute = Spinner(
+            text='Minute',
+            values=(
+                '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16',
+                '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33',
+                '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50',
+                '51', '52', '53', '54', '55', '56', '57', '58', '59',
+            ),
+            size_hint=(.15, .1),
+            pos=(500, 1250),
+        )
+        am_pm = Spinner(
+            text='am or pm',
+            values=(
+                'am', 'pm',
+            ),
+            size_hint=(.15, .1),
+            pos=(500, 1400),
+        )
+        posts_layout.add_widget(month)
+        posts_layout.add_widget(day)
+        posts_layout.add_widget(year)
+        posts_layout.add_widget(hour)
+        posts_layout.add_widget(minute)
+        posts_layout.add_widget(am_pm)
 
         events_spinner = spinner()
         events_layout.add_widget(events_spinner)
@@ -375,7 +422,7 @@ class TabbedPanelApp(App):
         return stats
 
     @staticmethod
-    def immediate_post(platform: str, post_type: str, text: str, image: str, video: str, link: str) -> None:
+    def immediate_post(platform: str, post_type: str, text: str, media: str) -> None:
         from postr.reddit_postr import Reddit
         from postr.facebook_api import FacebookApi
         from postr.twitter_postr import Twitter
@@ -383,93 +430,74 @@ class TabbedPanelApp(App):
         from postr.tumblr_api import TumblrApi
         from postr.instagram_postr import Instagram
         from postr.slack_api import SlackApi
-        # from postr.discord_api import
 
         if platform == 'Reddit':
             reddit = Reddit()
             if post_type == 'Text':
                 reddit.post_text(text)
             elif post_type == 'Image':
-                reddit.post_photo(image, text)
+                reddit.post_photo(media, text)
             elif post_type == 'Video':
-                reddit.post_video(video, text)
+                reddit.post_video(media, text)
             elif post_type == 'Link':
-                reddit.post_link(link, text)
+                reddit.post_link(media, text)
         elif platform == 'Facebook':
             facebook = FacebookApi()
             if post_type == 'Text':
                 facebook.post_text(text)
             elif post_type == 'Image':
-                facebook.post_photo(image, text)
+                facebook.post_photo(media, text)
             elif post_type == 'Video':
-                facebook.post_video(video, text)
+                facebook.post_video(media, text)
         elif platform == 'Tumblr':
             tumblr = TumblrApi()
             if post_type == 'Text':
                 tumblr.post_text(text)
             elif post_type == 'Image':
-                tumblr.post_photo(image, text)
+                tumblr.post_photo(media, text)
             elif post_type == 'Video':
-                tumblr.post_video(video, text)
+                tumblr.post_video(media, text)
         elif platform == 'Instagram':
             instagram = Instagram()
             if post_type == 'Text':
                 instagram.post_text(text)
             elif post_type == 'Image':
-                instagram.post_photo(image, text)
+                instagram.post_photo(media, text)
             elif post_type == 'Video':
-                instagram.post_video(video, text)
+                instagram.post_video(media, text)
         elif platform == 'Twitter':
             twitter = Twitter()
             if post_type == 'Text':
                 twitter.post_text(text)
             elif post_type == 'Image':
-                twitter.post_photo(image, text)
+                twitter.post_photo(media, text)
             elif post_type == 'Video':
-                twitter.post_video(video, text)
+                twitter.post_video(media, text)
         elif platform == 'Youtube':
             youtube = Youtube()
             if post_type == 'Text':
                 youtube.post_text(text)
             elif post_type == 'Image':
-                youtube.post_photo(image, text)
+                youtube.post_photo(media, text)
             elif post_type == 'Video':
-                youtube.post_video(video, text)
+                youtube.post_video(media, text)
         elif platform == 'Slack':
             slack = SlackApi()
             if post_type == 'Text':
                 slack.post_text(text)
             elif post_type == 'Image':
-                slack.post_photo(image, text)
+                slack.post_photo(media, text)
             elif post_type == 'Video':
-                slack.post_video(video, text)
-        # elif platform == 'Discord':
-        #     discord =
-        #     if post_type == 'Text':
-        #
-        #     elif post_type == 'Image':
-        #
-        #     elif post_type == 'Announcement':
-        #
+                slack.post_video(media, text)
 
-    # def scheduled_post(self, platform):
-    #     if platform == 'Reddit':
-    #
-    #     elif platform == 'Facebook':
-    #
-    #     elif platform == 'Tumblr':
-    #
-    #     elif platform == 'Instagram':
-    #
-    #     elif platform == 'Twitter':
-    #
-    #     elif platform == 'Youtube':
-    #
-    #     elif platform == 'Slack':
-    #
-    #     elif platform == 'Discord':
-    #
-    #     else:
+    @staticmethod
+    def scheduled_post(platform: str, post_type: str, text: str, media: str) -> None:
+        from postr.schedule.writer import Writer
+
+        writer = Writer()
+        job_id = writer.create_job('', media, text, platform, post_type)
+        # will have to change this in the future to take in a future time
+        writer.create_custom_job(writer.now(), job_id)
 
     # def update(self, platform, search, replace):
     #     if platform == 'Reddit':
