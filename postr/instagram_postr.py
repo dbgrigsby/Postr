@@ -227,8 +227,6 @@ class Instagram(ApiInterface):
             xytext=(max_index, max_val), arrowprops=dict(facecolor='black', shrink=0.05),
         )
 
-        print(max_index)
-        print(max_val)
         # beautify the x-labels
         plt.gcf().autofmt_xdate()
 
