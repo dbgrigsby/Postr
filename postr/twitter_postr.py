@@ -5,6 +5,7 @@ import re
 import os
 import time
 from typing import List
+from typing import Tuple
 
 import matplotlib.pyplot as plt
 from tweepy import OAuthHandler
@@ -18,6 +19,9 @@ from .api_interface import ApiInterface
 from .twitter.twitter_key import TwitterKey
 from .twitter.twitter_info import TwitterInfo
 from .twitter.twitter_bio import TwitterBio
+
+# Precision to truncate on a datetime object, down to the minute
+DATETIME_MINUTE_PRECISIION = 16
 
 
 class TwitterStreamer():
@@ -97,7 +101,7 @@ class Twitter(ApiInterface):
         """ Contains info for real-time graphing """
         self.streamfile = os.path.join('postr', 'twitter', 'twitter_stream.txt')
         self.graphfile = os.path.join('postr', 'twitter', 'twitter_graphing.csv')
-        self.blobfile = os.path.join('postr', 'twiter', 'twitter_blob.csv')
+        self.blobfile = os.path.join('postr', 'twitter', 'twitter_blob.csv')
 
     def post_text(self, text: str) -> bool:
         """ Posts a tweet containing text """
@@ -209,13 +213,43 @@ class Twitter(ApiInterface):
 
     def graph_blob(self) -> None:
         """ Graphs a blob file for twitter sentiment """
+
+        def max_score(scores: List[float]) -> Tuple[int, float]:
+            """ Finds the max score with its index, for global maxima plotting """
+            max_val = 0.0
+            max_index = 0
+            for index, val in enumerate(scores):
+                if val > max_val:
+                    max_val = val
+                    max_index = index
+            return (max_index, max_val)
+
         # plot
+        dates = self.read_csv_col(0, self.blobfile)
+        # Truncate the datetime object to the minute precision
+        dates = [d[:DATETIME_MINUTE_PRECISIION + 7] for d in dates]
+        scores = self.read_csv_col(1, self.blobfile)
+        (max_index, max_val) = max_score([float(s[:3]) for s in scores])
+
         plt.plot(
-            self.read_csv_col(0, self.blobfile),
-            self.read_csv_col(1, self.blobfile),
+            dates,
+            scores,
         )
+
+        plt.ylabel('Positivity Score')
+        plt.xlabel('Time')
+
+        # Annotate the plot with the global max
+        plt.annotate(
+            'Absolute max', xy=(max_index, max_val),
+            xytext=(max_index, max_val), arrowprops=dict(facecolor='black', shrink=0.05),
+        )
+
         # beautify the x-labels
         plt.gcf().autofmt_xdate()
+
+        # Set our y-range to be the max value plus a few more, to show the annotation
+        plt.ylim(-1, max_index + 3)
         plt.show()
 
     def update_bio(self, message: str) -> None:

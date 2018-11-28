@@ -194,8 +194,8 @@ class Instagram(ApiInterface):
     def graph_followers(self) -> None:
         """ Graphs a blob file for twitter sentiment """
 
-        def max_follower_index(followers: List[int]) -> Tuple[int, int]:
-            """ Finds the max followers with the index it, for local maxima plotting """
+        def max_followers(followers: List[int]) -> Tuple[int, int]:
+            """ Finds the max followers with its index, for global maxima plotting """
             max_val = 0
             max_index = 0
             for index, val in enumerate(followers):
@@ -211,7 +211,7 @@ class Instagram(ApiInterface):
         dates = [d[:DATETIME_MINUTE_PRECISIION] for d in dates]
         scores = Instagram._read_csv_col(1, self.graphfile)
 
-        (max_index, max_val) = max_follower_index([int(s) for s in scores])
+        (max_index, max_val) = max_followers([int(s) for s in scores])
 
         plt.plot(
             dates,
