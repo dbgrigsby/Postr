@@ -249,7 +249,7 @@ class Twitter(ApiInterface):
         plt.gcf().autofmt_xdate()
 
         # Set our y-range to be the max value plus a few more, to show the annotation
-        plt.ylim(-1, max_index + 3)
+        plt.ylim(-1, max_val + 3)
         plt.show()
 
     def update_bio(self, message: str) -> None:
