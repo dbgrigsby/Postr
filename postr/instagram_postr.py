@@ -14,6 +14,9 @@ from InstagramAPI import InstagramAPI
 from .instagram.instagram_key import InstagramKey
 from .api_interface import ApiInterface
 
+# Precision to truncate on a datetime object, down to the minute
+DATETIME_MINUTE_PRECISIION = 16
+
 
 class _InstagramUser:
     """ Stores a user defined by the InstagramAPI user JSON """
@@ -190,10 +193,19 @@ class Instagram(ApiInterface):
     def graph_followers(self) -> None:
         """ Graphs a blob file for twitter sentiment """
         # plot
+        dates = Instagram._read_csv_col(0, self.graphfile)
+
+        # Truncate the datetime object to the minute precision
+        dates = [d[:DATETIME_MINUTE_PRECISIION] for d in dates]
+        scores = Instagram._read_csv_col(1, self.graphfile)
+
         plt.plot(
-            Instagram._read_csv_col(0, self.graphfile),
-            Instagram._read_csv_col(1, self.graphfile),
+            dates,
+            scores,
         )
+
+        plt.ylabel('Follower count')
+        plt.xlabel('Time')
 
         # beautify the x-labels
         plt.gcf().autofmt_xdate()
