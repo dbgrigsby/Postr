@@ -3,6 +3,7 @@ import datetime
 from typing import List
 from typing import Any
 from typing import Dict
+from typing import Tuple
 import json
 import os
 import urllib
@@ -192,12 +193,25 @@ class Instagram(ApiInterface):
 
     def graph_followers(self) -> None:
         """ Graphs a blob file for twitter sentiment """
+
+        def max_follower_index(followers: List[int]) -> Tuple[int, int]:
+            """ Finds the max followers with the index it, for local maxima plotting """
+            max_val = 0
+            max_index = 0
+            for index, val in enumerate(followers):
+                if val > max_val:
+                    max_val = val
+                    max_index = index
+            return (max_index, max_val)
+
         # plot
         dates = Instagram._read_csv_col(0, self.graphfile)
 
         # Truncate the datetime object to the minute precision
         dates = [d[:DATETIME_MINUTE_PRECISIION] for d in dates]
         scores = Instagram._read_csv_col(1, self.graphfile)
+
+        (max_index, max_val) = max_follower_index([int(s) for s in scores])
 
         plt.plot(
             dates,
@@ -207,8 +221,19 @@ class Instagram(ApiInterface):
         plt.ylabel('Follower count')
         plt.xlabel('Time')
 
+        # Annotate the plot with the global max
+        plt.annotate(
+            'Absolute max', xy=(max_index, max_val - 1),
+            xytext=(max_index, max_val), arrowprops=dict(facecolor='black', shrink=0.05),
+        )
+
+        print(max_index)
+        print(max_val)
         # beautify the x-labels
         plt.gcf().autofmt_xdate()
+
+        # Set our y-range to be the max value plus a few more, to show the annotation
+        plt.ylim(-1, max_index + 3)
         plt.show()
 
     @staticmethod
