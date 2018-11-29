@@ -3,7 +3,6 @@ import datetime
 from typing import List
 from typing import Any
 from typing import Dict
-from typing import Tuple
 import json
 import os
 import urllib
@@ -193,29 +192,20 @@ class Instagram(ApiInterface):
 
     def graph_followers(self) -> None:
         """ Graphs a blob file for twitter sentiment """
-
-        def max_followers(followers: List[int]) -> Tuple[int, int]:
-            """ Finds the max followers with its index, for global maxima plotting """
-            max_val = 0
-            max_index = 0
-            for index, val in enumerate(followers):
-                if val > max_val:
-                    max_val = val
-                    max_index = index
-            return (max_index, max_val)
-
-        # plot
         dates = Instagram._read_csv_col(0, self.graphfile)
-
         # Truncate the datetime object to the minute precision
         dates = [d[:DATETIME_MINUTE_PRECISION] for d in dates]
-        scores = Instagram._read_csv_col(1, self.graphfile)
 
-        (max_index, max_val) = max_followers([int(s) for s in scores])
+        followers = [int(f) for f in Instagram._read_csv_col(1, self.graphfile)]
 
+        # Get the global maximum follower value and its index
+        max_val = max(followers)
+        max_index = followers.index(max_val)
+
+        # Plot followers vs. time
         plt.plot(
             dates,
-            scores,
+            followers,
         )
 
         plt.ylabel('Follower count')
@@ -223,8 +213,8 @@ class Instagram(ApiInterface):
 
         # Annotate the plot with the global max
         plt.annotate(
-            'Absolute max', xy=(max_index, max_val - 1),
-            xytext=(max_index, max_val), arrowprops=dict(facecolor='black', shrink=0.05),
+            'Absolute max', xy=(max_index, max_val),
+            xytext=(max_index, max_val + 1), arrowprops=dict(facecolor='black', shrink=0.05),
         )
 
         # beautify the x-labels
