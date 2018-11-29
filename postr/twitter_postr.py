@@ -5,7 +5,6 @@ import re
 import os
 import time
 from typing import List
-from typing import Tuple
 
 import matplotlib.pyplot as plt
 from tweepy import OAuthHandler
@@ -22,6 +21,9 @@ from .twitter.twitter_bio import TwitterBio
 
 # Precision to truncate on a datetime object, down to the minute
 DATETIME_MILLISECOND_PRECISION = 23
+
+# Precision to truncate scores when plotting twitter stream scores
+SCORE_PRECISION = 5
 
 
 class TwitterStreamer():
@@ -213,23 +215,12 @@ class Twitter(ApiInterface):
 
     def graph_blob(self) -> None:
         """ Graphs a blob file for twitter sentiment """
-
-        def max_score(scores: List[float]) -> Tuple[int, float]:
-            """ Finds the max score with its index, for global maxima plotting """
-            max_val = 0.0
-            max_index = 0
-            for index, val in enumerate(scores):
-                if val > max_val:
-                    max_val = val
-                    max_index = index
-            return (max_index, max_val)
-
-        # plot
         dates = self.read_csv_col(0, self.blobfile)
         # Truncate the datetime object to the minute precision
         dates = [d[:DATETIME_MILLISECOND_PRECISION] for d in dates]
-        scores = self.read_csv_col(1, self.blobfile)
-        (max_index, max_val) = max_score([float(s[:3]) for s in scores])
+
+        # Truncate off scores past a precision for easy viewing on the plot
+        scores = list(map(lambda x: x[:SCORE_PRECISION], self.read_csv_col(1, self.blobfile)))
 
         plt.plot(
             dates,
@@ -239,17 +230,9 @@ class Twitter(ApiInterface):
         plt.ylabel('Positivity Score')
         plt.xlabel('Time')
 
-        # Annotate the plot with the global max
-        plt.annotate(
-            'Absolute max', xy=(max_index, max_val),
-            xytext=(max_index, max_val), arrowprops=dict(facecolor='black', shrink=0.05),
-        )
-
         # beautify the x-labels
         plt.gcf().autofmt_xdate()
 
-        # Set our y-range to be the max value plus a few more, to show the annotation
-        plt.ylim(-1, max_val + 3)
         plt.show()
 
     def update_bio(self, message: str) -> None:
