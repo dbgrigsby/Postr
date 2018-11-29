@@ -44,6 +44,11 @@ class Youtube(ApiInterface):
             client_secret=get_key('client_secret'),
         )
         self.build = generate_build(self.credentials)
+        self.channel_id = channels_list_by_id(
+            self.build,
+            part='snippet,contentDetails,statistics',
+            mine='True',
+        )['items'][0]['id']
 
     def get_refresh_token(self) -> Any:
         # Follow the prompt to give an access code
@@ -91,6 +96,14 @@ class Youtube(ApiInterface):
             mine='true',
         )['items'][0]['statistics']['subscriberCount'])
 
+    def get_user_videos(self) -> str:
+        ''' This method returns the video ids of this user.'''
+        return str(videos_list_by_id(
+            self.build,
+            part='snippet,contentDetails,statistics',
+            id='Ks-_Mh1QhMc',
+        ))
+
     def get_user_followers(self, text: str) -> List[str]:
         ''' This method returns a list of all the people that
         follow the user'''
@@ -131,6 +144,17 @@ def channels_list_by_id(client: Any, **kwargs: str) -> Any:
     kwargs = remove_empty_kwargs(**kwargs)
 
     response = client.channels().list(
+        **kwargs,
+    ).execute()
+
+    return response
+
+
+def videos_list_by_id(client: Any, **kwargs: str) -> Any:
+    # See full sample for function
+    kwargs = remove_empty_kwargs(**kwargs)
+
+    response = client.videos().list(
         **kwargs,
     ).execute()
 
@@ -243,3 +267,7 @@ def resumable_upload(request: Any) -> Any:
             sleep_seconds = random.random() * max_sleep
             print('Sleeping %f seconds and then retrying...' % sleep_seconds)
             time.sleep(sleep_seconds)
+
+
+new_youtube = Youtube()
+print(new_youtube.channel_id)
