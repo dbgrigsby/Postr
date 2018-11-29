@@ -1,3 +1,17 @@
+#11/30/2018
+## Plotting Operations
+    Implement xy axis labeling for twitter and instagram plots
+    Implement a global maxima label for twitter and instagram plots
+    Truncated dates to their minutes for the x-lables, to better show the plots
+    Fixed a minor file path issue for the twitter plot blobfile
+## Misc
+    Since I finished my work ahead of schedule, this week, I am also working on
+    the poster for intersections. This is not tracked in the git repo.
+
+
+#11/23/2018
+    Thanksgiving break: gap week
+
 #11/13/2018
 ## User ID Parser & follower
     Using bs4, I made a parser to parse the ID's out of account webpages.
