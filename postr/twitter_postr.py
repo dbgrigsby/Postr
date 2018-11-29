@@ -21,7 +21,7 @@ from .twitter.twitter_info import TwitterInfo
 from .twitter.twitter_bio import TwitterBio
 
 # Precision to truncate on a datetime object, down to the minute
-DATETIME_MINUTE_PRECISIION = 16
+DATETIME_MILLISECOND_PRECISION = 23
 
 
 class TwitterStreamer():
@@ -227,7 +227,7 @@ class Twitter(ApiInterface):
         # plot
         dates = self.read_csv_col(0, self.blobfile)
         # Truncate the datetime object to the minute precision
-        dates = [d[:DATETIME_MINUTE_PRECISIION + 7] for d in dates]
+        dates = [d[:DATETIME_MILLISECOND_PRECISION] for d in dates]
         scores = self.read_csv_col(1, self.blobfile)
         (max_index, max_val) = max_score([float(s[:3]) for s in scores])
 
