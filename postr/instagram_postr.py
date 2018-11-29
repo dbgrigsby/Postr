@@ -16,7 +16,7 @@ from .instagram.instagram_key import InstagramKey
 from .api_interface import ApiInterface
 
 # Precision to truncate on a datetime object, down to the minute
-DATETIME_MINUTE_PRECISIION = 16
+DATETIME_MINUTE_PRECISION = 16
 
 
 class _InstagramUser:
@@ -208,7 +208,7 @@ class Instagram(ApiInterface):
         dates = Instagram._read_csv_col(0, self.graphfile)
 
         # Truncate the datetime object to the minute precision
-        dates = [d[:DATETIME_MINUTE_PRECISIION] for d in dates]
+        dates = [d[:DATETIME_MINUTE_PRECISION] for d in dates]
         scores = Instagram._read_csv_col(1, self.graphfile)
 
         (max_index, max_val) = max_followers([int(s) for s in scores])
