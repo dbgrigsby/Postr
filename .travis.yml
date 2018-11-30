@@ -1,6 +1,6 @@
 language: python
 cache:
-  pip: false
+  pip: true
 python:
     - "3.6"
 env:
