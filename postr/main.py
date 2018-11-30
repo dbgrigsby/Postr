@@ -31,7 +31,7 @@ class TabbedPanelApp(App):
         profile_layout = FloatLayout()
 
         def spinner() -> Spinner:
-            spinner = Spinner(
+            spin = Spinner(
                 # default value
                 text='Choose a site:',
                 # available values
@@ -42,28 +42,28 @@ class TabbedPanelApp(App):
 
                 size_hint=(.15, .1),
                 pos=(15, 985),
-                color=(0.188, 0.815, 0.909),
+                background_color=(0.094, 0.803, 0.803),
             )
 
-            def show_selected_value(spinner: Spinner, text: str) -> None:
-                print('The spinner', spinner, 'have text', text)
+            def show_selected_value(spnr: Spinner, text: str) -> None:
+                print('The spinner', spnr, 'have text', text)
 
-            spinner.bind(text=show_selected_value)
-            return spinner
+            spin.bind(text=show_selected_value)
+            return spin
 
         performance_spinner = spinner()
         performance_layout.add_widget(performance_spinner)
         performance_layout.add_widget(
             Label(
                 text='Follower Count: ', font_size='20sp',
-                pos=(300, 900), size_hint=(.15, .2),
+                pos=(300, 850), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
         )
         performance_layout.add_widget(
             Label(
                 text='Total Likes: ', font_size='20sp',
-                pos=(300, 850), size_hint=(.15, .2),
+                pos=(300, 800), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
         )
@@ -71,14 +71,14 @@ class TabbedPanelApp(App):
         performance_layout.add_widget(
             Label(
                 text=str(performance_stats[0]), font_size='20sp',
-                pos=(400, 900), size_hint=(.15, .2),
+                pos=(500, 850), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
         )
         performance_layout.add_widget(
             Label(
                 text=str(performance_stats[1]), font_size='20sp',
-                pos=(400, 850), size_hint=(.15, .2),
+                pos=(500, 800), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
         )
@@ -88,7 +88,7 @@ class TabbedPanelApp(App):
         posts_layout.add_widget(
             Label(
                 text='Scheduled Posts: ', font_size='20sp',
-                pos=(315, 800), size_hint=(.15, .2),
+                pos=(375, 675), size_hint=(.15, .2),
                 color=(0, 0, 0, 1),
             ),
         )
@@ -99,7 +99,7 @@ class TabbedPanelApp(App):
                 'Text', 'Image', 'Video', 'Link', 'Announcement',
             ),
             size_hint=(.15, .1),
-            pos=(300, 985),
+            pos=(315, 985),
         )
         post_timing = Spinner(
             text='Choose a time:',
@@ -109,7 +109,7 @@ class TabbedPanelApp(App):
             ),
 
             size_hint=(.15, .1),
-            pos=(600, 985),
+            pos=(615, 985),
         )
         posts_layout.add_widget(post_types)
         posts_layout.add_widget(post_timing)
@@ -121,17 +121,17 @@ class TabbedPanelApp(App):
                 'November', 'December',
             ),
             size_hint=(.15, .1),
-            pos=(600, 1100),
+            pos=(915, 985),
         )
         day = Spinner(
-            text='Month',
+            text='Day',
             italic=True,
             values=(
                 '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
                 '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31',
             ),
             size_hint=(.15, .1),
-            pos=(600, 1250),
+            pos=(1215, 985),
         )
         year = Spinner(
             text='Year',
@@ -140,7 +140,7 @@ class TabbedPanelApp(App):
                 '2018', '2019', '2020',
             ),
             size_hint=(.15, .1),
-            pos=(600, 1400),
+            pos=(315, 850),
         )
         hour = Spinner(
             text='Hour',
@@ -150,7 +150,7 @@ class TabbedPanelApp(App):
                 '20', '21', '22', '23',
             ),
             size_hint=(.15, .1),
-            pos=(500, 1100),
+            pos=(615, 850),
         )
         minute = Spinner(
             text='Minute',
@@ -162,7 +162,7 @@ class TabbedPanelApp(App):
                 '51', '52', '53', '54', '55', '56', '57', '58', '59',
             ),
             size_hint=(.15, .1),
-            pos=(500, 1250),
+            pos=(915, 850),
         )
         posts_layout.add_widget(month)
         posts_layout.add_widget(day)
@@ -423,6 +423,14 @@ class TabbedPanelApp(App):
 
     @staticmethod
     def immediate_post(platform: str, post_type: str, text: str, media: str) -> None:
+        # dict = {
+        #     'Comment': 'bahgb comment idiot',
+        #     'MediaPath': 'testpath123',
+        #     'OptionalText': '',
+        #     'Platforms': 'reddit,discord',
+        #     'Action': 'post_text'
+        # }
+
         if platform == 'Reddit':
             reddit = Reddit()
             if post_type == 'Text':

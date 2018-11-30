@@ -93,4 +93,6 @@
   - Working on coloring to finalize the UI design
   - Updated scheduled method to allow for custom date and time input
     - Converts from the GUI date selector into milliseconds
-  -
+  - Started dictionary formatting for immediate posting
+  - Reformatting size and location of buttons and labels
+    - As layout changes the stuff on the page needs to change too - in progress
