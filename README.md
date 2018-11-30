@@ -1,3 +1,11 @@
+11/30/2018:
+- The team will individually complete their implementation / GUI integration of the second group of APIs.
+- The User Experience Engineer will create GUIs for each of the APIs created last week
+- Those who finish early will work on documenting the project's exact usage (10-20 pages), write in-program guides for users, clean up the interfaces and hide all possible errors behind screens that a casual user would be able to understand.
+
+11/23/2018:
+- Gap week: Thanksgiving
+
 11/16/2018:
 - The team will finish implementing their second set of APIs.
 - If implementation is finished, then they will begin testing for their second API.

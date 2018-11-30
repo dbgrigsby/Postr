@@ -14,6 +14,9 @@ from InstagramAPI import InstagramAPI
 from .instagram.instagram_key import InstagramKey
 from .api_interface import ApiInterface
 
+# Precision to truncate on a datetime object, down to the minute
+DATETIME_MINUTE_PRECISION = 16
+
 
 class _InstagramUser:
     """ Stores a user defined by the InstagramAPI user JSON """
@@ -189,14 +192,36 @@ class Instagram(ApiInterface):
 
     def graph_followers(self) -> None:
         """ Graphs a blob file for twitter sentiment """
-        # plot
+        dates = Instagram._read_csv_col(0, self.graphfile)
+        # Truncate the datetime object to the minute precision
+        dates = [d[:DATETIME_MINUTE_PRECISION] for d in dates]
+
+        followers = [int(f) for f in Instagram._read_csv_col(1, self.graphfile)]
+
+        # Get the global maximum follower value and its index
+        max_val = max(followers)
+        max_index = followers.index(max_val)
+
+        # Plot followers vs. time
         plt.plot(
-            Instagram._read_csv_col(0, self.graphfile),
-            Instagram._read_csv_col(1, self.graphfile),
+            dates,
+            followers,
+        )
+
+        plt.ylabel('Follower count')
+        plt.xlabel('Time')
+
+        # Annotate the plot with the global max
+        plt.annotate(
+            'Absolute max', xy=(max_index, max_val),
+            xytext=(max_index, max_val + 1), arrowprops=dict(facecolor='black', shrink=0.05),
         )
 
         # beautify the x-labels
         plt.gcf().autofmt_xdate()
+
+        # Set our y-range to be the max value plus a few more, to show the annotation
+        plt.ylim(-1, max_val + 3)
         plt.show()
 
     @staticmethod

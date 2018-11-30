@@ -23,6 +23,7 @@ endif
 
 activate:
 	source $(VENV_NAME)$(VENV_PATH)/$(FOLDER)/activate; \
+	$(VENV_NAME)$(VENV_PATH)/$(FOLDER)/pip install -r prerequirements.txt; \
 	$(VENV_NAME)$(VENV_PATH)/$(FOLDER)/pip install -r requirements.txt; \
 
 test: activate
@@ -43,4 +44,6 @@ setupTextblob: activate
 database: activate
 	${PYTHON} -m scripts.dbsetup \
 
+gui: activate
+	${PYTHON} -m postr.main
 # link : https://blog.horejsek.com/makefile-with-python/
