@@ -3,6 +3,9 @@ cache:
   pip: true
 python:
     - "3.6"
+install:
+    pip install -r prerequirements.txt
+    pip install -r rerequirements.txt
 env:
     - TOXENV=py36
 script:
