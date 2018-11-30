@@ -1,3 +1,4 @@
+# import asyncio
 from typing import List
 from typing import Set
 from typing import Any
@@ -13,11 +14,13 @@ from postr.twitter_postr import Twitter
 log = make_logger('task_processor')
 
 api_to_instance: Dict[str, Any] = {
-    'discord': discord_api.discord_client,
+    'discord': discord_api,
     'reddit': Reddit(),
     'twitter': Twitter(),
     # 'facebook': FacebookChatApi(),
 }
+api_to_instance['discord'].main()
+# loop = asyncio.get_event_loop()
 
 api_to_function: Dict[str, Any] = {
     'discord': {
@@ -170,6 +173,7 @@ async def run_task(task: Dict[str, Any]) -> None:
         command = create_command(api, task, given_arguments)
 
         if api_to_function[api]['is_async'] is True:
+            # command = f'loop.run_until_complete({command})'
             command = f'await {command}'
 
         print(f'Command to be executed: {command}')
