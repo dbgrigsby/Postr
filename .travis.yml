@@ -1,8 +1,6 @@
 language: python
 cache:
-  pip: true
-services:
-    - docker
+  pip: false
 python:
     - "3.6"
 env:
