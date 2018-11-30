@@ -78,3 +78,7 @@
 
 # 2018 11-30
 	Assisted in creation of the Poster
+	YouTube functionality
+		- Added a way for the user to retrieve recent uploaded video_ids
+			- Allows for displaying of uploaded videos
+			- Allows for access to uploaded videos to delete or re upload
