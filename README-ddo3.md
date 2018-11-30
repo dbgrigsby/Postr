@@ -1,3 +1,11 @@
+#### 11/29/2018
+Since I finished implementing my API's I started researching how to create an executable for our project:  
+* Researched Pyinstaller and py2exe to see which would be the best fit for out project
+* Installing Kivy and setting up UI environment on my machine
+* Testing sample executable in different environments to see its limitations
+
+I mostly did research for this week, so I have no code to commit.
+
 #### 11/14/2018
 Started testing for Tumblr API  
 Testing mocks responses from pytumblr API  
