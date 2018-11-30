@@ -92,4 +92,5 @@
   - Changed text formatting with spinners to look more polished
   - Working on coloring to finalize the UI design
   - Updated scheduled method to allow for custom date and time input
-    - converts from the GUI date selector into milliseconds
+    - Converts from the GUI date selector into milliseconds
+  -

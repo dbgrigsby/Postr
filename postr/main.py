@@ -34,7 +34,6 @@ class TabbedPanelApp(App):
             spinner = Spinner(
                 # default value
                 text='Choose a site:',
-                italic=True,
                 # available values
                 values=(
                     'Discord', 'Facebook', 'Instagram', 'Reddit',
