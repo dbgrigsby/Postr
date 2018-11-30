@@ -1,5 +1,7 @@
 from typing import List
 
+import datetime
+
 from kivy.app import App
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.floatlayout import FloatLayout
@@ -8,6 +10,15 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.tabbedpanel import TabbedPanelHeader
 from kivy.uix.textinput import TextInput
+
+from postr.reddit_postr import Reddit
+from postr.facebook_api import FacebookApi
+from postr.twitter_postr import Twitter
+from postr.youtube_postr import Youtube
+from postr.tumblr_api import TumblrApi
+from postr.instagram_postr import Instagram
+from postr.slack_api import SlackApi
+from postr.schedule.writer import Writer
 
 
 class TabbedPanelApp(App):
@@ -23,7 +34,7 @@ class TabbedPanelApp(App):
             spinner = Spinner(
                 # default value
                 text='Choose a site:',
-
+                italic=True,
                 # available values
                 values=(
                     'Discord', 'Facebook', 'Instagram', 'Reddit',
@@ -32,6 +43,7 @@ class TabbedPanelApp(App):
 
                 size_hint=(.15, .1),
                 pos=(15, 985),
+                color=(0.188, 0.815, 0.909),
             )
 
             def show_selected_value(spinner: Spinner, text: str) -> None:
@@ -83,6 +95,7 @@ class TabbedPanelApp(App):
         )
         post_types = Spinner(
             text='Post type',
+            italic=True,
             values=(
                 'Text', 'Image', 'Video', 'Link', 'Announcement',
             ),
@@ -91,6 +104,7 @@ class TabbedPanelApp(App):
         )
         post_timing = Spinner(
             text='Choose a time:',
+            italic=True,
             values=(
                 'Immediately', 'Schedule for',
             ),
@@ -102,8 +116,9 @@ class TabbedPanelApp(App):
         posts_layout.add_widget(post_timing)
         month = Spinner(
             text='Month',
+            italic=True,
             values=(
-                'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Spetember', 'October',
+                'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
                 'November', 'December',
             ),
             size_hint=(.15, .1),
@@ -111,6 +126,7 @@ class TabbedPanelApp(App):
         )
         day = Spinner(
             text='Month',
+            italic=True,
             values=(
                 '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
                 '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31',
@@ -120,6 +136,7 @@ class TabbedPanelApp(App):
         )
         year = Spinner(
             text='Year',
+            italic=True,
             values=(
                 '2018', '2019', '2020',
             ),
@@ -128,14 +145,17 @@ class TabbedPanelApp(App):
         )
         hour = Spinner(
             text='Hour',
+            italic=True,
             values=(
-                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                '20', '21', '22', '23',
             ),
             size_hint=(.15, .1),
             pos=(500, 1100),
         )
         minute = Spinner(
             text='Minute',
+            italic=True,
             values=(
                 '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16',
                 '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33',
@@ -145,20 +165,11 @@ class TabbedPanelApp(App):
             size_hint=(.15, .1),
             pos=(500, 1250),
         )
-        am_pm = Spinner(
-            text='am or pm',
-            values=(
-                'am', 'pm',
-            ),
-            size_hint=(.15, .1),
-            pos=(500, 1400),
-        )
         posts_layout.add_widget(month)
         posts_layout.add_widget(day)
         posts_layout.add_widget(year)
         posts_layout.add_widget(hour)
         posts_layout.add_widget(minute)
-        posts_layout.add_widget(am_pm)
 
         events_spinner = spinner()
         events_layout.add_widget(events_spinner)
@@ -176,7 +187,7 @@ class TabbedPanelApp(App):
                 color=(0, 0, 0, 1),
             ),
         )
-        hashtag_checkbox = CheckBox(pos=(450, 850), size_hint=(.15, .2),)
+        hashtag_checkbox = CheckBox(pos=(450, 850), size_hint=(.15, .2), )
         events_layout.add_widget(hashtag_checkbox)
         events_layout.add_widget(
             Label(
@@ -374,14 +385,6 @@ class TabbedPanelApp(App):
 
     @staticmethod
     def performance(platform: str) -> List[int]:
-        from postr.reddit_postr import Reddit
-        from postr.facebook_api import FacebookApi
-        from postr.twitter_postr import Twitter
-        from postr.youtube_postr import Youtube
-        from postr.tumblr_api import TumblrApi
-        from postr.instagram_postr import Instagram
-        from postr.slack_api import SlackApi
-
         if platform == 'Reddit':
             reddit = Reddit()
             follower_count = len(reddit.get_user_followers(''))
@@ -416,21 +419,11 @@ class TabbedPanelApp(App):
         else:
             follower_count = 0
             total_likes = 0
-        stats = []
-        stats.append(follower_count)
-        stats.append(total_likes)
+        stats = [follower_count, total_likes]
         return stats
 
     @staticmethod
     def immediate_post(platform: str, post_type: str, text: str, media: str) -> None:
-        from postr.reddit_postr import Reddit
-        from postr.facebook_api import FacebookApi
-        from postr.twitter_postr import Twitter
-        from postr.youtube_postr import Youtube
-        from postr.tumblr_api import TumblrApi
-        from postr.instagram_postr import Instagram
-        from postr.slack_api import SlackApi
-
         if platform == 'Reddit':
             reddit = Reddit()
             if post_type == 'Text':
@@ -491,13 +484,12 @@ class TabbedPanelApp(App):
                 slack.post_video(media, text)
 
     @staticmethod
-    def scheduled_post(platform: str, post_type: str, text: str, media: str) -> None:
-        from postr.schedule.writer import Writer
-
+    def scheduled_post(plat: str, pst: str, text: str, mda: str, mnt: int, day: int, yr: int, hr: int, mn: int) -> None:
         writer = Writer()
-        job_id = writer.create_job('', media, text, platform, post_type)
-        # will have to change this in the future to take in a future time
-        writer.create_custom_job(writer.now(), job_id)
+        job_id = writer.create_job('', mda, text, plat, pst)
+        date = datetime.datetime(mn, hr, 0, yr, mnt, day)
+        time = int(date.timestamp() * 1000)
+        writer.create_custom_job(time, job_id)
 
     # def update(self, platform, search, replace):
     #     if platform == 'Reddit':
