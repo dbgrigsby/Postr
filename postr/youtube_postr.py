@@ -96,13 +96,26 @@ class Youtube(ApiInterface):
             mine='true',
         )['items'][0]['statistics']['subscriberCount'])
 
-    def get_user_videos(self) -> str:
+    def get_user_videos(self) -> List[str]:
         ''' This method returns the video ids of this user.'''
-        return str(videos_list_by_id(
+        # Returns a list of video ids where the first item is the most recently uploaded video
+        upload_id = channels_list_by_id(
             self.build,
-            part='snippet,contentDetails,statistics',
-            id='Ks-_Mh1QhMc',
-        ))
+            part='contentDetails',
+            id=self.channel_id,
+        )['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+
+        upload_playlist_json = playlist_items_list_by_playlist_id(
+            self.build,
+            part='contentDetails',
+            maxResults=50,
+            playlistId=upload_id,
+        )
+
+        upload_id_list = []
+        for uploaded_video in upload_playlist_json['items']:
+            upload_id_list.append(uploaded_video['contentDetails']['videoID'])
+        return upload_id_list
 
     def get_user_followers(self, text: str) -> List[str]:
         ''' This method returns a list of all the people that
@@ -113,10 +126,22 @@ class Youtube(ApiInterface):
     def remove_post(self, post_id: str) -> bool:
         ''' This method removes the post with the specified id
         and returns the success of this action'''
+        # post_id in this case should be the upload_id of the video/the video's id
         videos_delete(self.build, id=post_id)
         return True
 
 # Remove keyword arguments that are not set
+
+
+def playlist_items_list_by_playlist_id(client: Any, **kwargs: Any) -> Any:
+    # See full sample for function
+    kwargs = remove_empty_kwargs(**kwargs)
+
+    response = client.playlistItems().list(
+        **kwargs,
+    ).execute()
+
+    return response
 
 
 def videos_delete(client: Any, **kwargs: str) -> Any:
@@ -267,7 +292,3 @@ def resumable_upload(request: Any) -> Any:
             sleep_seconds = random.random() * max_sleep
             print('Sleeping %f seconds and then retrying...' % sleep_seconds)
             time.sleep(sleep_seconds)
-
-
-new_youtube = Youtube()
-print(new_youtube.channel_id)
