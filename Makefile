@@ -23,6 +23,7 @@ endif
 
 activate:
 	source $(VENV_NAME)$(VENV_PATH)/$(FOLDER)/activate; \
+	$(VENV_NAME)$(VENV_PATH)/$(FOLDER)/pip install -r prerequirements.txt; \
 	$(VENV_NAME)$(VENV_PATH)/$(FOLDER)/pip install -r requirements.txt; \
 
 test: activate
