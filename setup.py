@@ -16,6 +16,6 @@ setup(
         'Source Code': 'https://github.com/dbgrigsby/Postr',
     },
     install_requires=[
-        'Cython==0.28.5',
+        'GitPython',
     ],
 )
