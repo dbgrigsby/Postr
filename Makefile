@@ -43,4 +43,6 @@ setupTextblob: activate
 database: activate
 	${PYTHON} -m scripts.dbsetup \
 
+gui: activate
+	${PYTHON} -m postr.main
 # link : https://blog.horejsek.com/makefile-with-python/
