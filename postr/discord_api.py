@@ -14,17 +14,21 @@ log = make_logger('discord')
 def id_to_channel(channel_id: Optional[str]) -> Channel:
     if channel_id:
         chan = discord_client.get_channel(channel_id)
-        return chan
-    log.error('No default channel found!')
-    return next(iter(discord_client.get_all_channels()))
+        if chan:
+            log.info(f'Channel name found was: {chan.name}')
+            return chan
+        log.error(f'Channel id {channel_id} did not match any known channels.')
+    else:
+        log.error('No channel id provided!')
+    all_channels = list(discord_client.get_all_channels())
+    channel = all_channels.pop()
+    return channel
 
 
-def default_channel_id() -> Optional[str]:
-    ret = get_api_key('Discord', 'default_channel')
-    return ret
+default_channel_id = get_api_key('Discord', 'default_channel')
 
 
-async def post_text(text: str, channel_id: Optional[str] = default_channel_id()) -> bool:
+async def post_text(text: str, channel_id: Optional[str] = default_channel_id) -> bool:
     ''' This method takes in the text the user want to post
         and returns the success of this action'''
     channel = id_to_channel(channel_id)
@@ -39,7 +43,7 @@ async def post_text(text: str, channel_id: Optional[str] = default_channel_id())
         return False
 
 
-async def delete_bot_messages(channel_id: Optional[str] = default_channel_id()) -> bool:
+async def delete_bot_messages(channel_id: Optional[str] = default_channel_id) -> bool:
     def is_me(m: Message) -> bool:
         return m.author == discord_client.user  # type: ignore
     try:
@@ -52,7 +56,7 @@ async def delete_bot_messages(channel_id: Optional[str] = default_channel_id()) 
         return False
 
 
-async def post_image(image_filepath: str, channel_id: Optional[str] = default_channel_id()) -> bool:
+async def post_image(image_filepath: str, channel_id: Optional[str] = default_channel_id) -> bool:
     channel = discord_client.get_channel(channel_id)
     try:
         with open(image_filepath, 'rb') as f:
@@ -73,12 +77,14 @@ async def update_status(status: str) -> bool:
         return False
 
 
-async def set_default_channel(channel_id: Optional[str] = default_channel_id()) -> bool:
+async def set_default_channel(channel_id: Optional[str]) -> bool:
     channel = id_to_channel(channel_id)
     log.info('Tried to change default channe to channel_id')
     try:
         await post_text(text=f'Default channel changed to {channel.name}', channel_id=channel_id)
         update_api_key('Discord', 'default_channel', channel.id)
+        global default_channel_id  # pylint: disable=global-statement
+        default_channel_id = channel
         log.info(f'Default channel changed to {channel.name}')
         return True
     except Exception as e:
@@ -115,6 +121,11 @@ async def on_message(message: Message) -> None:
     else:
         pass
 
-if __name__ == '__main___':
+
+def main() -> None:
     bot_token = get_api_key('Discord', 'bot_token')
     discord_client.run(bot_token)
+
+
+if __name__ == '__main___':
+    main()
