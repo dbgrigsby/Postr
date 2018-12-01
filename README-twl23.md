@@ -72,3 +72,13 @@
 		- Added typing to all functions and interface functions, with relevant sample code from google typed to Any if type unable to be determined
 		- Need to figure out still how to properly integrate into gui functionality, be it through disabling and adding option to post link of uploaded
 			- to other sites.
+
+# 2018 11-23
+	Thanksgiving Break
+
+# 2018 11-30
+	Assisted in creation of the Poster
+	YouTube functionality
+		- Added a way for the user to retrieve recent uploaded video_ids
+			- Allows for displaying of uploaded videos
+			- Allows for access to uploaded videos to delete or re upload

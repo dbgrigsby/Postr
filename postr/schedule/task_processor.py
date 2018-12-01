@@ -1,3 +1,4 @@
+# import asyncio
 from typing import List
 from typing import Set
 from typing import Any
@@ -8,16 +9,26 @@ from postr.reddit_postr import Reddit
 from postr import discord_api
 from postr.twitter_postr import Twitter
 # from postr.fbchat_api import FacebookChatApi
+from postr.slack_api import SlackApi
+from postr.tumblr_api import TumblrApi
+from postr.instagram_postr import Instagram
+from postr.youtube_postr import Youtube
 
 
 log = make_logger('task_processor')
 
 api_to_instance: Dict[str, Any] = {
-    'discord': discord_api.discord_client,
+    'discord': discord_api,
     'reddit': Reddit(),
     'twitter': Twitter(),
     # 'facebook': FacebookChatApi(),
+    'slack': SlackApi(),
+    'tumblr': TumblrApi(),
+    'instagram': Instagram(),
+    'youtube': Youtube(),
 }
+api_to_instance['discord'].main()
+# loop = asyncio.get_event_loop()
 
 api_to_function: Dict[str, Any] = {
     'discord': {
@@ -87,11 +98,72 @@ api_to_function: Dict[str, Any] = {
                 'arguments': {'OptionalText': 'status'},
             },
             'remove_post': {
-                'function_call': 'api_to_instance["facebook"].update_status',
-                'arguments': {'OptionalText': 'status'},
+                'function_call': 'api_to_instance["facebook"].delete_thread',
+                'arguments': {'OptionalText': 'thread_id'},
             },
         },
     },
+    'slack': {
+        'is_async': False,
+        'supported_actions': {
+            'post_text': {
+                'function_call': 'api_to_instance["slack"].post_text',
+                'arguments': {'Comment': 'text'},
+            },
+            'post_photo': {
+                'function_call': 'api_to_instance["slack"].post_photo',
+                'arguments': {'MediaPath': 'url', 'Comment': 'text'},
+            },
+            'remove_post': {
+                'function_call': 'api_to_instance["slack"].remove_post',
+                'arguments': {'OptionalText': 'post_id'},
+            },
+        },
+    },
+    'tumblr': {
+        'is_async': False,
+        'supported_actions': {
+            'post_text': {
+                'function_call': 'api_to_instance["tumblr"].post_text',
+                'arguments': {'Comment': 'text'},
+            },
+            'post_photo': {
+                'function_call': 'api_to_instance["tumblr"].post_photo',
+                'arguments': {'MediaPath': 'url', 'Comment': 'text'},
+            },
+            'remove_post': {
+                'function_call': 'api_to_instance["tumblr"].remove_post',
+                'arguments': {'OptionalText': 'post_id'},
+            },
+        },
+    },
+    'instagram': {
+        'is_async': False,
+        'supported_actions': {
+            'post_photo': {
+                'function_call': 'api_to_instance["instagram"].post_photo',
+                'arguments': {'MediaPath': 'url', 'Comment': 'text'},
+            },
+            'remove_post': {
+                'function_call': 'api_to_instance["instagram"].remove_post',
+                'arguments': {'OptionalText': 'post_id'},
+            },
+        },
+    },
+    'youtube': {
+        'is_async': False,
+        'supported_actions': {
+            'post_video': {
+                'function_call': 'api_to_instance["youtube"].post_video',
+                'arguments': {'MediaPath': 'file', 'OptionalText': 'text'},
+            },
+            'remove_post': {
+                'function_call': 'api_to_instance["youtube"].remove_post',
+                'arguments': {'OptionalText': 'post_id'},
+            },
+        },
+    },
+
 }
 
 
@@ -170,6 +242,7 @@ async def run_task(task: Dict[str, Any]) -> None:
         command = create_command(api, task, given_arguments)
 
         if api_to_function[api]['is_async'] is True:
+            # command = f'loop.run_until_complete({command})'
             command = f'await {command}'
 
         print(f'Command to be executed: {command}')
