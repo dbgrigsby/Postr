@@ -1,3 +1,6 @@
+# 2018-11-30
+    Add four new APIs with basic functions to the Task Processor
+    Fix the long standing GUI-in-venv bugs
 # 2018-11-16
     Finished the listed Slack API Functionality as planned
     Additionally, I made the Task Processor work for the multiple APIs by fixing bugs, and did a demo with Reddit"
