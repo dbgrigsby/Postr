@@ -87,3 +87,12 @@
     - Currently schedules posts for right away, will need to implement a way to convert between GUI date selector and the future date in milliseconds
   - Planned out changes to immediate posting to be implemented the following week
     - Dependent on methods created by another group member for this week
+
+# November 30, 2018
+  - Changed text formatting with spinners to look more polished
+  - Working on coloring to finalize the UI design
+  - Updated scheduled method to allow for custom date and time input
+    - Converts from the GUI date selector into milliseconds
+  - Started dictionary formatting for immediate posting
+  - Reformatting size and location of buttons and labels
+    - As layout changes the stuff on the page needs to change too - in progress
