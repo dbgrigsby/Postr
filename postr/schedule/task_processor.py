@@ -127,6 +127,10 @@ api_to_function: Dict[str, Any] = {
                 'function_call': 'api_to_instance["tumblr"].post_text',
                 'arguments': {'Comment': 'text'},
             },
+            'post_video': {
+                'function_call': 'api_to_instance["tumblr"].post_video',
+                'arguments': {'MediaPath': 'url', 'Comment': 'text'},
+            },
             'post_photo': {
                 'function_call': 'api_to_instance["tumblr"].post_photo',
                 'arguments': {'MediaPath': 'url', 'Comment': 'text'},
