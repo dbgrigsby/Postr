@@ -1,3 +1,8 @@
+12/7/2018:
+- The team will finish up any work and/or unit tests left to do for their APIs.
+- The team will finish connecting the GUI to the backend code.
+- Members of the team not doing any of the above tasks will work on the intersections poster and 10-20 page final document
+
 11/30/2018:
 - The team will individually complete their implementation / GUI integration of the second group of APIs.
 - The User Experience Engineer will create GUIs for each of the APIs created last week

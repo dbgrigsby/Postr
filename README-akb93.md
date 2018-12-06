@@ -1,3 +1,9 @@
+#12/7/2018
+## Intersctions poster
+    Since I am done implementing my APIs and writing unit tests, I have therefore done everything on my gantt chart prior
+    to this week. This week, I helped create the poster for intersctions (around 6-8 hours worth of work).
+
+
 #11/30/2018
 ## Plotting Operations
     Implement xy axis labeling for twitter and instagram plots
