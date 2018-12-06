@@ -1,3 +1,6 @@
+#### 12/7/2018
+I added instructions for setting up and running our application.
+
 #### 11/29/2018
 Since I finished implementing my API's I started researching how to create an executable for our project:  
 * Researched Pyinstaller and py2exe to see which would be the best fit for out project
