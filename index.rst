@@ -9,8 +9,7 @@ Welcome to Postr's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-
+   README-instructions.md
 
 Indices and tables
 ==================

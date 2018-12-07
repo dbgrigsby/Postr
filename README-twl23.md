@@ -82,3 +82,12 @@
 		- Added a way for the user to retrieve recent uploaded video_ids
 			- Allows for displaying of uploaded videos
 			- Allows for access to uploaded videos to delete or re upload
+
+# 2018 12-7
+	Assisted Adam Beck with creation of some of the Poster (around 10-20% helped such that 1-2 hours were done)
+	Set-up Sphinx documentation
+		- Setup Makefile to allow for `make help` for Sphinx documentation setup
+		- The most basic Sphinx documentation setup is `make html`
+		- Once this is called, the folder containing the documentation from the main Poster folder is `/_build/html`. Open `index.html` for the homepage.
+		- Generated rst files for all modules utilizing apigen (library is not included in venv because it is a one-time make for each module) using command `sphinx-apidoc postr -o .` in the main Postr folder.
+			- Note that conf.py is setup to point to our `postr` module folder.
