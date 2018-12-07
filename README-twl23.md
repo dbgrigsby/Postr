@@ -91,3 +91,4 @@
 		- Once this is called, the folder containing the documentation from the main Poster folder is `/_build/html`. Open `index.html` for the homepage.
 		- Generated rst files for all modules utilizing apigen (library is not included in venv because it is a one-time make for each module) using command `sphinx-apidoc postr -o .` in the main Postr folder.
 			- Note that conf.py is setup to point to our `postr` module folder.
+	All api coding has been finished so mostly documentation touch ups and poster assistance.
