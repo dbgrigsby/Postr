@@ -61,6 +61,7 @@ requests-oauthlib==1.0.0
 six==1.11.0
 slackclient
 smmap2==2.0.4
+sphinx
 textblob==0.15.1
 toml==0.9.6
 tox==3.4.0
