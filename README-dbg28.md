@@ -1,3 +1,7 @@
+# 20188-12-07
+    Worked on the poster and documentatio
+    Presented
+    Done with all my coding work so nothing is shown here.
 # 2018-11-30
     Add four new APIs with basic functions to the Task Processor
     Fix the long standing GUI-in-venv bugs
