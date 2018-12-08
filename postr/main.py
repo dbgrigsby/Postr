@@ -3,6 +3,7 @@ from typing import List
 import datetime
 
 from kivy.app import App
+# from kivy.uix.button import Button
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
@@ -52,6 +53,12 @@ class TabbedPanelApp(App):
             return spin
 
         performance_spinner = spinner()
+        # performance_button = Button(
+        #     text='Show Stats',
+        #     font_size=14,
+        #     color=(0.094, 0.803, 0.803),
+        # )
+        # performance_button.bind(on_press=callback)
         performance_layout.add_widget(performance_spinner)
         performance_layout.add_widget(
             Label(
@@ -84,6 +91,12 @@ class TabbedPanelApp(App):
         )
 
         post_spinner = spinner()
+        # post_button = Button(
+        #     text='Submit',
+        #     font_size=14,
+        #     color=(0.094, 0.803, 0.803),
+        # )
+        # # post_button.bind(on_press=callback)
         posts_layout.add_widget(post_spinner)
         posts_layout.add_widget(
             Label(
@@ -171,6 +184,12 @@ class TabbedPanelApp(App):
         posts_layout.add_widget(minute)
 
         events_spinner = spinner()
+        # events_button = Button(
+        #     text='Submit',
+        #     font_size=14,
+        #     color=(0.094, 0.803, 0.803),
+        # )
+        # events_button.bind(on_press=callback)
         events_layout.add_widget(events_spinner)
         events_layout.add_widget(
             Label(
@@ -255,6 +274,12 @@ class TabbedPanelApp(App):
         )
 
         update_spinner = spinner()
+        # update_button = Button(
+        #     text='Update',
+        #     font_size=14,
+        #     color=(0.094, 0.803, 0.803),
+        # )
+        # update_button.bind(on_press=callback)
         update_layout.add_widget(update_spinner)
         update_layout.add_widget(
             Label(
@@ -497,6 +522,9 @@ class TabbedPanelApp(App):
         date = datetime.datetime(mn, hr, 0, yr, mnt, day)
         time = int(date.timestamp() * 1000)
         writer.create_custom_job(time, job_id)
+
+    # def callback(instance):
+    #     print('The button <%s> is being pressed' % instance.text)
 
     # def update(self, platform, search, replace):
     #     if platform == 'Reddit':

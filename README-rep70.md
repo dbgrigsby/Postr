@@ -96,3 +96,14 @@
   - Started dictionary formatting for immediate posting
   - Reformatting size and location of buttons and labels
     - As layout changes the stuff on the page needs to change too - in progress
+
+# December 7, 2018
+  - Researched how to auto resize and move widgets around when the window changes
+    - Currently unsuccessful
+  - Prepped for Intersections poster presentation
+  - Created buttons to further aid in the connection of the UI with the backend
+    - Added button to submit a post
+    - Added button to update page to allow user to submit an update
+    - Modified performance page to include a button that will display stats and graphs when pushed
+    - Added submit button to the events tab to confirm user selections
+  - Bound buttons to a callback function - To be defined with group assistance
