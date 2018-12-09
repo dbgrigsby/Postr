@@ -16,10 +16,12 @@ from tkinter import StringVar
 from typing import Iterator
 from postr.twitter_postr import Twitter
 from postr.schedule.writer import Writer
+from postr.reddit_postr import Reddit
 
 
 twitter = Twitter()
 writer = Writer()
+reddit = Reddit()
 
 
 def setup(main_gui: Tk) -> Tk:
@@ -140,6 +142,8 @@ class PostingPage():
             for api in api_iterator(self.api_box):
                 if api == 'Twitter':
                     twitter.post_text(text)
+                elif api == 'Reddit':
+                    reddit.post_text(text)
                 else:
                     pass
         except Exception:
@@ -159,6 +163,8 @@ class PostingPage():
             for api in api_iterator(self.api_box):
                 if api == 'Twitter':
                     twitter.post_photo(url, text)
+                elif api == 'Reddit':
+                    reddit.post_photo(url, text)
                 else:
                     pass
         except Exception:
