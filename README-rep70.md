@@ -107,3 +107,7 @@
     - Modified performance page to include a button that will display stats and graphs when pushed
     - Added submit button to the events tab to confirm user selections
   - Bound buttons to a callback function - To be defined with group assistance
+
+# Week 11 - Prep for final presentation
+  - Created method to check for missing or blank keys in the .ini file
+  - Created method to convert from string to the ms after epoch
