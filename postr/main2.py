@@ -15,9 +15,11 @@ from tkinter import StringVar
 
 from typing import Iterator
 from postr.twitter_postr import Twitter
+from postr.schedule.writer import Writer
 
 
 twitter = Twitter()
+writer = Writer()
 
 
 def setup(main_gui: Tk) -> Tk:
@@ -69,6 +71,7 @@ class GUI():
 
         # Setup the scheduling ppage
         page2 = Frame(self.gui)
+        self.scheduling_frame = SchedulingPage(page2)
         self.gui.add(page2, text='Scheduling')
 
         # Setup the analytics page
@@ -81,6 +84,27 @@ class GUI():
 
         # Pack out gui
         self.gui.pack(expand=1, fill='both')
+
+
+class SchedulingPage():
+    def __init__(self, frame: Frame) -> None:
+        self.api_box = setup_apis(frame)
+        self.setup_scheduling_buttons(frame)
+
+    def setup_scheduling_buttons(self, page: Frame) -> None:
+        page_l = Frame(page)
+        page_l.pack(side=LEFT)
+
+        Button(page_l, text='Post in 1 minute', command=self.schedule_1min).pack(anchor='e')
+
+    def schedule_1min(self) -> None:
+        target_time = writer.now() + 60
+
+        for api in api_iterator(self.api_box):
+            print(api)
+
+        print(writer.now())
+        print(target_time)
 
 
 class PostingPage():
