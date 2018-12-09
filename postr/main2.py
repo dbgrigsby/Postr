@@ -5,7 +5,7 @@ from tkinter.ttk import Notebook
 from tkinter import Tk, Listbox, Frame, Button
 
 # Locations
-from tkinter import LEFT, TOP, MULTIPLE, END, BOTTOM
+from tkinter import LEFT, TOP, MULTIPLE, END, BOTTOM, RIGHT
 
 # Misc Widgets
 from tkinter.scrolledtext import ScrolledText
@@ -15,7 +15,7 @@ from tkinter import filedialog
 
 def setup(main_gui: Tk) -> Tk:
     main_gui.title('Postr')
-    main_gui.geometry('600x600')
+    main_gui.geometry('800x600')
     return main_gui
 
 
@@ -31,9 +31,12 @@ def setup_apis(page: Frame) -> Listbox:
 
 
 def setup_text_box(page: Frame) -> ScrolledText:
-    comment_area = ScrolledText(master=page, wrap=tkinter.WORD, width=40, height=6)
+    page_t = Frame(page)
+    page_t.pack(side=RIGHT)
+
+    comment_area = ScrolledText(master=page_t, wrap=tkinter.WORD, width=40, height=6, bg='grey')
     comment_area.insert(tkinter.INSERT, 'Enter your comment here')
-    comment_area.pack(side=TOP, anchor='n', pady=20, expand=True)
+    comment_area.pack(expand=True)
     return comment_area
 
 
@@ -49,7 +52,8 @@ class GUI():
 
         self.api_box = setup_apis(page1)
         self.setup_automation_buttons(page1)
-        # self.text_box = setup_text_box(page1)
+        self.text_box = setup_text_box(page1)
+        self.setup_clear_buttons(page1)
         # self.file_button = self.setup_file_dialog(page1)
         # self.filepath = ''
         self.gui.add(page1, text='Post Automation')
@@ -67,13 +71,26 @@ class GUI():
         page_l = Frame(page)
         page_l.pack(side=LEFT)
 
-        Button(page_l, text='Post text', command=self.post_text).pack(side=TOP)
+        Button(page_l, text='Post text', command=self.post_text).pack(side=TOP, expand=True)
         Button(page_l, text='Post picture w/text', command=self.post_pic).pack(side=BOTTOM, anchor='s')
+
+    def setup_clear_buttons(self, page: Frame) -> None:
+        page_r = Frame(page)
+        page_r.pack(side=RIGHT)
+
+        Button(page_r, text='Clear comment', command=self.clear_comment).pack(side=TOP)
+        Button(page_r, text='Clear picture', command=self.clear_pic).pack(side=BOTTOM, anchor='s')
 
     def post_text(self) -> None:
         pass
 
     def post_pic(self) -> None:
+        pass
+
+    def clear_comment(self) -> None:
+        self.text_box.delete('1.0', END)
+
+    def clear_pic(self) -> None:
         pass
 
     def setup_file_dialog(self, page: Frame) -> Button:
