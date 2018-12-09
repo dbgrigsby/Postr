@@ -110,3 +110,4 @@
 
 # Week 11 - Prep for final presentation
   - Created method to check for missing or blank keys in the .ini file
+  - Created method to convert from string to the ms after epoch

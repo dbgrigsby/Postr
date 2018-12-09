@@ -2,6 +2,8 @@ from typing import List, Dict
 
 import datetime
 
+from dateutil import parser
+
 from kivy.app import App
 # from kivy.uix.button import Button
 from kivy.uix.checkbox import CheckBox
@@ -635,6 +637,11 @@ class TabbedPanelApp(App):
             missing_keys.update({'YouTube': youtube})
 
         return missing_keys
+
+    @staticmethod
+    def str_to_seconds_post_epoch(desired_time: str) -> float:
+        time = parser.parse(desired_time)
+        return time.timestamp()
 
 
 if __name__ == '__main__':
