@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 import datetime
 
@@ -12,6 +12,7 @@ from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.tabbedpanel import TabbedPanelHeader
 from kivy.uix.textinput import TextInput
 
+from postr import config
 from postr.reddit_postr import Reddit
 from postr.facebook_api import FacebookApi
 from postr.twitter_postr import Twitter
@@ -546,6 +547,94 @@ class TabbedPanelApp(App):
     #     else:
 
     # def update_profile(self, new_password):
+
+    @staticmethod
+    def get_missing_keys() -> Dict:
+        # Discord
+        discord = []
+        if config.get_api_key('Discord', 'client_secret') is None \
+                or config.get_api_key('Discord', 'client_secret') == '':
+            discord.append('client_secret')
+        if config.get_api_key('Discord', 'bot_token') is None or config.get_api_key('Discord', 'bot_token') == '':
+            discord.append('bot_token')
+        if config.get_api_key('Discord', 'default_channel') is None \
+                or config.get_api_key('Discord', 'default_channel') == '':
+            discord.append('default_channel')
+        # Twitter
+        twitter = []
+        if config.get_api_key('Twitter', 'ACCESS_TOKEN') is None or config.get_api_key('Twitter', 'ACCESS_TOKEN') == '':
+            twitter.append('ACCESS_TOKEN')
+        if config.get_api_key('Twitter', 'ACCESS_TOKEN_SECRET') is None \
+                or config.get_api_key('Twitter', 'ACCESS_TOKEN_SECRET') == '':
+            twitter.append('ACCESS_TOKEN_SECRET')
+        if config.get_api_key('Twitter', 'CONSUMER_KEY') is None or config.get_api_key('Twitter', 'CONSUMER_KEY') == '':
+            twitter.append('CONSUMER_KEY')
+        if config.get_api_key('Twitter', 'CONSUMER_SECRET') is None \
+                or config.get_api_key('Twitter', 'CONSUMER_SECRET') == '':
+            twitter.append('CONSUMER_SECRET')
+        # Reddit
+        reddit = []
+        if config.get_api_key('Reddit', 'subreddit') is None or config.get_api_key('Reddit', 'subreddit') == '':
+            reddit.append('subreddit')
+        if config.get_api_key('Reddit', 'client_id') is None or config.get_api_key('Reddit', 'client_id') == '':
+            reddit.append('client_id')
+        if config.get_api_key('Reddit', 'refresh_token') is None or config.get_api_key('Reddit', 'refresh_token') == '':
+            reddit.append('refresh_token')
+        # Slack
+        slack = []
+        if config.get_api_key('Slack', 'default_channel') is None \
+                or config.get_api_key('Slack', 'default_channel') == '':
+            slack.append('default_channel')
+        if config.get_api_key('Slack', 'API_TOKEN') is None or config.get_api_key('Slack', 'API_TOKEN') == '':
+            slack.append('API_TOKEN')
+        # Instagram
+        instagram = []
+        if config.get_api_key('Instagram', 'USERNAME') is None or config.get_api_key('Instagram', 'USERNAME') == '':
+            instagram.append('USERNAME')
+        if config.get_api_key('Instagram', 'PASSWORD') is None or config.get_api_key('Instagram', 'PASSWORD') == '':
+            instagram.append('PASSWORD')
+        if config.get_api_key('Instagram', 'PRE_PROFILE_JSON_URL') is None \
+                or config.get_api_key('Instagram', 'PRE_PROFILE_JSON_URL') == '':
+            instagram.append('PRE_PROFILE_JSON_URL')
+        if config.get_api_key('Instagram', 'RANK_TOKEN') is None or config.get_api_key('Instagram', 'RANK_TOKEN') == '':
+            instagram.append('RANK_TOKEN')
+        if config.get_api_key('Instagram', 'POST_PROFILE_JSON_URL') is None \
+                or config.get_api_key('Instagram', 'POST_PROFILE_JSON_URL') == '':
+            instagram.append('POST_PROFILE_JSON_URL')
+        # YouTube
+        youtube = []
+        if config.get_api_key('YouTube', 'client_id') is None or config.get_api_key('YouTube', 'client_id') == '':
+            youtube.append('client_id')
+        if config.get_api_key('YouTube', 'project_id') is None or config.get_api_key('YouTube', 'project_id') == '':
+            youtube.append('project_id')
+        if config.get_api_key('YouTube', 'auth_uri') is None or config.get_api_key('YouTube', 'auth_uri') == '':
+            youtube.append('auth_uri')
+        if config.get_api_key('YouTube', 'token_uri') is None or config.get_api_key('YouTube', 'token_uri') == '':
+            youtube.append('token_uri')
+        if config.get_api_key('YouTube', 'auth_provider_x509_cert_url') is None \
+                or config.get_api_key('YouTube', 'auth_provider_x509_cert_url') == '':
+            youtube.append('auth_provider_x509_cert_url')
+        if config.get_api_key('YouTube', 'client_secret') is None \
+                or config.get_api_key('YouTube', 'client_secret') == '':
+            youtube.append('client_secret')
+        if config.get_api_key('YouTube', 'redirect_uri') is None or config.get_api_key('YouTube', 'redirect_uri') == '':
+            youtube.append('redirect_uri')
+
+        missing_keys = {}
+        if discord:
+            missing_keys.update({'Discord': discord})
+        if twitter:
+            missing_keys.update({'Twitter': twitter})
+        if reddit:
+            missing_keys.update({'Reddit': reddit})
+        if slack:
+            missing_keys.update({'Slack': slack})
+        if instagram:
+            missing_keys.update({'Instagram': instagram})
+        if youtube:
+            missing_keys.update({'YouTube': youtube})
+
+        return missing_keys
 
 
 if __name__ == '__main__':
