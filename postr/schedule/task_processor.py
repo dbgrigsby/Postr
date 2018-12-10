@@ -13,22 +13,23 @@ from postr.slack_api import SlackApi
 from postr.tumblr_api import TumblrApi
 from postr.instagram_postr import Instagram
 from postr.youtube_postr import Youtube
+from postr.config import missing_configs_for
 
 
 log = make_logger('task_processor')
 
 api_to_instance: Dict[str, Any] = {
-    'discord': discord_api,
-    'reddit': Reddit(),
-    'twitter': Twitter(),
-    # 'facebook': FacebookChatApi(),
-    'slack': SlackApi(),
-    'tumblr': TumblrApi(),
-    'instagram': Instagram(),
-    'youtube': Youtube(),
+    'discord': discord_api if missing_configs_for('Discord') != [] else None,
+    'reddit': Reddit() if missing_configs_for('Reddit') != [] else None,
+    'twitter': Twitter() if missing_configs_for('Twitter') != [] else None,
+    # 'facebook': FacebookChatApi() if missing_configs_for('facebook') != [] else None,
+    'slack': SlackApi() if missing_configs_for('Slack') != [] else None,
+    'tumblr': TumblrApi() if missing_configs_for('Tumblr') != [] else None,
+    'instagram': Instagram() if missing_configs_for('Instagram') != [] else None,
+    'youtube': Youtube() if missing_configs_for('Youtube') != [] else None,
 }
-api_to_instance['discord'].main()
-# loop = asyncio.get_event_loop()
+if missing_configs_for('discord') != []:
+    api_to_instance['discord'].main()
 
 api_to_function: Dict[str, Any] = {
     'discord': {
@@ -230,6 +231,10 @@ async def run_task(task: Dict[str, Any]) -> None:
         if api not in api_to_function:
             log.error(f'The function keys were: {api_to_function.keys()}')
             log.error(f'{api} is not a valid api.')
+            continue
+
+        if api_to_instance['api'] is None:
+            log.error(f'The API "{api}" does not have all necessary config files!')
             continue
 
         supported_actions = api_to_function[api]['supported_actions'].keys()
