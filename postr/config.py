@@ -4,7 +4,8 @@ from configparser import ConfigParser
 from typing import Any
 from typing import Mapping
 from typing import Optional
-
+from typing import List
+from typing import Dict
 from postr import postr_logger
 from postr.git_tools import git_root_dir
 
@@ -13,14 +14,53 @@ CONFIG_FILE = 'postr_config.ini'
 DEFAULT_CONFIG: Mapping[str, Mapping[str, Any]] = {
     'Discord': {
         'client_secret': '',
+        'bot_token': '',
+        'default_channel': '',
     },
-    'Facebook': {},
-    'Twitter': {},
-    'Reddit': {},
-    'Slack': {},
-    'Instagram': {},
-    'Tumblr': {},
-    'YouTube': {},
+    'Facebook': {
+        'has_token': 'false',
+        'app_id': '',
+        'app_secret': '',
+        'app_token': '',
+        'access_token': '',
+        'client_token': '',
+        'password': '',
+        'email': '',
+    },
+    'Twitter': {
+        'ACCESS_TOKEN': '',
+        'ACCESS_TOKEN_SECRET': '',
+        'CONSUMER_KEY': '',
+        'CONSUMER_SECRET': '',
+    },
+    'Reddit': {
+        'subreddit': '',
+        'client_id': '',
+        'refresh_token': '',
+    },
+    'Slack': {
+        'default_channel': '',
+        'API_TOKEN': '',
+    },
+    'Instagram': {
+        'USERNAME': '',
+        'PASSWORD': '',
+    },
+    'Tumblr': {
+        'consumer_key': '',
+        'consumer_secret': '',
+        'auth_token': '',
+        'auth_token_secret': '',
+    },
+    'YouTube': {
+        'client_id': '',
+        'project_id': '',
+        'auth_uri': '',
+        'token_uri': '',
+        'auth_provider_x509_cert_url': '',
+        'client_secret': '',
+        'redirect_uri': '',
+    },
     'database': {
         'filepath': '',
         'username': '',
@@ -106,3 +146,20 @@ def get_api_key(api: str, key: str) -> Optional[str]:
         log.error(f'Failed to retrieve {key} from {api}')
         log.error(str(exp))
         return None
+
+
+def missing_configs_for(api: str) -> List[str]:
+    missing_api_keys: List[str] = []
+    for key in DEFAULT_CONFIG[api].keys():
+        if not get_api_key(api, key) or get_api_key(api, key) == '':
+            missing_api_keys.append(key)
+
+    return missing_api_keys
+
+
+def get_missing_configs() -> Dict[str, Any]:
+    missing_configs = {}
+    for api, _ in DEFAULT_CONFIG:
+        missing_configs[api] = missing_configs_for(api)
+
+    return missing_configs
