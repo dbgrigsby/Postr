@@ -1,16 +1,18 @@
+import time
+import asyncio
 from datetime import datetime as dt
 import os
 import sqlite3
 from typing import List
 from typing import Any
 from typing import Dict
-from apscheduler.schedulers.background import BackgroundScheduler
 
 from postr.schedule.task_processor import process_scheduler_events
 
 
 def clean_empty_strings(items: Dict[str, Any]) -> Dict[str, Any]:
-    return {k: v if not v == '' else None for k, v in items}
+    print(f'Items was: {items}')
+    return {k: v if not v == '' else None for k, v in items.items()}
 
 
 class Reader():
@@ -23,10 +25,6 @@ class Reader():
         file_path: str = os.path.join('postr', 'schedule', 'master_schedule.sqlite')
         self.conn = sqlite3.connect(file_path, check_same_thread=False)
         self.cursor = self.conn.cursor()
-
-        self.sched = BackgroundScheduler()
-        self.sched.add_job(self.scan, 'interval', seconds=30)
-        self.sched.start()
 
     def cleanup(self) -> None:
         """ Closes the database connection"""
@@ -56,15 +54,25 @@ class Reader():
 
     async def scan(self) -> Any:
         """ Scans every 30 seconds for new jobs in the past 30 seconds """
-        tasks = self.scan_custom_jobs()
-        cleaned_tasks = [
-            clean_empty_strings(task)
-            for task in tasks
-        ]
-        await process_scheduler_events(cleaned_tasks)
-        print('Sent new jobs to task processor')
+        while True:
+            time.sleep(10)
+            tasks = self.scan_custom_jobs()
+            cleaned_tasks = [
+                clean_empty_strings(task)
+                for task in tasks
+            ]
+            await process_scheduler_events(cleaned_tasks)
+
+    def run_scheduler(self) -> None:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self.scan())
 
     def schedule_range(self, seconds: int) -> int:
         """ Returns the lower bound for a scheduled range """
         now = self.now()
         return now - seconds
+
+
+if __name__ == '__main__':
+    r = Reader()
+    r.run_scheduler()

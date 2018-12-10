@@ -1,10 +1,10 @@
 from urllib.parse import parse_qsl
 from typing import List
 import oauth2
+import pytumblr
 from postr.config import get_api_key
 from postr.config import update_api_key
 from postr.api_interface import ApiInterface
-import pytumblr
 
 
 class TumblrApi(ApiInterface):
@@ -13,10 +13,10 @@ class TumblrApi(ApiInterface):
 
         TumblrApi.authenticate()
 
-        consumer_key = get_api_key('TUMBLR', 'consumer_key')
-        consumer_secret = get_api_key('TUMBLR', 'consumer_secret')
-        auth_token = get_api_key('TUMBLR', 'auth_token')
-        auth_token_secret = get_api_key('TUMBLR', 'auth_token_secret')
+        consumer_key = get_api_key('Tumblr', 'consumer_key')
+        consumer_secret = get_api_key('Tumblr', 'consumer_secret')
+        auth_token = get_api_key('Tumblr', 'auth_token')
+        auth_token_secret = get_api_key('Tumblr', 'auth_token_secret')
 
         self.client = pytumblr.TumblrRestClient(
             consumer_key,
@@ -48,9 +48,9 @@ class TumblrApi(ApiInterface):
 
         try:
             # get all values needed for auth
-            consumer_key = get_api_key('TUMBLR', 'consumer_key')
-            consumer_secret = get_api_key('TUMBLR', 'consumer_secret')
-            request_token_url = get_api_key('TUMBLR', 'request_token_url')
+            consumer_key = get_api_key('Tumblr', 'consumer_key')
+            consumer_secret = get_api_key('Tumblr', 'consumer_secret')
+            request_token_url = get_api_key('Tumblr', 'request_token_url')
 
             consumer = oauth2.Consumer(consumer_key, consumer_secret)
             client = oauth2.Client(consumer)
@@ -62,8 +62,8 @@ class TumblrApi(ApiInterface):
             OAUTH_TOKEN = request_token[b'oauth_token']
             OAUTH_TOKEN_SECRET = request_token[b'oauth_token_secret']
 
-            update_api_key('TUMBLR', 'auth_token', OAUTH_TOKEN)
-            update_api_key('TUMBLR', 'auth_token_secret', OAUTH_TOKEN_SECRET)
+            update_api_key('Tumblr', 'auth_token', OAUTH_TOKEN)
+            update_api_key('Tumblr', 'auth_token_secret', OAUTH_TOKEN_SECRET)
 
         except Exception:
             success = False
