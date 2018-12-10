@@ -71,3 +71,8 @@ class Reader():
         """ Returns the lower bound for a scheduled range """
         now = self.now()
         return now - seconds
+
+
+if __name__ == '__main__':
+    r = Reader()
+    r.run_scheduler()

@@ -74,8 +74,8 @@ api_to_function: Dict[str, Any] = {
                 'arguments': {'Comment': 'text'},
             },
             'post_photo': {
-                'function_call': 'api_to_instance["Twitter"].post_image',
-                'arguments': {'MediaPath': 'url', 'OptionalText': 'text'},
+                'function_call': 'api_to_instance["Twitter"].post_photo',
+                'arguments': {'MediaPath': 'url', 'Comment': 'text'},
             },
             'remove_post': {
                 'function_call': 'api_to_instance["Twitter"].update_status',

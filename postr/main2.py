@@ -112,7 +112,8 @@ class SchedulingPage():
         Label(page_l, textvariable=self.io_error, fg='red').pack(anchor='e')
         custom_date = Entry(page_l)
         custom_date.pack(anchor='e')
-        Button(page_l, text='Post custom', command=self.schedule_custom).pack(anchor='e')
+        Button(page_l, text='Post custom text', command=self.schedule_custom_text).pack(anchor='e')
+        Button(page_l, text='Post custom pic', command=self.schedule_custom_pic).pack(anchor='e')
         return custom_date
 
     def schedule_1min(self) -> None:
@@ -142,7 +143,7 @@ class SchedulingPage():
         job_id = writer.create_job(text, url, '', apis_for_database, 'post_text')
         writer.create_custom_job(target_time, job_id)
 
-    def schedule_custom(self) -> None:
+    def schedule_custom_text(self) -> None:
         target_time = int(self.str_to_seconds_post_epoch(str(self.custom_date.get())))
         text = str(self.text_box.get(1.0, END)).strip()
         url = self.filepath.get()
@@ -166,6 +167,32 @@ class SchedulingPage():
 
         apis_for_database = apis_for_database[:-1]
         job_id = writer.create_job(text, url, '', apis_for_database, 'post_text')
+        writer.create_custom_job(target_time, job_id)
+
+    def schedule_custom_pic(self) -> None:
+        target_time = int(self.str_to_seconds_post_epoch(str(self.custom_date.get())))
+        text = str(self.text_box.get(1.0, END)).strip()
+        url = self.filepath.get()
+
+        if url == 'No file uploaded':
+            url = ''
+
+        if not url and not text:
+            self.io_error.set('Error: Nothing found')
+            return
+
+        self.io_error.set('')
+        apis_for_database = ''
+
+        for api in api_iterator(self.api_box):
+            apis_for_database += api + ','
+
+        if not apis_for_database:
+            self.io_error.set('Error: Nothing selected')
+            return
+
+        apis_for_database = apis_for_database[:-1]
+        job_id = writer.create_job(text, url, '', apis_for_database, 'post_photo')
         writer.create_custom_job(target_time, job_id)
 
     @staticmethod
