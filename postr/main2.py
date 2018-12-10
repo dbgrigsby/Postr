@@ -90,23 +90,65 @@ class GUI():
 
 class SchedulingPage():
     def __init__(self, frame: Frame) -> None:
+        self.filepath = StringVar()
+        self.filepath.set('No file uploaded')
+        self.io_error = StringVar()
+        self.io_error.set('')
+
         self.api_box = setup_apis(frame)
         self.setup_scheduling_buttons(frame)
+        self.text_box = self.setup_text_box(frame)
 
     def setup_scheduling_buttons(self, page: Frame) -> None:
         page_l = Frame(page)
         page_l.pack(side=LEFT)
 
         Button(page_l, text='Post in 1 minute', command=self.schedule_1min).pack(anchor='e')
+        Label(page_l, textvariable=self.io_error, fg='red').pack(anchor='e')
 
     def schedule_1min(self) -> None:
         target_time = writer.now() + 60
+        text = str(self.text_box.get(1.0, END)).strip()
+        url = self.filepath.get()
+
+        print(text)
+        print(url)
+
+        if url == 'No file uploaded':
+            url = ''
+
+        if not url and not text:
+            self.io_error.set('Error: Nothing found')
+            return
+
+        self.io_error.set('')
 
         for api in api_iterator(self.api_box):
+            print(target_time)
             print(api)
 
-        print(writer.now())
-        print(target_time)
+    def setup_text_box(self, page: Frame) -> ScrolledText:
+        page_r = Frame(page)
+        page_r.pack(side=RIGHT)
+
+        comment_area = ScrolledText(master=page_r, wrap=tkinter.WORD, width=40, height=6, bg='grey')
+        comment_area.insert(tkinter.INSERT, 'Enter your comment here')
+        comment_area.pack()
+
+        Button(page_r, text='Upload file', command=self.open_file_dialog).pack(side=TOP, anchor='s')
+        Label(page_r, textvariable=self.filepath).pack(side=TOP, anchor='s')
+
+        Button(page_r, text='Clear', command=self.clear_file).pack()
+        return comment_area
+
+    def open_file_dialog(self) -> None:
+        self.filepath.set(filedialog.askopenfilename(
+            initialdir='/', title='Select a file',
+            filetypes=(('jpeg', '*.jpg'), ('png', '*.png'), ('All files', '*.*')),
+        ))
+
+    def clear_file(self) -> None:
+        self.filepath.set('No file uploaded')
 
 
 class PostingPage():
@@ -163,8 +205,6 @@ class PostingPage():
             for api in api_iterator(self.api_box):
                 if api == 'Twitter':
                     twitter.post_photo(url, text)
-                elif api == 'Reddit':
-                    reddit.post_photo(url, text)
                 else:
                     pass
         except Exception:
