@@ -2,7 +2,7 @@ import tkinter
 from tkinter.ttk import Notebook
 
 # Widgets
-from tkinter import Tk, Listbox, Frame, Button, Label
+from tkinter import Tk, Listbox, Frame, Button, Label, Entry
 
 # Locations
 from tkinter import LEFT, TOP, MULTIPLE, END, BOTTOM, RIGHT
@@ -14,14 +14,19 @@ from tkinter import filedialog
 from tkinter import StringVar
 
 from typing import Iterator
+from dateutil import parser
 from postr.twitter_postr import Twitter
 from postr.schedule.writer import Writer
 from postr.reddit_postr import Reddit
+from postr.slack_api import SlackApi
+from postr.schedule.reader import Reader
 
 
 twitter = Twitter()
 writer = Writer()
 reddit = Reddit()
+slack = SlackApi()
+reader = Reader()
 
 
 def setup(main_gui: Tk) -> Tk:
@@ -96,23 +101,24 @@ class SchedulingPage():
         self.io_error.set('')
 
         self.api_box = setup_apis(frame)
-        self.setup_scheduling_buttons(frame)
+        self.custom_date = self.setup_scheduling_buttons(frame)
         self.text_box = self.setup_text_box(frame)
 
-    def setup_scheduling_buttons(self, page: Frame) -> None:
+    def setup_scheduling_buttons(self, page: Frame) -> Entry:
         page_l = Frame(page)
         page_l.pack(side=LEFT)
 
         Button(page_l, text='Post in 1 minute', command=self.schedule_1min).pack(anchor='e')
         Label(page_l, textvariable=self.io_error, fg='red').pack(anchor='e')
+        custom_date = Entry(page_l)
+        custom_date.pack(anchor='e')
+        Button(page_l, text='Post custom', command=self.schedule_custom).pack(anchor='e')
+        return custom_date
 
     def schedule_1min(self) -> None:
-        target_time = writer.now() + 60
+        target_time = int(writer.now() + 60)
         text = str(self.text_box.get(1.0, END)).strip()
         url = self.filepath.get()
-
-        print(text)
-        print(url)
 
         if url == 'No file uploaded':
             url = ''
@@ -122,10 +128,50 @@ class SchedulingPage():
             return
 
         self.io_error.set('')
+        apis_for_database = ''
 
         for api in api_iterator(self.api_box):
-            print(target_time)
-            print(api)
+            apis_for_database += api + ','
+
+        if not apis_for_database:
+            self.io_error.set('Error: Nothing selected')
+            return
+
+        apis_for_database = apis_for_database[:-1]
+
+        job_id = writer.create_job(text, url, '', apis_for_database, 'post_text')
+        writer.create_custom_job(target_time, job_id)
+
+    def schedule_custom(self) -> None:
+        target_time = int(self.str_to_seconds_post_epoch(str(self.custom_date.get())))
+        text = str(self.text_box.get(1.0, END)).strip()
+        url = self.filepath.get()
+
+        if url == 'No file uploaded':
+            url = ''
+
+        if not url and not text:
+            self.io_error.set('Error: Nothing found')
+            return
+
+        self.io_error.set('')
+        apis_for_database = ''
+
+        for api in api_iterator(self.api_box):
+            apis_for_database += api + ','
+
+        if not apis_for_database:
+            self.io_error.set('Error: Nothing selected')
+            return
+
+        apis_for_database = apis_for_database[:-1]
+        job_id = writer.create_job(text, url, '', apis_for_database, 'post_text')
+        writer.create_custom_job(target_time, job_id)
+
+    @staticmethod
+    def str_to_seconds_post_epoch(desired_time: str) -> float:
+        time = parser.parse(desired_time)
+        return time.timestamp()
 
     def setup_text_box(self, page: Frame) -> ScrolledText:
         page_r = Frame(page)
@@ -186,6 +232,8 @@ class PostingPage():
                     twitter.post_text(text)
                 elif api == 'Reddit':
                     reddit.post_text(text)
+                elif api == 'Slack':
+                    slack.post_text(text)
                 else:
                     pass
         except Exception:
@@ -205,6 +253,8 @@ class PostingPage():
             for api in api_iterator(self.api_box):
                 if api == 'Twitter':
                     twitter.post_photo(url, text)
+                elif api == 'Slack':
+                    slack.post_photo(url, text)
                 else:
                     pass
         except Exception:

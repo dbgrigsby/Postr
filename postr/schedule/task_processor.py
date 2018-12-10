@@ -27,7 +27,7 @@ api_to_instance: Dict[str, Any] = {
     'instagram': Instagram(),
     'youtube': Youtube(),
 }
-api_to_instance['discord'].main()
+# api_to_instance['discord'].main()
 # loop = asyncio.get_event_loop()
 
 api_to_function: Dict[str, Any] = {
@@ -257,4 +257,4 @@ async def run_task(task: Dict[str, Any]) -> None:
 
 async def process_scheduler_events(tasks: List[Dict[str, Any]]) -> None:
     for task in tasks:
-        run_task(task)
+        await run_task(task)
