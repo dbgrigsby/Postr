@@ -51,14 +51,16 @@ class SlackApi(ApiInterface):
 
     def post_video(self, url: str, text: str) -> bool:
         ''' This method takes in the url for the video the user want to post and returns the success of this action'''
-        extension = extension_from_url(url)
-        return self.post_file(url, text, extension)
+        # extension = extension_from_url(url)
+        return self.post_file(url, text)
 
-    def post_file(self, url: str, title: str, extension: str) -> bool:
+    #  def post_file(self, url: str, title: str, extension: str) -> bool:
+    def post_file(self, url: str, title: str) -> bool:
         ''' This method takes in the url for the photo the user wants
         to post and returns the success of this action'''
         try:
-            file_name = download(url, extension)
+            # file_name = download(url, extension)
+            file_name = url  # Changed to filename at last minute
             log.info(f'File successfully downloaded to {file_name}')
             with open(file_name, 'rb') as file_content:
                 self.client.api_call(
@@ -73,8 +75,8 @@ class SlackApi(ApiInterface):
             return False
 
     def post_photo(self, url: str, text: str) -> bool:
-        extension = extension_from_url(url)
-        return self.post_file(url, text, extension)
+        # extension = extension_from_url(url)
+        return self.post_file(url, text)
 
     def get_user_likes(self) -> int:
         '''Slack does not support user likes'''
@@ -94,5 +96,5 @@ class SlackApi(ApiInterface):
 if __name__ == '__main__':
     slack = SlackApi()
     print(slack.post_text('Postr has started!'))
-    print(slack.post_photo(url='http://i.imgur.com/FwDiy5m.png', text='schedule'))
-    print(slack.post_photo(url='http://techslides.com/demos/sample-videos/small.mp4', text='video'))
+    # print(slack.post_photo(url='http://i.imgur.com/FwDiy5m.png', text='schedule'))
+    # print(slack.post_photo(url='http://techslides.com/demos/sample-videos/small.mp4', text='video'))
