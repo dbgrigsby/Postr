@@ -154,6 +154,7 @@ def missing_configs_for(api: str) -> List[str]:
         if not get_api_key(api, key) or get_api_key(api, key) == '':
             missing_api_keys.append(key)
 
+    print(f'API {api} was missing {missing_api_keys}')
     return missing_api_keys
 
 
