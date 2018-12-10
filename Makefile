@@ -1,22 +1,3 @@
-
-# Minimal makefile for Sphinx documentation
-#
-
-# You can set these variables from the command line.
-SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
-SOURCEDIR     = .
-BUILDDIR      = _build
-
-# Put it first so that "make" without argument is like "make help".
-help:
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
 .PHONY: install
 
 FOLDER :=
@@ -32,6 +13,12 @@ PYTHON=${VENV_NAME}/$(FOLDER)/python
 
 # Requirements are in setup.py, so whenever setup.py is changed, re-run installation of dependencies.
 install: create activate
+
+sphinx-docs: activate
+	rm -rf docs/source/
+	rm -rf docs/_build/
+	sphinx-apidoc -o docs/source/ postr
+	sphinx-build -M html docs/ docs/_build
 
 create:
 ifeq ($(OS),Windows_NT)
