@@ -10,7 +10,7 @@ from postr import discord_api
 from postr.twitter_postr import Twitter
 # from postr.fbchat_api import FacebookChatApi
 from postr.slack_api import SlackApi
-from postr.tumblr_api import TumblrApi
+# from postr.tumblr_api import TumblrApi
 from postr.instagram_postr import Instagram
 from postr.youtube_postr import Youtube
 
@@ -23,7 +23,7 @@ api_to_instance: Dict[str, Any] = {
     'twitter': Twitter(),
     # 'facebook': FacebookChatApi(),
     'slack': SlackApi(),
-    'tumblr': TumblrApi(),
+    # 'tumblr': TumblrApi(),
     'instagram': Instagram(),
     'youtube': Youtube(),
 }
