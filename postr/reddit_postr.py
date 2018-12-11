@@ -37,7 +37,7 @@ class Reddit(ApiInterface):
             client_id=get_key('client_id'), client_secret=None,
             refresh_token=get_key('refresh_token'),
         )
-        self.subreddit_name = 'Postr'
+        self.subreddit_name = get_key('subreddit')
 
     def set_subreddit_name(self, subreddit_name: str) -> bool:
         ''' This method sets the subreddit that the user will post to
