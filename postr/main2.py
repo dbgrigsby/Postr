@@ -20,6 +20,7 @@ from postr.schedule.writer import Writer
 from postr.reddit_postr import Reddit
 from postr.slack_api import SlackApi
 from postr.schedule.reader import Reader
+from postr.instagram_postr import Instagram
 
 
 twitter = Twitter()
@@ -27,6 +28,7 @@ writer = Writer()
 reddit = Reddit()
 slack = SlackApi()
 reader = Reader()
+instagram = Instagram()
 
 
 def setup(main_gui: Tk) -> Tk:
@@ -108,7 +110,7 @@ class SchedulingPage():
         page_l = Frame(page)
         page_l.pack(side=LEFT)
 
-        Button(page_l, text='Post in 1 minute', command=self.schedule_1min).pack(anchor='e')
+        Button(page_l, text='Post text in 1 min', command=self.schedule_1min).pack(anchor='e')
         Label(page_l, textvariable=self.io_error, fg='red').pack(anchor='e')
         custom_date = Entry(page_l)
         custom_date.pack(anchor='e')
@@ -280,6 +282,8 @@ class PostingPage():
             for api in api_iterator(self.api_box):
                 if api == 'Twitter':
                     twitter.post_photo(url, text)
+                elif api == 'Instagram':
+                    instagram.post_photo(url, text)
                 elif api == 'Slack':
                     slack.post_photo(url, text)
                 else:
