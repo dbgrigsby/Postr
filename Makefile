@@ -54,5 +54,5 @@ gui: activate
 	${PYTHON} -m postr.main
 
 gui2: activate
-	${PYTHON} -m postr.schedule.reader & ${PYTHON} -m postr.main2
+	${PYTHON} -m postr.schedule.reader & ${PYTHON} -m postr.main2 && sudo killall python
 # link : https://blog.horejsek.com/makefile-with-python/
