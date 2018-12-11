@@ -83,42 +83,12 @@ class GUI():
         self.scheduling_frame = SchedulingPage(page2)
         self.gui.add(page2, text='Scheduling')
 
-        # Setup the analytics page
-        page3 = Frame(self.gui)
-        self.analytics_frame = AnalyticsPage(page3)
-        self.gui.add(page3, text='Analytics')
-
         # Setup the config parser page
         page4 = Frame(self.gui)
         self.gui.add(page4, text='Config')
 
         # Pack out gui
         self.gui.pack(expand=1, fill='both')
-
-
-class AnalyticsPage():
-    def __init__(self, frame: Frame) -> None:
-        self.hashtags = self.setup_entry(frame)
-        self.setup_graphs(frame)
-
-    @classmethod
-    def setup_entry(cls, page: Frame) -> Entry:
-        Label(page, text='Hashtags (e.g. "microsoft, google")').pack()
-        hashtags = Entry(page)
-        hashtags.pack()
-        return hashtags
-
-    def setup_graphs(self, page: Frame) -> None:
-        Button(page, text='Stream & Graph Twitter Sentiment', command=self.graph_twitter).pack(pady=30)
-        Button(page, text='Graph Instagram Followers', command=self.graph_instagram).pack(pady=5)
-
-    def graph_twitter(self) -> None:
-        tags = str(self.hashtags.get()).split(',')
-        twitter.stream_and_graph(tags)
-
-    @classmethod
-    def graph_instagram(cls) -> None:
-        instagram.graph_followers()
 
 
 class SchedulingPage():
