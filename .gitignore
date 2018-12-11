@@ -1,6 +1,7 @@
 # scheduler database
 postr/schedule/master_schedule.sqlite
 postr/schedule/master_schedule.sqlite-journal
+postr/twitter/twitter_stream.txt
 
 # Twitter
 
