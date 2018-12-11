@@ -137,7 +137,7 @@ class SchedulingPage():
         page_l.pack(side=LEFT)
 
         Button(page_l, text='Post text in 1 min', command=self.schedule_1min).pack(anchor='e')
-        Label(page_l, textvariable=self.io_error, fg='red').pack(anchor='e')
+        Label(page_l, textvariable=self.io_error, fg='blue').pack(anchor='e')
         custom_date = Entry(page_l)
         custom_date.pack(anchor='e')
         Button(page_l, text='Post custom text', command=self.schedule_custom_text).pack(anchor='e')

@@ -6,6 +6,7 @@ import os
 import time
 from typing import List
 
+import matplotlib
 import matplotlib.pyplot as plt
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -19,6 +20,8 @@ from .twitter.twitter_key import TwitterKey
 from .twitter.twitter_info import TwitterInfo
 from .twitter.twitter_bio import TwitterBio
 
+
+matplotlib.use('TkAgg')
 # Precision to truncate on a datetime object, down to the minute
 DATETIME_MILLISECOND_PRECISION = 23
 
