@@ -55,7 +55,7 @@ class Reader():
     async def scan(self) -> Any:
         """ Scans every 30 seconds for new jobs in the past 30 seconds """
         while True:
-            time.sleep(10)
+            time.sleep(30)
             tasks = self.scan_custom_jobs()
             cleaned_tasks = [
                 clean_empty_strings(task)

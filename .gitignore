@@ -1,14 +1,12 @@
 # scheduler database
 postr/schedule/master_schedule.sqlite
 postr/schedule/master_schedule.sqlite-journal
+postr/twitter/twitter_stream.txt
+postr/twitter/twitter_graphing.csv
 
 # Twitter
-postr/twitter/twitter_blob.csv
-postr/twitter/twitter_graphing.csv
-postr/twitter/twitter_stream.txt
 
 # Instagram
-postr/instagram/instagram_graphing.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
