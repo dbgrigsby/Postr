@@ -8,12 +8,15 @@ import os
 import urllib
 import urllib.request
 
+import matplotlib
 import matplotlib.pyplot as plt
 from InstagramAPI import InstagramAPI
 
 from .instagram.instagram_key import InstagramKey
 from .api_interface import ApiInterface
 
+
+matplotlib.use('TkAgg')
 # Precision to truncate on a datetime object, down to the minute
 DATETIME_MINUTE_PRECISION = 16
 
