@@ -68,7 +68,7 @@ tox==3.4.0
 tweepy==3.6.0
 typed-ast==1.1.0
 update-checker==0.16
-urllib3==1.23
+urllib3==1.24.2
 virtualenv==16.0.0
 websockets==3.4
 wrapt==1.10.11
